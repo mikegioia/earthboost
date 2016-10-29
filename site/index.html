@@ -1,0 +1,649 @@
+<html>
+  <head>
+    <title>EarthBoost - Reforestation and carbon offsetting as an employee benefit</title>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+    <link href="fonts/YanoneKaffeesatz.css" rel="stylesheet">
+    <link href="css/nav.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans" rel="stylesheet">
+    <style type="text/css">
+      /* Root */
+      html {
+        font-size: 16px;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Helpers */
+      .cf:before,
+      .cf:after {
+        content: ' ';
+        display: table;
+      }
+      .cf:after {
+        clear: both;
+      }
+      .half-block {
+        float: left;
+        width: 50%;
+        padding: 1rem 2rem;
+        position: relative;
+        box-sizing: border-box;
+      }
+      .half-block .block {
+        font-weight: 300;
+        padding: 1rem 1.66rem;
+      }
+
+      /* Homepage */
+      section {
+        height: 100vh;
+        padding: 2rem;
+        position: relative;
+        box-sizing: border-box;
+        font-family: 'Yanone Kaffeesatz', sans-serif;
+      }
+      #intro {
+        background: url(colombia-1600.jpg); 
+        background-position: center center;
+        background-repeat: no-repeat;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+      }
+      header {
+        top: 0;
+        left: 0;
+        float: left;
+        position: relative;
+        box-sizing: content-box;
+      }
+      #logo {
+        color: #333;
+        line-height: 0;
+        margin-bottom: 1rem;
+        background-color: #fff;
+        box-sizing: content-box;
+        padding: 1rem 1.5rem 0.5rem 1rem;
+      }
+      #logo img {
+        width: 8rem;
+      }
+      #logo h1 {
+        top: -1.125rem;
+        display: inline;
+        font-weight: 200;
+        font-size: 7.5rem;
+        margin-left: 1rem;
+        position: relative;
+      }
+      #logo h2 {
+        color: #666;
+        font-size: 2rem;
+        margin-top: 2rem;
+        text-align: center;
+        font-weight: normal;
+        padding-left: 0.25rem;
+      }
+      #logo .green {
+        color: green;
+      }
+      header a,
+      section a.next {
+        color: #067cad;
+        font-size: 2rem;
+        font-weight: 300;
+        line-height: 2rem;
+        display: inline-block;
+        text-decoration: none;
+        background-color: #fff;
+        padding: 1rem 1rem 1rem 1.25rem;
+      }
+      section a.next {
+        right: 1rem;
+        color: #fff;
+        bottom: 1rem;
+        background: #333;
+        position: absolute;
+        line-height: 1.5rem;
+        padding: 1rem 1rem 1.25rem 1.25rem;
+      }
+      section a.next:hover {
+        background-color: #111;
+      }
+      header a:hover {
+        color: #fff;
+        background-color: #333;
+      }
+      header a span,
+      section a.next span {
+        border-bottom: 2px solid;
+      }
+      header a small,
+      section a.next small {
+        display: inline-block;
+        transform: translateY(0.1875rem);
+      }
+      figcaption {
+        color: #333;
+        right: 2rem;
+        bottom: 2rem;
+        max-width: 60%;
+        font-weight: 400;
+        font-size: 1.5rem;
+        position: absolute;
+        padding: 1rem 1.5rem;
+        background-color: #fff;
+      }
+      figcaption small {
+        font-weight: 300;
+      }
+
+      /* About Page */
+      #about {
+        height: auto;
+        min-height: 100vh;
+        background-color: #cce8da;
+        background-repeat: no-repeat;
+        background-image: url(forest.svg);
+        background-position: bottom center;
+        -webkit-background-size: contain;
+        -moz-background-size: contain;
+        -o-background-size: contain;
+        background-size: contain;
+        /* #7bc4ad */ 
+        /* #87c47e */
+      }
+      #about p {
+        width: 80%;
+        max-width: 62rem;
+        line-height: 1.4;
+        font-weight: 300;
+        font-size: 2.25rem;
+        margin: 0 auto 2rem;
+        padding: 1rem 1.5rem;
+        background-color: #fff;
+        box-sizing: content-box;
+      }
+      #about p strong {
+        font-weight: 400;
+      }
+      #about h3 {
+        color: #449b6e;
+        font-size: 4rem;
+        font-weight: 400;
+        text-align: center;
+        margin: 4rem 0 2rem;
+      }
+      #about h4 {
+        margin: 0 0 1rem;
+        font-weight: 400;
+      }
+      #about sup {
+        top: -0.5rem;
+        left: 0.5rem;
+        display: block;
+        line-height: 0;
+        color: #216b42;
+        font-size: 2rem;
+        position: absolute;
+        background: #8cd1ad;
+        /* #4ca73f */
+        border-radius: 10rem;
+        padding: 1.5rem 1.25rem 1.75rem;
+      }
+      #about .half-block .block {
+        font-size: 1.75rem;
+        background-color: #fff;
+        box-shadow: 0.25rem 0.25rem 0 #b3e2c9;
+      }
+
+      /* Details Page */
+      #details {
+        height: auto;
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+        background-color: #85d2d8;
+      }
+      #details img {
+        top: 10vh;
+        width: 80vh;
+        height: 80vh;
+        opacity: 0.1;
+        position: absolute;
+      }
+      #details #bio {
+        right: calc(50% - 90vh);
+      }
+      #details #eco {
+        left: calc(50% - 90vh);
+      }
+      #details h2 {
+        color: #fff;
+        font-size: 6rem;
+        font-weight: 400;
+        margin: 0 0 3rem;
+        text-align: center;
+        text-shadow: 3px 3px 0 #60bcc1;
+      }
+      #details .half-block {
+        padding: 0 1rem;
+      }
+      #details ul {
+        margin: 0;
+        padding: 0;
+      }
+      #details li {
+        padding: 0 1rem;
+        font-weight: 300;
+        list-style: none;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      #details li h3 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 400;
+      }
+      #details li h3 a {
+        display: block;
+        text-decoration: none;
+      }
+      #details li h3.no-link,
+      #details li h3 a {
+        color: #134c5f;
+        padding: 0.6rem 1rem;
+        background: rgba(255,255,255,0.3);
+      }
+      #details li h3 a:hover {
+        background: rgba(255,255,255,0.4);
+      }
+      #details li h3 small {
+        float: right;
+        display: inline-block;
+        color: rgba(19,76,95,0.2);
+      }
+      #details li h3 a:hover small {
+        color: rgba(19,76,95,1);
+      }
+      #details li p {
+        margin: 0;
+        color: #111;
+        padding: 0.66rem 1rem;
+        background: rgba(255,255,255,0.6);
+        font-family: 'Alegreya Sans', sans-serif;
+      }
+      #details p a {
+        color: #067cad;
+      }
+      #details .alt-bg {
+        top: 0;
+        right: 0;
+        left: 50%;
+        bottom: 0;
+        z-index: 0;
+        position: absolute;
+        background: #68cec4;
+      }
+      #details .cta-buttons {
+        text-align: center;
+      }
+      #details .cta {
+        color: #fff;
+        font-weight: 300;
+        font-size: 2.25rem;
+        line-height: 2.25rem;
+        display: inline-block;
+        text-decoration: none;
+        background-color: #229c64;
+        padding: 1rem 1rem 1rem 1.25rem;
+      }
+      #details .cta.faq {
+        color: #134c5f;
+        margin-left: 1rem;
+        padding: 1rem 1.25rem;
+        background-color: rgba(255,255,255,0.3);
+      }
+      #details .cta span {
+        border-bottom: 2px solid;
+      }
+      #details .cta small {
+        margin-left: 0.5rem;
+        display: inline-block;
+      }
+      #details .cta:hover {
+        color: #fff;
+        background: #333;
+      }
+
+      /* Media Queries */
+      @media only screen and (max-width: 1368px) {
+        html {
+          font-size: 14px;
+        }
+        #about h3 {
+          margin: 3rem 0 2rem 0;
+        }
+        #details h2 {
+          line-height: 1;
+        }
+      }
+      @media only screen and (max-width: 768px) {
+        html {
+          font-size: 12px;
+        }
+        #logo {
+          background: rgba(255,255,255,0.6);
+        }
+        #about p {
+          width: auto;
+          margin-left: 1rem;
+          margin-right: 1rem;
+        }
+        #details h2 {
+          font-size: 5rem;
+        }
+        #details li {
+          font-size: 1.75rem;
+        }
+      }
+      @media only screen and (max-width: 544px) {
+        .half-block {
+          width: 100%;
+        }
+        #logo img {
+          display: block;
+          margin: 0 auto;
+        }
+        #logo h1 {
+          top: 0;
+          margin: 0;
+          display: block;
+          font-weight: 300;
+          line-height: 1.25;
+          text-align: center;
+        }
+        #logo h2 {
+          margin: 0;
+          padding: 0;
+          color: #444;
+          line-height: 1.25;
+        }
+        #details img {
+          width: 80%;
+          height: auto;
+          display: block;
+        }
+        #details #bio {
+          right: 10%;
+        }
+        #details #eco {
+          top: 50%;
+          left: 10%;
+        }
+        #details .alt-bg {
+          display: none;
+        }
+      }
+      @media only screen and (max-width: 420px) {
+        section {
+          padding: 1rem;
+        }
+        section a.next {
+          right: 0;
+          bottom: 0;
+          float: right;
+          position: relative;
+          padding: 0.5rem 1rem 1rem 1rem;
+        }
+        figcaption {
+          right: 1rem;
+          bottom: 1rem;
+        }
+        header {
+          width: 100%;
+        }
+        #logo h1 {
+          font-size: 4.5rem;
+        }
+        #logo h2 {
+          font-size: 1.5rem;
+        }
+        #about {
+          padding-top: 2rem;
+        }
+        #about p {
+          font-size: 2rem;
+        }
+        #details h2 {
+          font-size: 4rem;
+          margin-bottom: 2rem;
+        }
+        #details .half-block {
+          padding: 0;
+        }
+        #details .half-block:first-child {
+          margin-bottom: 2rem;
+        }
+      }
+      @media only screen and (min-width: 1400px) {
+        html {
+          font-size: 18px;
+        }
+        #about h3 {
+          margin-top: 3rem;
+        }
+      }
+      @media only screen and (min-width: 1640px) {
+        html {
+          font-size: 20px;
+        }
+        #details h2 {
+          margin-bottom: 2rem;
+        }
+        #details li {
+          font-size: 1.25rem;
+        }
+      }
+      @media screen and (min-aspect-ratio: 1/1) and (max-aspect-ratio: 7/6) and (max-width: 1368px) {
+        html {
+          font-size: 16px;
+        }
+      }
+      @media screen and (max-aspect-ratio: 5/4) and (min-width: 544px) and (max-width: 768px) {
+        html {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Intro Page -->
+    <section id="intro" class="cf">
+      <nav>
+        <a href="javascript:;">
+          <span>&#8801;</span>
+        </a>
+        <ul>
+          <li>
+            <a href="join.html">Join EarthBoost</a>
+          </li>
+          <li>
+            <a href="index.html#about">Learn More</a>
+          </li>
+          <li>
+            <a href="faq.html">Frequently Asked Questions</a>
+          </li>
+        </ul>
+      </nav>
+      <header>
+        <div id="logo">
+          <img src="organic.svg">
+          <h1>EarthBoost</h1>
+          <h2>
+            <span class="green">Reforestation</span> and carbon
+            offsetting as an employee benefit.
+          </h2>
+        </div>
+        <a href="#about">
+          <span>Learn More</span>
+          <small>&#8628;</small>
+        </a>
+      </header>
+      <figcaption>
+        Ciudad, Colombia<br>
+        <small>Jungle in Sierra Nevada Mountains</small>
+      </figcaption>
+    </section>
+    <!-- About Page -->
+    <section id="about" class="cf">
+      <p>
+        <strong>Climate reform is needed at the national level, but
+        businesses can take action right now!</strong>
+      </p>
+      <p>
+        EarthBoost is both a benefit and gift to the world on behalf
+        of you and your employees, and a way to empower your staff to
+        take action when <em>they're</em> ready.
+      </p>
+      <h3>How Does EarthBoost Work?</h3>
+      <div class="cf">
+        <div class="half-block">
+          <div class="block">
+            <sup>1</sup>
+            <h4>Add Your Staff</h4>
+            Names, emails, and the state they live in
+          </div>
+        </div>
+        <div class="half-block">
+          <div class="block">
+            <sup>2</sup>
+            <h4>Answer 10 Questions</h4>
+            About your business flights and expenses
+          </div>
+        </div>
+      </div>
+      <div class="cf">
+        <div class="half-block">
+          <div class="block">
+            <sup>3</sup>
+            <h4>Calculate Your Footprint</h4>
+            Find out your company's CO<sub>2</sub> emissions
+          </div>
+        </div>
+        <div class="half-block">
+          <div class="block">
+            <sup>4</sup>
+            <h4>Fund a Project</h4>
+            Pay all or a percentage of your footprint
+          </div>
+        </div>
+      </div>
+      <a class="next" href="#details">
+        <span>Next</span>
+        <small>&#8628;</small>
+      </a>
+    </section>
+    <!-- Details Page -->
+    <section id="details" class="cf">
+      <div class="alt-bg"></div>
+      <img id="bio" src="bio.svg">
+      <img id="eco" src="eco.svg">
+      <div class="cf">
+        <div class="half-block">
+          <h2>What You Get</h2>
+          <ul>
+            <li>
+              <h3>
+                <a href="faq.html#your-green-website">
+                  <span>green.yourcompany.com<span>
+                  <small>&rarr;</small>
+                </a>
+              </h3>
+              <p>
+                This is a sales vehicle as well as bragging rights.
+                We give you a great webpage for free.
+              </p>
+            </li>
+            <li>
+              <h3>
+                <a href="faq.html#peace-of-mind">
+                  <span>Peace of Mind<span>
+                  <small>&rarr;</small>
+                </a>
+              </h3>
+              <p>
+                It's our duty as citizens to keep a clean earth,
+                this is how you can do your part.
+              </p>
+            </li>
+            <li>
+              <h3>
+                <a href="faq.html#educated-employees">
+                  <span>Educated Employees<span>
+                  <small>&rarr;</small>
+                </a>
+              </h3>
+              <p>
+                Encourage your staff to learn how to reduce their
+                environmental impact and lower yours as a business.
+              </p>
+            </li>
+            <li>
+              <h3>
+                <a href="faq.html#hiring-advantages">
+                  <span>Hiring Advantages<span>
+                  <small>&rarr;</small>
+                </a>
+              </h3>
+              <p>
+                Your business is instantly more attractive to potential
+                employees, especially thoughtful ones.
+              </p>
+            </li>
+          </ul>
+        </div>
+        <div class="half-block">
+          <h2>How to Start</h2>
+          <ul>
+            <li>
+              <h3 class="no-link">Find a Standard Bearer</h3>
+              <p>
+                Find an environmentalist within your company with decision
+                making power to champion the program.
+              </p>
+            </li>
+            <li>
+              <h3 class="no-link">Add Your Staff Members</h3>
+              <p>
+                Add your staffs' names and the state they reside in, and we'll
+                calculate their projected emissions.
+              </p>
+            </li>
+            <li>
+              <h3 class="no-link">Make a Yearly Pledge</h3>
+              <p>
+                Determine what percent of your corporate and employee
+                emissions to offset. Pledge only what you want, 50%
+                gets you into the
+                <a href="faq.html#canopy-club">Canopy Club</a>.
+              </p>
+            </li>
+          </ul>
+          <div class="cta-buttons">
+            <a class="cta" href="join.html">
+              <span>Join EarthBoost!</span>
+              <small>&rarr;</small>
+            </a>
+            <a class="cta faq" href="faq.html">
+              <span>FAQ</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

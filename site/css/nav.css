@@ -1,0 +1,48 @@
+nav {
+  top: 0;
+  right: 0;
+  z-index: 3;
+  float: right;
+  margin: 0 0 1rem;
+  position: relative;
+}
+nav a {
+  color: #333;
+  outline: none;
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  background-color: #fff;
+}
+nav > a {
+  height: 3rem;
+  padding: 0 1rem;
+  line-height: 3rem;
+  font-size: 2.5rem;
+}
+nav > a span {
+  font-family: "Times New Roman", serif;
+}
+nav a:hover {
+  color: #fff;
+  background-color: #333;
+}
+nav ul {
+  right: 0;
+  margin: 0;
+  z-index: 2;
+  width: 14rem;
+  display: none;
+  position: absolute;
+  list-style-type: none;
+}
+nav > a:focus + ul,
+nav ul:hover {
+  display: block !important;
+}
+nav ul a {
+  display: block;
+  font-size: 2rem;
+  line-height: 1.25;
+  padding: 0.5rem 1rem;
+}

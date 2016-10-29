@@ -1,0 +1,701 @@
+<html>
+  <head>
+    <title>EarthBoost FAQ - Reforestation and carbon offsetting as an employee benefit</title>
+    <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+    <link href="fonts/YanoneKaffeesatz.css" rel="stylesheet">
+    <link href="css/nav.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans" rel="stylesheet">
+    <style type="text/css">
+      /* Root */
+      html {
+        font-size: 16px;
+      }
+      body {
+        margin: 0;
+        padding: 2rem;
+        overflow-x: hidden;
+        background-color: #85d2d8;
+        font-family: 'Yanone Kaffeesatz', sans-serif;
+      }
+
+      /* Helpers */
+      .cf:before,
+      .cf:after {
+        content: ' ';
+        display: table;
+      }
+      .cf:after {
+        clear: both;
+      }
+
+      /* FAQ Page */
+      header {
+        top: 0;
+        left: 0;
+        z-index: 2;
+        float: left;
+        position: relative;
+        box-sizing: content-box;
+      }
+      #logo {
+        color: #333;
+        line-height: 0;
+        margin-bottom: 1rem;
+        background-color: #fff;
+        box-sizing: content-box;
+        padding: 0.75rem 1rem 0.75rem 0.75rem;
+      }
+      #logo img {
+        width: 4.5rem;
+      }
+      #logo img.white {
+        display: none;
+      }
+      #logo h1 {
+        top: -0.8125rem;
+        display: inline;
+        font-size: 4rem;
+        font-weight: 200;
+        margin-left: 1rem;
+        position: relative;
+      }
+      #logo a {
+        color: #333;
+        display: inline-block;
+        text-decoration: none;
+      }
+      #logo:hover {
+        background: #333;
+      }
+      #logo:hover a {
+        color: #fff;
+      }
+      #logo:hover img.white {
+        display: inline-block;
+      }
+      #logo:hover img.black {
+        display: none;
+      }
+      header > a {
+        color: #067cad;
+        font-size: 2rem;
+        font-weight: 300;
+        line-height: 2rem;
+        display: inline-block;
+        text-decoration: none;
+        background-color: #fff;
+        padding: 1rem 1rem 1rem 1.25rem;
+      }
+      header > a:hover {
+        color: #fff;
+        background-color: #333;
+      }
+      header > a span {
+        border-bottom: 2px solid;
+      }
+      header > a small {
+        display: inline-block;
+        transform: translateY(-0.1875rem);
+      }
+
+      /* FAQ Page */
+      #faq {
+        z-index: 1;
+        position: static;
+      }
+      #faq img {
+        top: 10vh;
+        z-index: 0;
+        width: 80vh;
+        height: 80vh;
+        opacity: 0.1;
+        position: absolute;
+      }
+      #faq #bio {
+        z-index: 1;
+        right: calc(50% - 90vh);
+      }
+      #faq #eco {
+        z-index: 1;
+        left: calc(50% - 90vh);
+      }
+      #faq h2 {
+        color: #fff;
+        font-size: 5rem;
+        font-weight: 400;
+        margin: 0 0 3rem;
+        text-align: center;
+        transform: translateY(-3rem);
+        text-shadow: 3px 3px 0 #60bcc1;
+      }
+      #faq *:not(img) {
+        z-index: 2;
+        position: relative;
+      }
+      #faq ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      #faq li {
+        font-weight: 300;
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      #faq li h3 {
+        margin: 0;
+        font-weight: 400;
+        font-size: 2.25rem;
+      }
+      #faq li h3 a:before {
+        content: "Q: ";
+      }
+      #faq li h3 a {
+        display: block;
+        color: #134c5f;
+        padding: 0.6rem 1rem;
+        text-decoration: none;
+        background: rgba(255,255,255,0.3);
+      }
+      #faq li h3 a:hover {
+        background: rgba(255,255,255,0.4);
+      }
+      #faq li article {
+        margin: 0;
+        color: #111;
+        display: none;
+        padding: 1rem;
+        line-height: 1.25;
+        background: rgba(255,255,255,0.6);
+        font-family: 'Alegreya Sans', sans-serif;
+      }
+      #faq li article p {
+        padding: 0;
+        margin: 0 0 1rem;
+      }
+      #faq li article p:last-child {
+        margin-bottom: 0;
+      }
+      #faq li article p:first-child:before {
+        content: "A: ";
+      }
+      #faq li p a {
+        color: #067cad;
+        text-decoration: none;
+        border-bottom: 1px solid;
+      }
+      #faq code {
+        color: #fff;
+        display: block;
+        padding: 0.5rem;
+        font-size: 1rem;
+        font-family: Fixed, monospace;
+        background: rgba(0, 0, 0, 0.6);
+      }
+      #faq :target article {
+        display: block;
+      }
+      #faq :target h3 {
+        background-color: #dada67;
+      }
+      #faq sup {
+        line-height: 0;
+      }
+      #faq sup a {
+        border-bottom: none !important;
+      }
+      #faq footer {
+        margin-top: 5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255,255,255,0.6);
+      }
+      #faq footer h3 {
+        font-size: 2rem;
+        margin: 0 0 1rem;
+        font-weight: 300;
+      }
+      #faq footer a {
+        text-decoration: none;
+      }
+      #faq footer cite {
+        font-style: normal;
+        border-bottom: 1px solid;
+      }
+      #faq footer a {
+        color: #025f84;
+        margin-right: 0.5rem;
+      }
+      #faq footer aside {
+        display: block;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        font-family: 'Alegreya Sans', sans-serif;
+      }
+      #faq footer :target {
+        background-color: #dada67;
+      }
+
+      /* Media Queries */
+      @media only screen and (max-width: 1368px) {
+        html {
+          font-size: 14px;
+        }
+        #faq h2 {
+          line-height: 1;
+        }
+        #faq li {
+          font-size: 1.75rem;
+        }
+      }
+      @media only screen and (max-width: 768px) {
+        html {
+          font-size: 12px;
+        }
+        #logo {
+          background: rgba(255,255,255,0.6);
+        }
+        #faq h2 {
+          margin-top: 1rem;
+          transform: none;
+        }
+      }
+      @media only screen and (max-width: 544px) {
+        #logo img {
+          display: block;
+          margin: 0 auto;
+        }
+        #logo a,
+        #logo:hover img.white {
+          display: block;
+        }
+        #logo h1 {
+          top: 0;
+          margin: 0;
+          line-height: 1;
+          display: block;
+          font-weight: 300;
+          text-align: center;
+        }
+        #logo h2 {
+          margin: 0;
+          padding: 0;
+          color: #444;
+          line-height: 1.25;
+        }
+        #faq img {
+          width: 80%;
+          height: auto;
+          display: block;
+        }
+        #faq #bio {
+          top: 5vh;
+          right: 10%;
+        }
+        #faq #eco {
+          top: 50%;
+          left: 10%;
+        }
+      }
+      @media only screen and (max-width: 420px) {
+        section {
+          padding: 1rem;
+        }
+        header {
+          width: 100%;
+        }
+        #logo h1 {
+          font-size: 4.5rem;
+        }
+        #logo h2 {
+          font-size: 1.5rem;
+        }
+        #faq h2 {
+          font-size: 2.5rem;
+          margin-bottom: 2rem;
+        }
+      }
+      @media only screen and (min-width: 1400px) {
+        html {
+          font-size: 18px;
+        }
+        #faq > ul {
+          max-width: 80%;
+          margin: 0 auto;
+        }
+      }
+      @media only screen and (min-width: 1640px) {
+        html {
+          font-size: 20px;
+        }
+        #faq h2 {
+          margin-bottom: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="cf">
+      <nav>
+        <a href="javascript:;">
+          <span>&#8801;</span>
+        </a>
+        <ul>
+          <li>
+            <a href="join.html">Join EarthBoost</a>
+          </li>
+          <li>
+            <a href="index.html#about">Learn More</a>
+          </li>
+          <li>
+            <a href="faq.html">Frequently Asked Questions</a>
+          </li>
+        </ul>
+      </nav>
+      <header>
+        <div id="logo">
+          <a href="index.html">
+            <img src="organic.svg" class="black">
+            <img src="organic-white.svg" class="white">
+          </a>
+          <h1>
+            <a href="index.html">EarthBoost</a>
+          </h1>
+        </div>
+        <a href="join.html">
+          <span>Join</span>
+          <small>&rarr;</small>
+        </a>
+      </header>
+    </div>
+
+    <!-- FAQ Page -->
+    <main id="faq">
+      <img id="bio" src="bio.svg">
+      <img id="eco" src="eco.svg">
+      <h2>Frequently Asked Questions</h2>
+      <ul>
+        <li id="how-much-does-this-cost">
+          <h3>
+            <a href="#how-much-does-this-cost">
+              How much will it cost our company?
+            </a>
+          </h3>
+          <article>
+            <p>
+              It's difficult to know without you adding your staff and business
+              expenses, since all companies are different. To give you a starting
+              point, the U.S. average per-capita emissions in 2011 was 17 tonnes
+              <sup id="cite-ref-1"><a href="#cite-note-1">[1]</a></sup>, and the
+              offset organizations we work with charge around $10 / tonne
+              <sup id="cite-ref-2"><a href="#cite-note-2">[2]</a></sup>
+              <sup id="cite-ref-3"><a href="#cite-note-3">[3]</a></sup>. So, you
+              could expect to pay about $170 per employee per year.
+            </p>
+            <p>
+              The emissions per company vary wildly depending on flights and
+              mileage driven, but for an estimate, you can assume half of your
+              employee emissions roughly equal your corporate emissions.
+            </p>
+            <p>
+              <code>[# employees] x $170 x 1.5 = Total estimate</code>
+            </p>
+          </article>
+        </li>
+        <li id="why-does-this-matter">
+          <h3>
+            <a href="#why-does-this-matter">
+              Why should I offer this to my employees, and why does
+              this matter?
+            </a>
+          </h3>
+          <article>
+            <p>
+              If you care about climate change and want to do something about it,
+              then EarthBoost matters. If you believe that we must act
+              <em>immediately</em> to tackle the current and oncoming problems
+              that climate change brings, then EarthBoost is a wonderful way to
+              start.
+            </p>
+            <p>
+              All businesses in the modern world currently rely on the fossil
+              fuel infrastructure to run. It's our environmental and ethical
+              responsibility to reduce our emissions as low as possible, and
+              offset what we can't. EarthBoost is an easy and enjoyable way to
+              do the offsetting part.
+            </p>
+            <p>
+              EarthBoost can
+              <a href="#peace-of-mind">magnify one person's impact</a> by
+              offsetting their employees' and coworkers' emissions. Through
+              education, awareness, games, rivalry, and potential monetary
+              rewards, your employees can lower their emissions while
+              <a href="#educated-employees">understanding the issues of climate change</a>,
+              and are enabled to take action on their own.
+            </p>
+          </article>
+        </li>
+        <li id="what-you-get-when-joining">
+          <h3>
+            <a href="#what-you-get-when-joining">
+              Do we get anything for joining?
+            </a>
+          </h3>
+          <article>
+            <p>
+              When you join and enroll your company (for free), you're given an
+              administrative account to add employees to EarthBoost. Each employee
+              you add is given an account where they can calculate their own
+              CO<sub>2</sub> emissions. Your company also gets a
+              <a href="#your-green-website">free website</a> showing your corporate
+              offsetting for each year you offer this benefit.
+            </p>
+            <p>
+              For companies that make it into the
+              <a href="#canopy-club">Canopy Club or Forest Protectorate</a>, we
+              send a small medalian to each employee commemorating their offset
+              achievement for the year. Finally, your company will receive carbon
+              offset certificates for all projects you choose to donate to. These
+              donations are tax deductible and you'll receive receipts for your
+              tax filings.
+            </p>
+          </article>
+        </li>
+        <li id="peace-of-mind">
+          <h3>
+            <a href="#peace-of-mind">
+              I'm worried about climate change; how does this help?
+            </a>
+          </h3>
+          <article>
+            <p>
+              The absolute best way that EarthBoost helps is by magnifying your
+              personal impact in offsetting carbon emissions. It can be personally
+              gratifying and uplifting to recycle, compost, reduce our own energy
+              use, or donate money to a reforestation project, but it can become
+              very daunting when we realize that we're just one of millions of
+              people who may not be doing <em>anything</em>. Combine that with
+              the unknowns and potential impact that climate change can have, and
+              it can breed worry.
+            </p>
+            <p>
+              EarthBoost is an easy way for someone passionate about fighting
+              climate change to expand their impact by the size of their company.
+              One motivated person can leverage corporate responsibility to
+              offset the fossil fuel emissions for everyone at their workplace.
+              This can allay our fears by proving that one person <em>can</em>
+              make a profound difference towards a seemingly insurmountable
+              problem. It's possible and a lot easier with EarthBoost.
+            </p>
+          </article>
+        </li>
+        <li id="educated-employees">
+          <h3>
+            <a href="#educated-employees">
+              How does this help lower my employees' emissions?
+            </a>
+          </h3>
+          <article>
+            <p>
+              One of the biggest problems that we face with climate change is
+              convincing people that it's a problem they should care about. A
+              major reason why people don't care is that they're unaware of the
+              risks and science behind it, don't think there's anything they can
+              do, or don't believe that humans have anything to do with the
+              changing climate. These three awareness hurdles are all just
+              education-related problems.
+            </p>
+            <p>
+              With EarthBoost, you have a very easy way to disseminate
+              information about climate change through the various resources
+              and educational content we provide, and through the email
+              communication you can enable us to send to your employees.
+              Knowledge of how much we're individually emitting, what products
+              we can upgrade to cut back on energy use, the benefits to
+              composting and recyling, and a number of other topics can allow
+              your employees to lower their emissions while gaining knowledge.
+            </p>
+            <p>
+              EarthBoost even provides a very simple checklist of actions for
+              each employee to get started <em>doing things</em>. We'll send
+              them reminders and clear benefits that those actions provide.
+            </p>
+          </article>
+        </li>
+        <li id="hiring-advantages">
+          <h3>
+            <a href="#hiring-advantages">
+              How does this help me when hiring new employees?
+            </a>
+          </h3>
+          <article>
+            <p>
+              Many, many people care about the environment, but when asked
+              about climate change, the sentiment is often that they don't know
+              or don't feel as if there <em>is</em> anything they can do. By
+              providing EarthBoost as a benefit to your employees, you're
+              advertising to all job-seekers that climate change is something
+              your business cares about, that you're carbon neutral, and that
+              just by being a part of your company anyone can <em>also</em> be
+              carbon neutral.
+            </p>
+            <p>
+              You have a chance to directly appeal to all of the people that
+              care about this issue but feel powerless. You're able to show
+              through actions, not just words, that you are a thoughtful
+              organization that cares about your impact on the Earth. This can
+              have a profound effect on potential employees, and can even be
+              enough to convince someone to accept an offer or to reach out to
+              you for employement.
+            </p>
+          </article>
+        </li>
+        <li id="your-green-website">
+          <h3>
+            <a href="#your-green-website">
+              What is the free website we get when joining?
+            </a>
+          </h3>
+          <article>
+            <p>
+              All businesses can opt into have a public profile on EarthBoost
+              displaying their corporate and employee emission totals for the
+              year. This page also shows the amount of carbon offsets purchased,
+              the number of trees planted, the projects that you've helped fund,
+              and any other offset certificates and donations that you, your
+              company, or you staff have purchsed or attained over the year.
+            </p>
+            <p>
+              The website is hosted on EarthBoost's servers, but through DNS
+              settings you can have it displayed through your own domain. As
+              an example, you could have green.yourcompany.com display your
+              EarthBoost profile. This is an optional feature that you can
+              disable at any time.
+            </p>
+          </article>
+        </li>
+        <li id="canopy-club">
+          <h3>
+            <a href="#canopy-club">
+              What are the Canopy Club and the Forest Protectorate?
+            </a>
+          </h3>
+          <article>
+            <p>
+              Any business that offsets 50% of their net corporate and
+              employee carbon emissions receives the distinct status of being
+              a Canopy Club member. Businesses offsetting 100% become members
+              of the EarthBoost Forest Protectorate. You can think of these as
+              awards or achievements that your company can attain each year.
+            </p>
+            <p>
+              Canopy Club and Forest Protectorate members receive a small
+              medalian commemorating their offset achievement for the year.
+              It's a fun way to participate and show off to others what you've
+              accomplished.
+            </p>
+          </article>
+        </li>
+        <li id="carbon-pricing">
+          <h3>
+            <a href="#carbon-pricing">
+              How do you price carbon emissions?
+            </a>
+          </h3>
+          <article>
+            <p>
+              EarthBoost works with a short list of carbon offsetting
+              organizations. Right now there are three:
+              <a href="https://carbonfund.org">Carbonfund.org</a>,
+              <a href="https://standfortrees.org">Stand for Trees</a>,
+              <a href="http://cotap.org">Carbon Offsets to Alleviate Poverty (COTAP)</a>.
+              These are wonderful charities that go to great lengths to ensure
+              that the carbon offsets they provide are of the highest quality.
+            </p>
+            <p>
+              Carbonfund.org was rated 4 stars at Charity
+              Navigator<sup id="cite-ref-4"><a href="#cite-note-4">[4]</a></sup>.
+              COTAP publishes a very detailed Transparency
+              Report<sup id="cite-ref-5"><a href="#cite-note-5">[5]</a></sup>
+              outlining their disbursals and why they price carbon the way they
+              do.
+            </p>
+            <p>
+              Stand For Trees offsets are high-quality, verified carbon credits
+              that meet rigorous standards set by the Verified Carbon Standard
+              and the Climate Community and Biodiversity
+              Alliance<sup id="cite-ref-6"><a href="#cite-note-6">[6]</a></sup>.
+            </p>
+          </article>
+        </li>
+        <li id="emission-calculations">
+          <h3>
+            <a href="#emission-calculations">
+              How do you calculate employee and corporate emissions?
+            </a>
+          </h3>
+          <article>
+            <p>
+              EarthBoost uses the exact same calculating methodology that
+              Carbonfund.org uses. They have a wonderful explanatory outline
+              with <a href="https://carbonfund.org/how-we-calculate/">details
+              about how they calculate emissions</a>. These numbers are used
+              in the EarthBoost carbon calculator and you're encouraged to read
+              this page as it contains a plethora of interesting information
+              about emissions.
+            </p>
+          </article>
+        </li>
+      </ul>
+      <footer>
+        <h3>References</h3>
+        <ol>
+          <li id="cite-note-1">
+            <a href="https://en.wikipedia.org/wiki/List_of_countries_by_carbon_dioxide_emissions_per_capita#Annual_carbon_dioxide_emissions_.5Btonnes.5D_per_capita" target="_blank">
+              <cite>Annual carbon dioxide emissions [tonnes] per capita</cite>
+            </a>
+            <em>wikipedia.org</em>
+          </li>
+          <li id="cite-note-2">
+            <a href="https://carbonfund.org/individuals/" target="_blank">
+              <cite>Carbonfund.org individual carbon pricing</cite>
+            </a>
+            <em>carbonfund.org</em>
+            <aside>
+              While not stated explicity, Carbonfund.org prices at $10 / MT. You
+              can see the 2 MT option costs $20.
+            </aside>
+          </li>
+          <li id="cite-note-3">
+            <a href="https://standfortrees.org/en/#protect-a-forest" target="_blank">
+              <cite>StandForTrees Protect a Forest pricing</cite>
+            </a>
+            <em>standfortrees.org</em>
+            <aside>
+              While not stated explicity, StandForTrees prices at $10 / MT. You
+              can see the 1 tonne option costs $10.
+            </aside>
+          </li>
+          <li id="cite-note-4">
+            <a href="https://www.charitynavigator.org/index.cfm?bay=search.summary&orgid=12315#.Vw6GgNQrLGI" target="_blank">
+              <cite>Charity Navigator ratings for Carbonfund.org</cite>
+            </a>
+            <em>charitynavigator.org</em>
+          </li>
+          <li id="cite-note-5">
+            <a href="http://cotap.org/transparency/" target="_blank">
+              <cite>Carbon Offsets to Alleviate Poverty Transparency Report</cite>
+            </a>
+            <em>cotap.org</em>
+          </li>
+          <li id="cite-note-6">
+            <a href="https://standfortrees.org/en/faq" target="_blank">
+              <cite>Stand for Trees Frequently Asked Questions</cite>
+            </a>
+            <em>standfortrees.org</em>
+          </li>
+        </ol>
+      </footer>
+    </main>
+  </body>
+</html>
