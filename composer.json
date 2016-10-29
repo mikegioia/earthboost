@@ -1,0 +1,13 @@
+{
+    "name": "teachboost/earthboost",
+    "type": "project",
+    "require": {
+        "silex/silex": "^2.0"
+    },
+    "authors": [
+        {
+            "name": "Mike Gioia",
+            "email": "mikegioia@gmail.com"
+        }
+    ]
+}
