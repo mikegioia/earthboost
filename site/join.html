@@ -41,9 +41,14 @@
         box-sizing: border-box;
         font-family: 'Yanone Kaffeesatz', sans-serif;
       }
+      section.top-wrap {
+        z-index: 3;
+        position: relative;
+      }
       header {
         top: 0;
         left: 0;
+        z-index: 3;
         float: left;
         position: relative;
         box-sizing: content-box;
@@ -87,9 +92,11 @@
         display: none;
       }
       header > a {
+        z-index: 3;
         color: #067cad;
         font-size: 2rem;
         font-weight: 300;
+        position: static;
         line-height: 2rem;
         display: inline-block;
         text-decoration: none;
@@ -329,7 +336,7 @@
   <body>
     <!-- Join Page -->
     <section id="intro" class="cf">
-      <div class="cf">
+      <div class="cf top-wrap">
         <nav>
           <a href="javascript:;">
             <span>&#8801;</span>
