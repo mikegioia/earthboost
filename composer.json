@@ -9,5 +9,10 @@
             "name": "Mike Gioia",
             "email": "mikegioia@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/src/"
+        }
+    }
 }
