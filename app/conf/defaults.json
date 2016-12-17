@@ -1,0 +1,17 @@
+{
+    "debug": false,
+    "cookie": {
+        "name": "user",
+        "lifetime": 7776000
+    },
+    "database": {
+        "prefix": "",
+        "driver": "mysql",
+        "charset": "utf8",
+        "username": "root",
+        "password": "root",
+        "host": "localhost",
+        "database": "earthboost",
+        "collation": "utf8_unicode_ci"
+    }
+}

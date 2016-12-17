@@ -2,7 +2,8 @@
     "name": "teachboost/earthboost",
     "type": "project",
     "require": {
-        "silex/silex": "^2.0"
+        "silex/silex": "^2.0",
+        "usmanhalalit/pixie": "^2.0"
     },
     "authors": [
         {

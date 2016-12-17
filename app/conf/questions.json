@@ -1,0 +1,206 @@
+[
+    {
+        "id": 1,
+        "type": "radio",
+        "label": "Have you or your %GROUP% taken any flights this year?",
+        "choices": [
+            {
+                "label": "Yes",
+                "goto": 2,
+            }, {
+                "label": "No",
+                "goto": 5
+            }
+        ]
+    }, {
+        "id": 2,
+        "goto": 3,
+        "type": "number",
+        "emissions_key": "flights_short",
+        "label": "How many short (less than 1,000 mi) round trip flights were taken?"
+    }, {
+        "id": 3,
+        "goto": 4,
+        "type": "number",
+        "emissions_key": "flights_long",
+        "label": "How many long (less than 3,500 mi) round trip flights were taken?"
+    }, {
+        "id": 4,
+        "goto": 5,
+        "type": "number",
+        "emissions_key": "flights_far",
+        "label": "How many very far or international (more than 3,500 mi) round trip flights were taken?"
+    }, {
+        "id": 5,
+        "type": "radio",
+        "label": "Have you or your %GROUP% used any cars (owned or rented) this year?",
+        "choices": [
+            {
+                "label": "Yes",
+                "goto": 6,
+            }, {
+                "label": "No",
+                "goto": 7
+            }
+        ]
+    }, {
+        "id": 6,
+        "goto": 7,
+        "type": "number",
+        "emissions_key": "cars_miles",
+        "label": "How many car miles per #SELECT# were driven?",
+        "select": {
+            "week": 52,
+            "month": 12,
+            "year": 1,
+            "day": 365
+        }
+    }, {
+        "id": 7,
+        "type": "radio",
+        "label": "Have you or your %GROUP% taken any train trips this year?",
+        "choices": [
+            {
+                "label": "Yes",
+                "goto": 8,
+            }, {
+                "label": "No",
+                "goto": 11
+            }
+        ]
+    }, {
+        "id": 8,
+        "goto": 9,
+        "type": "number",
+        "emissions_key": "trains_short",
+        "label": "How many short (less than 200 mi) trips were taken?"
+    }, {
+        "id": 9,
+        "goto": 10,
+        "type": "number",
+        "emissions_key": "trains_long",
+        "label": "How many long (less than 500 mi) trips were taken?"
+    }, {
+        "id": 10,
+        "goto": 11,
+        "type": "number",
+        "emissions_key": "trains_far",
+        "label": "How many very farm or cross-country (more than 500 mi) trips were taken?"
+    }, {
+        "id": 11,
+        "type": "radio",
+        "label": "Have you or your %GROUP% used any computers, or owned or rented any web servers?",
+        "choices": [
+            {
+                "label": "Yes",
+                "goto": 12,
+            }, {
+                "label": "No",
+                "goto": 13
+            }
+        ]
+    }, {
+        "id": 12,
+        "goto": 13,
+        "type": "number",
+        "emissions_key": "office_area",
+        "label": "What is the square footage of all office space for the year?"
+    }, {
+        "id": 13,
+        "goto": 14,
+        "type": "number",
+        "emissions_key": "home_people",
+        "label": "How many people live in your home?",
+        "skip_for": [
+            "group"
+        ]
+    }, {
+        "id": 14,
+        "goto": 15,
+        "type": "number",
+        "emissions_key": "home_area",
+        "label": "What is the square footage of your home?",
+        "skip_for": [
+            "group"
+        ]
+    }, {
+        "id": 15,
+        "type": "radio",
+        "label": "Does your electricity come from a wind, solar, hydro, or another renewable source?",
+        "choices": [
+            {
+                "label": "Yes",
+                "goto": 17,
+            }, {
+                "label": "No",
+                "goto": 16
+            }
+        ]
+    }, {
+        "id": 16,
+        "goto": 17,
+        "type": "number",
+        "emissions_key": "energy_power",
+        "label": "What is the #SELECT# electrical usage (on average) in Kilowatt Hours?",
+        "select": {
+            "monthly": 12,
+            "yearly": 1
+        }
+    }, {
+        "id": 17,
+        "type": "radio",
+        "label": "Is your home or office heated with Natural Gas or Coal?",
+        "choices": [
+            {
+                "label": "Yes",
+                "goto": 18,
+            }, {
+                "label": "No",
+                "goto": 19
+            }
+        ]
+    }, {
+        "id": 18,
+        "goto": 19,
+        "type": "number",
+        "emissions_key": "energy_gas",
+        "label": "What is the #SELECT# gas or coal usage (on average) for heating in Therms?",
+        "select": {
+            "monthly": 12,
+            "yearly": 1
+        }
+    }, {
+        "id": 19,
+        "type": "radio",
+        "label": "Is your home or office heated with Oil?",
+        "choices": [
+            {
+                "label": "Yes",
+                "goto": 20,
+            }, {
+                "label": "No",
+                "goto": 21
+            }
+        ]
+    }, {
+        "id": 20,
+        "goto": 21,
+        "type": "number",
+        "emissions_key": "energy_oil",
+        "label": "What is the #SELECT# heating oil (on average) in Gallons?",
+        "select": {
+            "monthly": 12,
+            "yearly": 1
+        }
+    }, {
+        "id": 21,
+        "type": "number",
+        "emissions_key": "waste",
+        "hint": "Don't include your recyleables or compost!",
+        "label": "What is the #SELECT# weight of your garbage (on average)?",
+        "select": {
+            "monthly": 12,
+            "yearly": 1
+        }
+    }
+]

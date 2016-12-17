@@ -4,6 +4,7 @@ use App\Session
   , App\Controller
   , Silex\Application
   , Silex\Provider\SessionServiceProvider
+  , Pixie\Connection as DatabaseConnection
   , Symfony\Component\HttpFoundation\Request
   , Silex\Provider\ServiceControllerServiceProvider;
 
@@ -24,28 +25,47 @@ require( "$WD/vendor/autoload.php" );
 // Instantiate a new App object
 $app = new Application;
 
+// Load the config files
+$config = json_decode(
+    file_get_contents(
+        "$WD/app/conf/defaults.json"
+    ));
+$app[ 'emissions' ] = json_decode(
+    file_get_contents(
+        "$WD/app/conf/emissions.json"
+    ));
+$app[ 'questions' ] = json_decode(
+    file_get_contents(
+        "$WD/app/conf/questions.json"
+    ));
+
 // Depends on environment
-$app[ 'debug' ] = FALSE; //$app[ 'config' ]->app->debug;
+$app[ 'config' ] = $config;
+$app[ 'debug' ] = $config->debug;
 
 // Set up the session handler and cookie settings
-// @TODO store this in config file
 $app[ 'session.storage.options' ] = [
-    'name' => 'user',
-    'cookie_lifetime' => 7776000 // 90 days
+    'name' => $config->cookie->name,
+    'cookie_lifetime' => $config->cookie->lifetime
 ];
 $app->register( new SessionServiceProvider );
 
 // Allow Controller to be invoked as services
 $app->register( new ServiceControllerServiceProvider );
 
-$app[ 'controller' ] = function () use ( $app ) {
+$app[ 'controller' ] = function () {
     return new Controller;
 };
 
 // Load all the routes
+$app->get( '/ping', 'controller:ping' );
 $app->get( '/login', 'controller:login' );
 $app->get( '/logout', 'controller:logout' );
 $app->get( '/dashboard', 'controller:dashboard' );
+
+// Load database connection service. This creates a new instance
+// of the query builder as the static class 'QB'.
+new DatabaseConnection( 'mysql', (array) $config->database, 'QB' );
 
 // Error handler
 // All exceptions are ultimately caught here. If we're in debug mode

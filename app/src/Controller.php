@@ -14,6 +14,11 @@ class Controller
     protected $messages = [];
     protected $status = SUCCESS;
 
+    public function ping( Request $request, Application $app )
+    {
+        return $this->respond( SUCCESS, "Pong" );
+    }
+
     public function login( Request $request, Application $app )
     {
         // Verify the email and password. Create a new session

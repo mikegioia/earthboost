@@ -1,0 +1,77 @@
+{
+    "FS": {
+        "metric": "miles",
+        "key": "flights_short",
+        "label": "Short flights (< 1000 mi)"
+    },
+    "FL": {
+        "metric": "miles",
+        "key": "flights_long",
+        "label": "Long flights (< 3,500 mi)"
+    },
+    "FF": {
+        "metric": "miles",
+        "key": "flights_far",
+        "label": "Far, or international flights (> 3,500 mi)"
+    },
+    "CM": {
+        "metric": "miles",
+        "key": "cars_miles",
+        "label": "Car miles"
+    },
+    "TS": {
+        "metric": "miles",
+        "key": "trains_short",
+        "label": "Short train rides (< 200 mi)"
+    },
+    "TL": {
+        "metric": "miles",
+        "key": "trains_long",
+        "label": "Long train rides (< 500 mi)"
+    },
+    "TF": {
+        "metric": "miles",
+        "key": "trains_far",
+        "label": "Long, or cross-country train rides (> 500 mi)"
+    },
+    "WS": {
+        "metric": "servers",
+        "key": "web_servers",
+        "label": "Web servers and computers"
+    },
+    "OA": {
+        "key": "office_area",
+        "metric": "square feet",
+        "label": "Office square footage"
+    },
+    "HP": {
+        "metric": "people",
+        "key": "home_people",
+        "label": "People living at home"
+    },
+    "HA": {
+        "key": "home_area",
+        "metric": "square feet",
+        "label": "Home square footage"
+    },
+    "EP": {
+        "metric": "kw/h",
+        "key": "energy_power",
+        "label": "Kilowatts hours"
+    },
+    "EG": {
+        "metric": "therms",
+        "key": "energy_gas",
+        "label": "Natural gas"
+    },
+    "EO": {
+        "metric": "gallons",
+        "key": "energy_oil",
+        "label": "Heating oil"
+    },
+    "WA": {
+        "key": "waste",
+        "metric": "pounds",
+        "label": "Pounds of landfill waste"
+    }
+}
