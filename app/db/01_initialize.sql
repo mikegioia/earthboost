@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `events` (
-`id` int(10) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `group_id` int(10) unsigned NOT NULL,
   `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date_start` datetime NOT NULL,
@@ -43,16 +43,19 @@ CREATE TABLE IF NOT EXISTS `members` (
   `year` smallint(5) unsigned NOT NULL,
   `locale` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
   `locale_percent` tinyint(4) NOT NULL DEFAULT '100',
+  `emissions` smallint(5) unsigned DEFAULT NULL,
+  `is_standard` tinyint(1) unsigned DEFAULT '1',
   `created_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `emissions` (
   `id` int(10) unsigned NOT NULL,
-  `type_id` smallint(5) unsigned NOT NULL,
+  `type_id` varchar(2) NOT NULL,
   `group_id` int(10) unsigned NOT NULL,
   `user_id` int(10) unsigned DEFAULT NULL,
   `event_id` int(10) unsigned DEFAULT NULL,
   `year` smallint(5) unsigned NOT NULL,
+  `value` int(10) unsigned NOT NULL,
   `created_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

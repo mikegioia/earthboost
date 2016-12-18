@@ -194,13 +194,35 @@
         }
     }, {
         "id": 21,
-        "type": "number",
+        "type": "checkbox",
         "emissions_key": "waste",
-        "hint": "Don't include your recyleables or compost!",
-        "label": "What is the #SELECT# weight of your garbage (on average)?",
-        "select": {
-            "monthly": 12,
-            "yearly": 1
-        }
+        "label": "Choose all of the following waste reduction practices",
+        "choices": [
+            {
+                "value": -250,
+                "name": "recyle",
+                "label": "Recyle somewhat"
+            }, {
+                "value": -500,
+                "name": "recyle",
+                "label": "Recyle religiously"
+            }, {
+                "value": -250,
+                "name": "compost",
+                "label": "Compost somewhat"
+            }, {
+                "value": -500,
+                "name": "compost",
+                "label": "Compost religiously"
+            }, {
+                "value": -50,
+                "name": "bags",
+                "label": "Bring your own grocery bags"
+            }, {
+                "value": -50,
+                "name": "cups",
+                "label": "Bring your own coffee travel mug"
+            }
+        ]
     }
 ]
