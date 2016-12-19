@@ -3,7 +3,9 @@
 namespace App;
 
 use Silex\Application
+  , App\Entities\Group
   , Symfony\Component\HttpFoundation\Request
+  , App\Exceptions\NotFound as NotFoundException
   , Symfony\Component\HttpFoundation\JsonResponse;
 
 class Controller
@@ -14,12 +16,12 @@ class Controller
     protected $messages = [];
     protected $status = SUCCESS;
 
-    public function ping( Request $request, Application $app )
+    public function ping()
     {
         return $this->respond( SUCCESS, "Pong" );
     }
 
-    public function login( Request $request, Application $app )
+    public function login( Request $request )
     {
         // Verify the email and password. Create a new session
         // and save the cookie.
@@ -31,15 +33,29 @@ class Controller
 
     }
 
-    public function dashboard() {}
+    public function dashboard()
+    {
+        exit('dash');
+    }
 
-    public function saveUser() {}
+    /**
+     * Prepare all of the dashboard data for a group.
+     */
+    public function group( $name )
+    {
+        $group = Group::loadByName( $name );
 
-    public function removeUser() {}
+        if ( ! $group->exists() ) {
+            throw new NotFoundException( GROUP, $name );
+        }
 
-    public function saveGroup() {}
+        // Prepare all of the statistics and return them
+        $this->data[ 'staff' ] = [];
+        $this->data[ 'emissions' ] = 240;
+        $this->data[ 'offset_amount' ] = 2456.01;
 
-    public function removeGroup() {}
+        return $this->respond( SUCCESS );
+    }
 
     /**
      * Master response method. This sends back a response in the

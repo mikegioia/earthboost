@@ -1,8 +1,13 @@
 <?php
 
-use App\Session
+use App\Model
+  , App\Session
   , App\Controller
+  , Monolog\Logger
   , Silex\Application
+  , Monolog\Handler\StreamHandler
+  , Monolog\Formatter\LineFormatter
+  , Monolog\Handler\RotatingFileHandler
   , Silex\Provider\SessionServiceProvider
   , Pixie\Connection as DatabaseConnection
   , Symfony\Component\HttpFoundation\Request
@@ -13,14 +18,13 @@ error_reporting( E_ALL );
 ini_set( 'display_errors', 1 );
 date_default_timezone_set( 'UTC' );
 
-// Constants
-define( 'ERROR', 'error' );
-define( 'SUCCESS', 'success' );
-
 // Load our source files and vendor libraries and constants
 $WD = __DIR__ ."/..";
-//require( "$WD/src/constants.php" );
 require( "$WD/vendor/autoload.php" );
+// Load the constants
+require( "$WD/app/constants.php" );
+// Load the helper functions
+require( "$WD/app/functions.php" );
 
 // Instantiate a new App object
 $app = new Application;
@@ -43,6 +47,28 @@ $app[ 'questions' ] = json_decode(
 $app[ 'config' ] = $config;
 $app[ 'debug' ] = $config->debug;
 
+// Set up the logging service
+$app[ 'log' ] = function () use ( $config, $WD ) {
+    $logger = new Logger( $config->log->name );
+    $handler = new RotatingFileHandler(
+        "$WD/{$config->log->path}/{$config->environment}.log",
+        $maxFiles = 0,
+        $config->log->level,
+        $bubble = TRUE );
+    // Allow line breaks and stack traces, and don't show
+    // empty context arrays
+    $formatter = new LineFormatter;
+    $formatter->allowInlineLineBreaks();
+    $formatter->ignoreEmptyContextAndExtra();
+    $handler->setFormatter( $formatter );
+    $logger->pushHandler( $handler );
+
+    return $logger;
+};
+
+$app[ 'log' ]->debug('asd');
+exit;
+
 // Set up the session handler and cookie settings
 $app[ 'session.storage.options' ] = [
     'name' => $config->cookie->name,
@@ -58,14 +84,20 @@ $app[ 'controller' ] = function () {
 };
 
 // Load all the routes
+$app->get( '/', 'controller:dashboard' );
 $app->get( '/ping', 'controller:ping' );
 $app->get( '/login', 'controller:login' );
 $app->get( '/logout', 'controller:logout' );
-$app->get( '/dashboard', 'controller:dashboard' );
+$app->get( '/{name}', 'controller:group' )
+    ->assert( 'name', REGEXP_ALPHA );
 
-// Load database connection service. This creates a new instance
-// of the query builder as the static class 'QB'.
-new DatabaseConnection( 'mysql', (array) $config->database, 'QB' );
+// Load database connection service.
+$app[ 'db' ] = function () use ( $config ) {
+    return new DatabaseConnection( 'mysql', (array) $config->database );
+};
+
+// Load the Database reference to the Model statically
+Model::setDb( $app[ 'db' ] );
 
 // Error handler
 // All exceptions are ultimately caught here. If we're in debug mode
@@ -73,9 +105,9 @@ new DatabaseConnection( 'mysql', (array) $config->database, 'QB' );
 // See App\Log for more info.
 $app->error( function ( \Exception $e, $code ) use ( $app ) {
     // If we're in debug mode, let error handler get this
-    if ( $app[ 'debug' ] ):
-        return NULL;
-    endif;
+    //if ( $app[ 'debug' ] ):
+    //    return NULL;
+    //endif;
 
     // For certain exceptions, get the code and message
     $code = ( method_exists( $e, 'getHttpCode' ) )

@@ -1,5 +1,6 @@
 {
     "debug": false,
+    "environment": "dev",
     "cookie": {
         "name": "user",
         "lifetime": 7776000
@@ -13,5 +14,10 @@
         "host": "localhost",
         "database": "earthboost",
         "collation": "utf8_unicode_ci"
+    },
+    "log": {
+        "name": "app",
+        "level": "debug",
+        "path": "var/log"
     }
 }
