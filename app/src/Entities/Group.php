@@ -71,16 +71,25 @@ class Group extends Entity
     }
 
     /**
-     * Computes the group's emissions and includes the total from
-     * the staff members as well.
+     * Computes the group's emissions and optionally includes the total
+     * from the staff members as well.
      * @param int $year
+     * @param bool $includeMembers
      * @return float
      */
-    public function getEmissions( $year )
+    public function getEmissions( $year, $includeMembers = TRUE )
     {
-        if ( ! $this->_emissions ) {
-            $raw = $this->getRawEmissions( $year );
-            $this->_emissions = (new Emissions( $raw ))->calculate();
+        if ( $this->_emissions ) {
+            return $this->_emissions;
+        }
+
+        $raw = $this->getRawEmissions( $year );
+        $this->_emissions = (new Emissions( $raw ))->calculate();
+
+        if ( $includeMembers === TRUE ) {
+            foreach ( $this->getMembers( $year ) as $member ) {
+                $this->_emissions += $member->emissions;
+            }
         }
 
         return $this->_emissions;
@@ -99,6 +108,7 @@ class Group extends Entity
 
         $this->_rawEmissions = (new EmissionsModel)->fetchAll([
             'year' => $year,
+            'user_id' => NULL,
             'group_id' => $this->id
         ]);
 

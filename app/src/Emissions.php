@@ -207,10 +207,13 @@ class Emissions
             }
 
             $total += $mt;
-            $mtStats[ $key ] = (object) [
-                'mt' => $mt,
-                'val' => $value
-            ];
+
+            if ( $mt ) {
+                $mtStats[ $key ] = (object) [
+                    'mt' => $mt,
+                    'val' => $value
+                ];
+            }
         } // foreach
 
         switch ( $returnType ) {

@@ -13,7 +13,11 @@ use App\Exception
 
 abstract class Entity
 {
+    // Class to populate data from
     protected $_modelClass;
+
+    // Reference to locale data
+    static private $locales;
 
     const POPULATE_SQL = 'populate_sql';
 
@@ -120,6 +124,35 @@ abstract class Entity
     }
 
     /**
+     * Returns the locale as specified by the key.
+     * @param $locale Locale key
+     * @return object
+     */
+    protected function getLocale( $locale )
+    {
+        $notFound = (object) [
+            'mt' => 0,
+            'name' => 'Not found'
+        ];
+        $parts = explode( "-", $locale );
+
+        if ( count( $parts ) !== 2 ) {
+            return $notFound;
+        }
+
+        $region = $parts[ 1 ];
+        $country = $parts[ 0 ];
+
+        if ( ! isset( self::$locales->{$country} )
+            || ! isset( self::$locales->{$country}->{$region} ) )
+        {
+            return $notFound;
+        }
+
+        return self::$locales->{$country}->{$region};
+    }
+
+    /**
      * Returns instances of the model from a set of objects.
      * @return array of Entities
      */
@@ -132,5 +165,10 @@ abstract class Entity
         }
 
         return $entities;
+    }
+
+    static public function setLocales( $locales )
+    {
+        self::$locales = $locales;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Model
+  , App\Entity
   , App\Session
   , App\Controller
   , Monolog\Logger
@@ -100,8 +101,11 @@ $app[ 'db' ] = function () use ( $config ) {
     return new DatabaseConnection( 'mysql', (array) $config->database );
 };
 
-// Load the Database reference to the Model statically
+// Load the database reference to the Model statically
 Model::setDb( $app[ 'db' ] );
+
+// Load the locales reference to the Entity statically
+Entity::setLocales( $app[ 'locales' ] );
 
 // Error handler
 // All exceptions are ultimately caught here. If we're in debug mode

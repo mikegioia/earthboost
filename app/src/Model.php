@@ -247,7 +247,10 @@ class Model
     private function applyParams( array $params, QueryBuilder &$qry )
     {
         foreach ( $params as $key => $value ) {
-            if ( is_array( $value ) ) {
+            if ( is_null( $value ) ) {
+                $qry->whereNull( $key );
+            }
+            else if ( is_array( $value ) ) {
                 $qry->whereIn( $key, $value );
             }
             else {

@@ -31,6 +31,8 @@ class Member extends Entity
     {
         parent::__construct( $id, $options );
 
+        $this->is_standard = ( $this->is_standard == 1 );
+
         if ( is_null( $this->emissions )
             && get( $options, self::POPULATE_EMISSIONS, TRUE ) === TRUE )
         {
@@ -49,6 +51,14 @@ class Member extends Entity
             return $this->emissions;
         }
 
+        // If this is a "standard" calculation then use the
+        // locale value.
+        if ( $this->is_standard ) {
+            $locale = $this->getLocale( $this->locale );
+
+            return ( $locale->mt * $this->locale_percent / 100 );
+        }
+
         $raw = $this->getRawEmissions();
 
         return (new Emissions( $raw ))->calculate();
@@ -64,7 +74,7 @@ class Member extends Entity
             return $this->_rawEmissions;
         }
 
-        if ( ! $this->exists() ) {
+        if ( ! $this->exists() || $this->is_standard ) {
             return [];
         }
 
