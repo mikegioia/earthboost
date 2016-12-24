@@ -11,7 +11,6 @@ class Model
     static private $db;
 
     protected $_table;
-    protected $_alias;
     protected $_limit = 10;
 
     const SORT_ASC = 'asc';
@@ -107,11 +106,11 @@ class Model
             ->select( get( $options, 'select', '*' ) )
             ->orderBy(
                 get( $options, 'sort', 'id' ),
-                get( $options, 'sortDir', self::SORT_ASC ) )
-            ->offset( get( $options, 'offset', 0 ) );
+                get( $options, 'sortDir', self::SORT_ASC ) );
 
         if ( valid( get( $options, 'limit', $this->_limit ) ) ) {
-            $qry->limit( get( $options, 'limit', $this->_limit ) );
+            $qry->offset( get( $options, 'offset', 0 ) )
+                ->limit( get( $options, 'limit', $this->_limit ) );
         }
 
         if ( get( $options, 'includeDeleted' ) !== TRUE

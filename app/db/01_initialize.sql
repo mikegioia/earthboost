@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `label` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `type` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'office',
   `created_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -43,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `members` (
   `year` smallint(5) unsigned NOT NULL,
   `locale` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
   `locale_percent` tinyint(4) NOT NULL DEFAULT '100',
-  `emissions` smallint(5) unsigned DEFAULT NULL,
+  `emissions` float unsigned DEFAULT NULL,
   `is_standard` tinyint(1) unsigned DEFAULT '1',
   `created_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

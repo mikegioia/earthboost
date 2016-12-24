@@ -19,6 +19,7 @@ define( 'OBJECT', 'object' );
 
 // Regular expressions
 define( 'REGEXP_NUMBER', '\d+' );
+define( 'REGEXP_YEAR', '^\d{4}$' );
 define( 'REGEXP_ALPHA', '[a-zA-Z]+' );
 define( 'REGEXP_ALPHANUMERIC', '\w+' );
 

@@ -2,17 +2,17 @@
     "FS": {
         "metric": "miles",
         "key": "flights_short",
-        "label": "Short flights (< 1000 mi)"
+        "label": "Short flights (< 300 mi)"
+    },
+    "FM": {
+        "metric": "miles",
+        "key": "flights_medium",
+        "label": "Long flights (< 2,300 mi)"
     },
     "FL": {
         "metric": "miles",
         "key": "flights_long",
-        "label": "Long flights (< 3,500 mi)"
-    },
-    "FF": {
-        "metric": "miles",
-        "key": "flights_far",
-        "label": "Far, or international flights (> 3,500 mi)"
+        "label": "Far, or international flights (> 2,300 mi)"
     },
     "CM": {
         "metric": "miles",
@@ -24,15 +24,40 @@
         "key": "trains_short",
         "label": "Short train rides (< 200 mi)"
     },
+    "TM": {
+        "metric": "miles",
+        "key": "trains_medium",
+        "label": "Long train rides (< 500 mi)"
+    },
     "TL": {
         "metric": "miles",
         "key": "trains_long",
-        "label": "Long train rides (< 500 mi)"
-    },
-    "TF": {
-        "metric": "miles",
-        "key": "trains_far",
         "label": "Long, or cross-country train rides (> 500 mi)"
+    },
+    "BS": {
+        "metric": "miles",
+        "key": "buses_short",
+        "label": "Short bus rides (< 200 mi)"
+    },
+    "BM": {
+        "metric": "miles",
+        "key": "buses_medium",
+        "label": "Long bus rides (< 500 mi)"
+    },
+    "BL": {
+        "metric": "miles",
+        "key": "buses_long",
+        "label": "Long, or cross-country bus rides (> 500 mi)"
+    },
+    "SS": {
+        "metric": "miles",
+        "key": "subways_short",
+        "label": "Short subway rides (< 2 mi)"
+    },
+    "SL": {
+        "metric": "miles",
+        "key": "subways_long",
+        "label": "Long subway rides (> 2 mi)"
     },
     "WS": {
         "metric": "servers",
@@ -69,9 +94,24 @@
         "key": "energy_oil",
         "label": "Heating oil"
     },
+    "EP": {
+        "metric": "propane",
+        "key": "energy_propane",
+        "label": "Propane gas"
+    },
     "WA": {
         "key": "waste",
         "metric": "pounds",
         "label": "Pounds of landfill waste"
+    },
+    "MD": {
+        "metric": "days",
+        "key": "meat_days",
+        "label": "Days each year eating meat"
+    },
+    "HD": {
+        "metric": "days",
+        "key": "hotel_days",
+        "label": "Nights stayed in a hotel"
     }
 }

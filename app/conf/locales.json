@@ -1,55 +1,208 @@
 {
     "US": {
-        "AL": 25.05,
-        "AK": 47.17,
-        "AZ": 13.79,
-        "AR": 23.13,
-        "CA": 9.26,
-        "CO": 16.95,
-        "CT": 9.77,
-        "DE": 14.24,
-        "DC": 4.55,
-        "FL": 11.41,
-        "GA": 13.76,
-        "HI": 12.82,
-        "ID": 10.18,
-        "IL": 18.12,
-        "IN": 30.81,
-        "IA": 26.78,
-        "KS": 23.97,
-        "KY": 31.19,
-        "LA": 44.50,
-        "ME": 12.52,
-        "MD": 10.38,
-        "MA": 9.49,
-        "MI": 16.31,
-        "MN": 17.24,
-        "MS": 21.28,
-        "MO": 21.66,
-        "MT": 31.51,
-        "NE": 27.51,
-        "NV": 13.02,
-        "NH": 11.25,
-        "NJ": 12.78,
-        "NM": 24.07,
-        "NY": 8.61,
-        "NC": 12.64,
-        "ND": 74.81,
-        "OH": 19.75,
-        "OK": 26.92,
-        "OR": 9.56,
-        "PA": 18.94,
-        "RI": 10.08,
-        "SC": 15.39,
-        "SD": 17.91,
-        "TN": 15.69,
-        "TX": 26.29,
-        "UT": 21.90,
-        "VT": 9.38,
-        "VA": 12.42,
-        "WA": 10.40,
-        "WV": 52.47,
-        "WI": 17.47,
-        "WY": 111.55
+        "AL": {
+            "mt": 25.05,
+            "name": "Alabama"
+        },
+        "AK": {
+            "mt": 47.17,
+            "name": "Alaska"
+        },
+        "AZ": {
+            "mt": 13.79,
+            "name": "Arizona"
+        },
+        "AR": {
+            "mt": 23.13,
+            "name": "Arkansas"
+        },
+        "CA": {
+            "mt": 9.26,
+            "name": "California"
+        },
+        "CO": {
+            "mt": 16.95,
+            "name": "Colorado"
+        },
+        "CT": {
+            "mt": 9.77,
+            "name": "Connecticut"
+        },
+        "DE": {
+            "mt": 14.24,
+            "name": "Delaware"
+        },
+        "DC": {
+            "mt": 4.55,
+            "name": "Washington D.C."
+        },
+        "FL": {
+            "mt": 11.41,
+            "name": "Florida"
+        },
+        "GA": {
+            "mt": 13.76,
+            "name": "Georgia"
+        },
+        "HI": {
+            "mt": 12.82,
+            "name": "Hawaii"
+        },
+        "ID": {
+            "mt": 10.18,
+            "name": "Idaho"
+        },
+        "IL": {
+            "mt": 18.12,
+            "name": "Illinois"
+        },
+        "IN": {
+            "mt": 30.81,
+            "name": "Indiana"
+        },
+        "IA": {
+            "mt": 26.78,
+            "name": "Iowa"
+        },
+        "KS": {
+            "mt": 23.97,
+            "name": "Kansas"
+        },
+        "KY": {
+            "mt": 31.19,
+            "name": "Kentuckey"
+        },
+        "LA": {
+            "mt": 44.50,
+            "name": "Louisiana"
+        },
+        "ME": {
+            "mt": 12.52,
+            "name": "Maine"
+        },
+        "MD": {
+            "mt": 10.38,
+            "name": "Maryland"
+        },
+        "MA": {
+            "mt": 9.49,
+            "name": "Massachusetts"
+        },
+        "MI": {
+            "mt": 16.31,
+            "name": "Michigan"
+        },
+        "MN": {
+            "mt": 17.24,
+            "name": "Minnesota"
+        },
+        "MS": {
+            "mt": 21.28,
+            "name": "Mississippi"
+        },
+        "MO": {
+            "mt": 21.66,
+            "name": "Missouri"
+        },
+        "MT": {
+            "mt": 31.51,
+            "name": "Montana"
+        },
+        "NE": {
+            "mt": 27.51,
+            "name": "Nebraska"
+        },
+        "NV": {
+            "mt": 13.02,
+            "name": "Nevada"
+        },
+        "NH": {
+            "mt": 11.25,
+            "name": "New Hampshipe"
+        },
+        "NJ": {
+            "mt": 12.78,
+            "name": "New Jersey"
+        },
+        "NM": {
+            "mt": 24.07,
+            "name": "New Mexico"
+        },
+        "NY": {
+            "mt": 8.61,
+            "name": "New York"
+        },
+        "NC": {
+            "mt": 12.64,
+            "name": "North Carolina"
+        },
+        "ND": {
+            "mt": 74.81,
+            "name": "North Dakota"
+        },
+        "OH": {
+            "mt": 19.75,
+            "name": "Ohio"
+        },
+        "OK": {
+            "mt": 26.92,
+            "name": "Oklahoma"
+        },
+        "OR": {
+            "mt": 9.56,
+            "name": "Oregon"
+        },
+        "PA": {
+            "mt": 18.94,
+            "name": "Pennsylvania"
+        },
+        "RI": {
+            "mt": 10.08,
+            "name": "Rhode Island"
+        },
+        "SC": {
+            "mt": 15.39,
+            "name": "South Carolina"
+        },
+        "SD": {
+            "mt": 17.91,
+            "name": "South Dakota"
+        },
+        "TN": {
+            "mt": 15.69,
+            "name": "Tennessee"
+        },
+        "TX": {
+            "mt": 26.29,
+            "name": "Texas"
+        },
+        "UT": {
+            "mt": 21.90,
+            "name": "Utah"
+        },
+        "VT": {
+            "mt": 9.38,
+            "name": "Vermont"
+        },
+        "VA": {
+            "mt": 12.42,
+            "name": "Virginia"
+        },
+        "WA": {
+            "mt": 10.40,
+            "name": "Washington"
+        },
+        "WV": {
+            "mt": 52.47,
+            "name": "West Virginia"
+        },
+        "WI": {
+            "mt": 17.47,
+            "name": "Wisconson"
+        },
+        "WY": {
+            "mt": 111.55,
+            "name": "Wyoming"
+        }
     }
 }

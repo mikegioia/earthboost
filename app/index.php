@@ -34,6 +34,10 @@ $config = json_decode(
     file_get_contents(
         "$WD/app/conf/defaults.json"
     ));
+$app[ 'locales' ] = json_decode(
+    file_get_contents(
+        "$WD/app/conf/locales.json"
+    ));
 $app[ 'emissions' ] = json_decode(
     file_get_contents(
         "$WD/app/conf/emissions.json"
@@ -66,9 +70,6 @@ $app[ 'log' ] = function () use ( $config, $WD ) {
     return $logger;
 };
 
-$app[ 'log' ]->debug('asd');
-exit;
-
 // Set up the session handler and cookie settings
 $app[ 'session.storage.options' ] = [
     'name' => $config->cookie->name,
@@ -90,6 +91,9 @@ $app->get( '/login', 'controller:login' );
 $app->get( '/logout', 'controller:logout' );
 $app->get( '/{name}', 'controller:group' )
     ->assert( 'name', REGEXP_ALPHA );
+$app->get( '/{name}/{year}', 'controller:group' )
+    ->assert( 'name', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR );
 
 // Load database connection service.
 $app[ 'db' ] = function () use ( $config ) {

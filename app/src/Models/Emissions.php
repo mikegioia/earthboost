@@ -7,19 +7,19 @@ use DateTime
   , Particle\Validator\Validator
   , App\Exception\ValidationException;
 
-class Group extends Model
+class Emissions extends Model
 {
     public $id;
-    public $name;
-    public $type;
-    public $label;
+    public $year;
+    public $value;
+    public $type_id;
+    public $user_id;
+    public $group_id;
+    public $event_id;
     public $created_on;
 
-    const TYPE_HOME = 'home';
-    const TYPE_OFFICE = 'office';
-
-    protected $_table = 'groups';
-    protected $_modelClass = 'Group';
+    protected $_table = 'emissions';
+    protected $_modelClass = 'Emissions';
 
     public function save( array $data = [], array $options = [] )
     {
@@ -33,12 +33,12 @@ class Group extends Model
     public function validate( array $data )
     {
         $val = new Validator;
-        $val->required( 'name', 'Name' )->lengthBetween( 1, 32 );
-        $val->required( 'label', 'State' )->lengthBetween( 1, 255 );
-        $val->required( 'type', 'Type' )->inArray([
-            self::TYPE_HOME,
-            self::TYPE_OFFICE
-        ]);
+        $val->required( 'year', 'Year' )->numeric();
+        $val->required( 'value', 'Value' )->digits();
+        $val->optional( 'user_id', 'User ID' )->numeric();
+        $val->required( 'group_id', 'Group ID' )->numeric();
+        $val->required( 'type_id', 'Type ID' )->length( 2 );
+        $val->optional( 'event_id', 'Event ID' )->numeric();
         $res = $val->validate( $data );
 
         if ( ! $res->isValid() ) {

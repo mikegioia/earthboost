@@ -23,7 +23,7 @@ abstract class Entity
             return;
         }
 
-        if ( is_array( $id ) ) {
+        if ( is_array( $id ) || is_object( $id ) ) {
             $this->populateArray( $id );
             return;
         }
@@ -117,5 +117,20 @@ abstract class Entity
         if ( $sqlObject ) {
             $this->populateArray( $sqlObject );
         }
+    }
+
+    /**
+     * Returns instances of the model from a set of objects.
+     * @return array of Entities
+     */
+    static public function hydrate( $rows )
+    {
+        $entities = [];
+
+        foreach ( $rows as $row ) {
+            $entities[] = new static( $row );
+        }
+
+        return $entities;
     }
 }

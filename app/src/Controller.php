@@ -41,8 +41,9 @@ class Controller
     /**
      * Prepare all of the dashboard data for a group.
      */
-    public function group( $name )
+    public function group( $name, $year = "" )
     {
+        $year = ( $year ) ?: date( "Y" );
         $group = Group::loadByName( $name );
 
         if ( ! $group->exists() ) {
@@ -50,9 +51,11 @@ class Controller
         }
 
         // Prepare all of the statistics and return them
-        $this->data[ 'staff' ] = [];
-        $this->data[ 'emissions' ] = 240;
-        $this->data[ 'offset_amount' ] = 2456.01;
+        $this->data[ 'year' ] = $year;
+        $this->data[ 'group' ] = $group;
+        $this->data[ 'staff' ] = $group->getMembers( $year );
+        $this->data[ 'emissions' ] = $group->getEmissions( $year );
+        $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );
 
         return $this->respond( SUCCESS );
     }
