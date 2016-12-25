@@ -1,0 +1,23 @@
+{
+  "name": "EarthBoost",
+  "authors": [
+    "Mike Gioia <mikegioia@gmail.com>"
+  ],
+  "description": "Client application for accessing EarthBoost API",
+  "main": "dist/index.html",
+  "license": "GPLv3",
+  "homepage": "https://earthboost.org",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "skeleton": "^2.0.4",
+    "modernizr": "^3.3.1"
+  }
+}

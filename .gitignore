@@ -2,3 +2,7 @@
 *.orig
 /vendor
 /var/log
+/app/client/build
+/app/client/vendor
+/app/client/node_modules
+

@@ -1,0 +1,28 @@
+{
+  "name": "earthboost-client",
+  "version": "0.0.0",
+  "description": "Client application for accessing EarthBoost API",
+  "main": "dist/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikegioia/earthboost.git"
+  },
+  "author": "Mike Gioia <mikegioia@gmail.com>",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/mikegioia/earthboost/issues"
+  },
+  "homepage": "https://github.com/mikegioia/earthboost#readme",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-template": "^1.0.0",
+    "lodash": "^4.17.3"
+  }
+}
