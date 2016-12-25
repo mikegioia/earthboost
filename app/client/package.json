@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mikegioia/earthboost.git"
+    "url": "git+https://gitlab.com/teachboost/earthboost.git"
   },
   "author": "Mike Gioia <mikegioia@gmail.com>",
   "license": "GPLv3",
   "bugs": {
     "url": "https://github.com/mikegioia/earthboost/issues"
   },
-  "homepage": "https://github.com/mikegioia/earthboost#readme",
+  "homepage": "https://earthboost.org",
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
