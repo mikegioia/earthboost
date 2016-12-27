@@ -10,10 +10,28 @@
         <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
         <!-- Place favicon.ico in the root directory -->
 
+    <% if ( use_minified === true ) { %>
+        <script src="js/earthboost.min.js"></script>
+        <link rel="stylesheet" href="css/earthboost.min.css">
+    <% } else { %>
         <link rel="stylesheet" href="css/earthboost.css">
         <script src="js/earthboost.js"></script>
+    <% } %>
     </head>
     <body>
-        
+        <header class="row">
+            <section class="logo one-half column u-cf">
+                <img src="images/organic.svg">
+                <h3>EarthBoost</h3>
+            </section>
+            <nav class="one-half column">
+                <button>Logout</button>
+            </nav>
+        </header>
+        <main>
+            <div class="loading">
+                <span>Warming up&hellip;</span>
+            </div>
+        </main>
     </body>
 </html>

@@ -1,14 +1,18 @@
 var _ = require( 'lodash' );
 
 module.exports = function ( grunt ) {
-    var TEMPLATE_CONFIG = {};
+    var SERVER_ENVS = [
+        'prod'
+    ];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON( 'package.json' ),
         // File Watching
         watch: {
             js: {
-                files: [ './src/js/**/*.js' ],
+                files: [
+                    './src/js/**/*.js'
+                ],
                 tasks: [ 'concat:js' ]
             },
             css: {
@@ -27,9 +31,21 @@ module.exports = function ( grunt ) {
                     separator: ';\n'
                 },
                 src: [
+                    // Vendor dependencies
+                    './vendor/page/page.js',
+                    './vendor/reqwest/reqwest.js',
+                    // Environment config
+                    './build/js/config.js',
+                    // Bootstrap file
                     './src/js/app.js',
-                    './src/js/pages/*.js',
-                    './src/js/components/*.js',
+                    // Libraries
+                    './src/js/lib/**/*.js',
+                    // Controllers
+                    './src/js/pages/**/*.js',
+                    // Components
+                    './src/js/components/**/*.js',
+                    // Routes
+                    './src/js/routes.js'
                 ],
                 dest: './build/js/earthboost.js'
             },
@@ -40,25 +56,77 @@ module.exports = function ( grunt ) {
                 src: [
                     './vendor/skeleton/css/normalize.css',
                     './vendor/skeleton/css/skeleton.css',
-                    './src/css/fonts.css'
+                    './src/css/fonts.css',
+                    './src/css/header.css',
+                    './src/css/buttons.css',
+                    './src/css/stage.css'
                 ],
                 dest: './build/css/earthboost.css'
             }
         },
+        // Copy to build or dist
         copy: {
-            fonts: {
+            main: {
                 files: [{
                     expand: true,
-                    flatten: true,
-                    src: [
-                        './src/fonts/**/*.woff2'
-                    ],
+                    cwd: './src/images/',
+                    src: '**',
+                    dest: './build/images/'
+                }, {
+                    expand: true,
+                    cwd: './src/fonts/',
+                    src: '**',
                     dest: './build/fonts/'
                 }]
+            },
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: './build/',
+                    src: [
+                        'fonts/*.woff2',
+                        'js/*.min.js',
+                        'css/*.min.css'
+                    ],
+                    dest: './dist/'
+                }]
+            }
+        },
+        // Wrap our dist JS file
+        wrap: {
+            js: {
+                src: [
+                    'dist/js/earthboost.min.js'
+                ],
+                dest: '',
+                options: {
+                    wrapper: [
+                        '(function () {\n',
+                        '\n}); '
+                    ]
+                }
+            }
+        },
+        // Minify the built CSS file
+        cssmin: {
+            build: {
+                src: [
+                    './build/css/earthboost.css'
+                ],
+                dest: './build/css/earthboost.min.css'
+            }
+        },
+        // Minify the build JS file
+        uglify: {
+            js: {
+                files: {
+                    './build/js/earthboost.min.js': [ './build/js/earthboost.js' ]
+                }
             }
         }
     });
 
+    grunt.loadNpmTasks( 'grunt-wrap' );
     grunt.loadNpmTasks( 'grunt-template' );
     grunt.loadNpmTasks( 'grunt-contrib-copy' );
     grunt.loadNpmTasks( 'grunt-contrib-watch' );
@@ -66,19 +134,55 @@ module.exports = function ( grunt ) {
     grunt.loadNpmTasks( 'grunt-contrib-uglify' );
     grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 
-    grunt.registerTask( 'default', [ 'concat', 'copy', 'watch' ] );
+    grunt.registerTask( 'build', [ 'concat', 'copy:main' ] );
+    grunt.registerTask( 'default', [ 'build', 'watch' ] );
+    grunt.registerTask( 'dist', [ 'config:prod', 'build', 'uglify', 'copy:dist', 'wrap', 'html:prod' ])
     grunt.registerTask( 'printenv', function () {
         console.log( process.env );
     });
 
-    // To generate the HTML file, we need to read configuration files
-    // from the config directory.
-    grunt.registerTask( 'html', 'Generate the HTML files.', function ( env ) {
-        var assetVersion, config, options, template, html,
-            serverEnvs = [
-                'prod'
-            ];
+    // Generates a config file for the application.
+    grunt.registerTask( 'config', 'Generate the Config file.', function ( env ) {
+        var config;
 
+        env = getEnvironment( env );
+        config = grunt.file.readJSON( './config/' + env + '.json' );
+        grunt.file.write(
+            './build/js/config.js',
+            'var Config = ' + JSON.stringify( config, null, '    ' ));
+    });
+
+    // To generate the HTML file, we need to read configuration files
+    // from the config directory. This also generates a config file
+    // that is used by build compilation.
+    grunt.registerTask( 'html', 'Generate the HTML files.', function ( env ) {
+        var html;
+        var config;
+        var options;
+        var template;
+        var configText;
+
+        // Fails if not found
+        env = getEnvironment( env );
+
+        // Try to read the config files, and extend the options
+        config = grunt.file.readJSON( './config/' + env + '.json' );
+        options.env = env;
+
+        // Write out the index and config file
+        template = grunt.file.read( './src/html/template.html' );
+        html = grunt.template.process( template, { data: options } );
+
+        // Write the file to the appropriate location
+        if ( _.indexOf( SERVER_ENVS, env ) !== -1 ) {
+            grunt.file.write( './dist/' + env + '/index.html', html );
+        }
+        else {
+            grunt.file.write( './build/index.html', html );
+        }
+    });
+
+    function getEnvironment ( env ) {
         if ( typeof env == 'undefined' || ! env.length ) {
             if ( process.env.ENVIRONMENT ) {
                 env = process.env.ENVIRONMENT;
@@ -88,21 +192,6 @@ module.exports = function ( grunt ) {
             }
         }
 
-        // Try to read the config files, and extend the options
-        config = grunt.file.readJSON( './config/' + env + '.json' );
-        options = _.extend( TEMPLATE_CONFIG, config );
-        options.env = env;
-
-        // Write out the index file
-        template = grunt.file.read( './src/html/template.html' );
-        html = grunt.template.process( template, { data: options } );
-
-        // Write the file to the appropriate location
-        if ( _.indexOf( serverEnvs, env ) !== -1 ) {
-            grunt.file.write( './dist/' + env + '/index.html', html );
-        }
-        else {
-            grunt.file.write( './build/index.html', html );
-        }
-    });
+        return env;
+    }
 }

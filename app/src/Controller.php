@@ -33,6 +33,11 @@ class Controller
 
     }
 
+    public function signup()
+    {
+        exit( 'signup' );
+    }
+
     public function dashboard()
     {
         exit('dash');
@@ -53,6 +58,7 @@ class Controller
         // Prepare all of the statistics and return them
         $this->data[ 'year' ] = $year;
         $this->data[ 'group' ] = $group;
+        //$this->data[ 'groups' ] = Group::loadAllByUser();
         $this->data[ 'staff' ] = $group->getMembers( $year );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );
         $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );

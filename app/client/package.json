@@ -11,7 +11,7 @@
     "url": "git+https://gitlab.com/teachboost/earthboost.git"
   },
   "author": "Mike Gioia <mikegioia@gmail.com>",
-  "license": "GPLv3",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/mikegioia/earthboost/issues"
   },
@@ -23,6 +23,7 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-template": "^1.0.0",
+    "grunt-wrap": "^0.3.0",
     "lodash": "^4.17.3"
   }
 }

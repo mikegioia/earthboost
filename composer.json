@@ -5,7 +5,8 @@
         "silex/silex": "^2.0",
         "monolog/monolog": "^1.22",
         "particle/validator": "^2.0",
-        "usmanhalalit/pixie": "^2.0"
+        "usmanhalalit/pixie": "^2.0",
+        "wildbit/postmark-php": "^2.3"
     },
     "authors": [
         {

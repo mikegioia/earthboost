@@ -19,5 +19,8 @@
         "name": "app",
         "level": "debug",
         "path": "var/log"
+    },
+    "email": {
+        "key": "e331ee2b-82dc-4f00-87d7-a69a95c0fec1"
     }
 }

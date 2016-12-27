@@ -6,6 +6,7 @@ use App\Model
   , App\Controller
   , Monolog\Logger
   , Silex\Application
+  , App\Libraries\Email
   , Monolog\Handler\StreamHandler
   , Monolog\Formatter\LineFormatter
   , Monolog\Handler\RotatingFileHandler
@@ -71,6 +72,11 @@ $app[ 'log' ] = function () use ( $config, $WD ) {
     return $logger;
 };
 
+// Set up an email service
+$app[ 'email' ] = function () use ( $config ) {
+    return new Email( $config->email->key );
+};
+
 // Set up the session handler and cookie settings
 $app[ 'session.storage.options' ] = [
     'name' => $config->cookie->name,
@@ -86,10 +92,11 @@ $app[ 'controller' ] = function () {
 };
 
 // Load all the routes
-$app->get( '/', 'controller:dashboard' );
 $app->get( '/ping', 'controller:ping' );
 $app->get( '/login', 'controller:login' );
 $app->get( '/logout', 'controller:logout' );
+$app->post( '/signup', 'controller:signup' );
+$app->get( '/dashboard', 'controller:dashboard' );
 $app->get( '/{name}', 'controller:group' )
     ->assert( 'name', REGEXP_ALPHA );
 $app->get( '/{name}/{year}', 'controller:group' )
