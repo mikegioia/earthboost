@@ -11,11 +11,9 @@
         <!-- Place favicon.ico in the root directory -->
 
     <% if ( use_minified === true ) { %>
-        <script src="js/earthboost.min.js"></script>
         <link rel="stylesheet" href="css/earthboost.min.css">
     <% } else { %>
         <link rel="stylesheet" href="css/earthboost.css">
-        <script src="js/earthboost.js"></script>
     <% } %>
     </head>
     <body>
@@ -24,14 +22,140 @@
                 <img src="images/organic.svg">
                 <h3>EarthBoost</h3>
             </section>
-            <nav class="one-half column">
-                <button>Logout</button>
-            </nav>
+            <nav class="one-half column"></nav>
         </header>
-        <main>
+        <main id="stage">
             <div class="loading">
                 <span>Warming up&hellip;</span>
             </div>
         </main>
+        <!-- Notification container -->
+        <section id="notifications" class="notifications"></section>
+        <!-- Navigation -->
+        <script id="nav" type="text/template">
+            <select name="group">
+            {{#groups}}
+                <option value="{{group_name}}"{{#selected}} selected="selected"{{/selected}}>{{group_label}}</option>
+            {{/groups}}
+            </select>
+            <button class="logout">Logout</button>
+        </script>
+        <!-- Dashboard -->
+        <script id="dashboard" type="text/template">
+            <section class="dashboard">
+                <h2>Your Groups</h2>
+                <div class="groups u-cf">
+                {{#groups}}
+                    <div class="group" data-name="{{group_name}}">
+                        <a href="/{{group_name}}">
+                            <span class="top">{{group_label}}</span>
+                            <span class="bottom">
+                            {{#is_admin}}
+                                <span class="admin">
+                                    <i class="icon-star"></i>Admin
+                                </span>
+                            {{/is_admin}}
+                            {{#is_champion}}
+                                <span class="champion">
+                                    <i class="icon-flag"></i>Champion
+                                </span>
+                            {{/is_champion}}
+                            {{^is_champion}}
+                                <span class="member">
+                                    <i class="icon-happy"></i>{{member_label}}
+                                </span>
+                            {{/is_champion}}
+                            </span>
+                        </a>
+                    </div>
+                {{/groups}}
+                {{^groups}}
+                    <span class="none">No groups to display</span>
+                {{/groups}}
+                </div>
+            </section>
+        </script>
+        <!-- Group -->
+        <script id="group" type="text/template">
+            <section class="group row">
+                <div class="six columns">
+                    <div class="summary">
+                        <div class="progress">
+                            <div class="progress-bar" style="width:65%;"></div>
+                        </div>
+                        <a class="edit" href="javascript:;">
+                            <i class="icon-edit"></i>
+                        </a>
+                        <div class="group-label">{{group.label}}</div>
+                        <div class="emissions">
+                            {{emissions}} <small>t CO<sub>2</sub>e</small>
+                        </div>
+                        <div class="offset-amount">
+                            ${{offset_amount}} to offset
+                        </div>
+                    </div>
+                    <div class="meta">
+                    {{#member}}
+                        <div class="member-summary">
+                            <div class="progress">
+                                <div class="progress-bar" style="width:65%;"></div>
+                            </div>
+                            <a class="edit" href="javascript:;">
+                                <i class="icon-edit"></i>
+                            </a>
+                            <div class="member-name">{{name}}</div>
+                            <div class="emissions">
+                                <div class="emissions">
+                                    {{emissions}} <small>t CO<sub>2</sub>e</small>
+                                </div>
+                            </div>
+                            <div class="offset-amount">
+                                ${{offset_amount}} to offset
+                            </div>
+                        </div>
+                    {{/member}}
+                    </div>
+                </div>
+                <div class="six columns">
+                    <div class="members">
+                        <h3 class="sans u-cf">
+                            <span>Members</span>
+                            <button>Add Person</button>
+                        </h3>
+                        <ol>
+                        {{#members}}
+                            <li>
+                                <span class="name">{{name}}</span>
+                                <span class="locale">({{locale}})</span>
+                                <span class="emissions">{{emissions}} <small>t</small></span>
+                            </li>
+                        {{/members}}
+                        </ol>
+                    </div>
+                </div>
+            </section>
+        </script>
+        <!-- Notification -->
+        <script id="notification" type="text/template">
+            <div class="box {{type}}">
+                <a class="close" href="javascript:;">
+                    <i class="icon-cross"></i>
+                </a>
+                <div class="message">{{message}}</div>
+            </div>
+        </script>
+            <!-- Full page error overlay -->
+        <script id="error" type="text/template">
+            <section class="error">
+                <h2>Error {{code}}</h2>
+                <p>{{message}}</p>
+            </section>
+        </script>
+        <!-- Application -->
+    <% if ( use_minified === true ) { %>
+        <script src="js/earthboost.min.js"></script>
+    <% } else { %>
+        <script src="js/earthboost.js"></script>
+    <% } %>
     </body>
 </html>

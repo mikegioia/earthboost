@@ -102,6 +102,8 @@ $app->get( '/{name}', 'controller:group' )
 $app->get( '/{name}/{year}', 'controller:group' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
+$app->get( '/{path}', 'controller:error' )
+    ->assert( 'path', REGEXP_ANY );
 
 // Load database connection service.
 $app[ 'db' ] = function () use ( $config ) {
@@ -118,7 +120,7 @@ Entity::setLocales( $app[ 'locales' ] );
 // All exceptions are ultimately caught here. If we're in debug mode
 // then this will let the Symfony debug exception handler to take it.
 // See App\Log for more info.
-$app->error( function ( \Exception $e, $code ) use ( $app ) {
+$app->error( function ( \Exception $e, Request $request, $code ) use ( $app ) {
     // If we're in debug mode, let error handler get this
     //if ( $app[ 'debug' ] ):
     //    return NULL;
@@ -127,7 +129,11 @@ $app->error( function ( \Exception $e, $code ) use ( $app ) {
     // For certain exceptions, get the code and message
     $code = ( method_exists( $e, 'getHttpCode' ) )
         ? $e->getHttpCode()
-        : 400;
+        : $code;
+    // Send back a 200 so that the app can handle them
+    $responseCode = ( in_array( $code, [ 400, 401, 403, 404, 500 ] ) )
+        ? 200
+        : $code;
 
     return $app->json([
         'code' => $code,
@@ -135,7 +141,7 @@ $app->error( function ( \Exception $e, $code ) use ( $app ) {
         'status' => ERROR,
         'message' => $e->getMessage(),
         'messages' => []
-    ], $code );
+    ], 200 );
 });
 
 // If a CLI command was run, execute it manually

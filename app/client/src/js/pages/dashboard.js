@@ -4,34 +4,47 @@
  * Loads the list of groups from the API and renders them as
  * cards to the page.
  */
-Pages.Dashboard = (function ( Request ) {
+Pages.Dashboard = (function ( Request, DOM, Components ) {
     'use strict';
+    // Components
+    var Nav;
+    var Main;
 
     /**
      * Public API method to setup the controller. This will render
      * the page's template to the main DOM section.
      */
     function setup () {
-        // render layout
-        // instantiate components
+        DOM.title([ 'Dashboard' ]);
+        // Instantiate components
+        Nav = new Components.Nav( DOM.get( 'nav' ) );
+        Main = new Components.Dashboard( DOM.get( 'main' ) );
     }
 
     /**
-     * Called to destroy all state and any event handlers.
+     * Called to destroy some state and any event handlers.
      */
     function tearDown () {
-        // destroy components
+        Main && Main.tearDown();
     }
 
     /**
      * Load the list of groups.
      * @route /
-     * @param object ctx Contains URL params
-     * @param function next
+     * @param Object ctx Contains URL params
+     * @param Function next
      */
     function view ( ctx, next ) {
         Request.dashboard( function ( data ) {
-            console.log( data );
+            Nav.render({
+                year: null,
+                group: null,
+                user: data.user,
+                groups: data.groups
+            });
+            Main.render({
+                groups: data.groups
+            });
         });
     }
 
@@ -40,4 +53,4 @@ Pages.Dashboard = (function ( Request ) {
         setup: setup,
         tearDown: tearDown
     };
-}( Request ));
+}( Request, DOM, Components ));

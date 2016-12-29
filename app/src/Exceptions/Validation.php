@@ -12,6 +12,6 @@ class Validation extends Exception
     {
         $message = ( $message ) ?: "Validation error.";
 
-        parent::__construct( $message );
+        parent::__construct( $this->statusCode, $message );
     }
 }

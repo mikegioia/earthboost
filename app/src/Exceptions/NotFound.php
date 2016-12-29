@@ -15,10 +15,11 @@ class NotFound extends Exception
     public function __construct( $type = NULL, $id = NULL, $message = NULL )
     {
         if ( is_null( $type ) && is_null( $id ) ) {
-            return parent::__construct();
+            return parent::__construct( $this->statusCode, $this->message );
         }
 
         parent::__construct(
+            $this->statusCode,
             sprintf(
                 "The requested %s [%s] %s.",
                 $type,

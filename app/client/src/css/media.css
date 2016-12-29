@@ -1,0 +1,31 @@
+@media only screen and (max-width: 550px) {
+    section.group .members ol {
+        max-height: none;
+        overflow-y: visible;
+    }
+}
+
+@media only screen and (min-width: 920px) {
+    section.group .summary {
+        display: inline-block;
+        padding: 1rem 5rem 1rem 1.5rem;
+    }
+}
+
+@media only screen and (min-width: 1368px) {
+    html {
+        font-size: 84.375%;
+    }
+}
+
+@media only screen and (min-width: 1640px) {
+    html {
+        font-size: 93.75%;
+    }
+}
+
+@media only screen and (min-width: 1920px) {
+    html {
+        font-size: 100%;
+    }
+}

@@ -13,8 +13,8 @@ page( '/logout', function () {
 });
 
 // Group pages
-page( '/{group}/{year}', Router.Group.view );
-page( '/{group}', Router.Group.view );
+page( '/:group/:year', Router.Group.view );
+page( '/:group', Router.Group.view );
 
 // Start the router
 page();

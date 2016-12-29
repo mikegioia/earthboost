@@ -6,13 +6,13 @@ use App\Exception;
 
 class Email extends Exception
 {
-    public $httpCode = 412;
+    private $httpCode = 412;
 
     public function __construct( $message = "" )
     {
         $message = "There was a problem sending an email. $message.";
         $message = trim( $message, ". \t\n\r\0\x0B" );
 
-        parent::__construct( $message );
+        parent::__construct( $this->statusCode, $message );
     }
 }

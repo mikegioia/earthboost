@@ -1,0 +1,67 @@
+section.dashboard {
+    padding: 1rem 2rem;
+}
+
+section.dashboard h2 {
+    font-weight: 300;
+    margin: 1rem 0 3rem;
+}
+
+section.dashboard .groups {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+section.dashboard .group {
+    width: 48%;
+    font-size: 2.5rem;
+    box-sizing: border-box;
+    transition: box-shadow 0.25s ease;
+    box-shadow: 4px 4px 0 rgba(127, 198, 160, 0.33);
+}
+
+section.dashboard .group:hover {
+    box-shadow: 4px 4px 0 rgba(127, 198, 160, 1);
+}
+
+section.dashboard .group a {
+    display: block;
+    text-decoration: none;
+    background-color: #fff;
+}
+
+section.dashboard .group a span.top {
+    height: 5.5rem;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0.66rem 1.25rem 0;
+}
+
+section.dashboard .group a span.bottom {
+    color: #666;
+    height: 2rem;
+    display: block;
+    font-size: 1.5rem;
+    padding: 0 1.25rem 1rem 1.5rem;
+}
+
+section.dashboard .group a span.admin {
+    margin-right: 2rem;
+}
+
+section.dashboard .group a i {
+    font-weight: 600;
+    display: inline-block;
+}
+
+section.dashboard .group a i.icon-star {
+    transform: translate(-0.33rem, 0.1rem);
+}
+
+section.dashboard .group a i.icon-flag,
+section.dashboard .group a i.icon-happy {
+    transform: translate(-0.4rem, 0.15rem);
+}

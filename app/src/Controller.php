@@ -3,6 +3,7 @@
 namespace App;
 
 use Silex\Application
+  , App\Entities\User
   , App\Entities\Group
   , Symfony\Component\HttpFoundation\Request
   , App\Exceptions\NotFound as NotFoundException
@@ -21,6 +22,11 @@ class Controller
         return $this->respond( SUCCESS, "Pong" );
     }
 
+    public function error()
+    {
+        throw new NotFoundException;
+    }
+
     public function login( Request $request )
     {
         // Verify the email and password. Create a new session
@@ -33,21 +39,34 @@ class Controller
 
     }
 
+    /**
+     * Records user info and redirects them to success message.
+     */
     public function signup()
     {
-        exit( 'signup' );
     }
 
     public function dashboard()
     {
-        exit('dash');
+        // @TODO AUTH, STUBBED
+        // THIS SHOULD USE A USER OBJECT IN THE SESSION
+        $user = new User( 1 );
+
+        $this->data[ 'user' ] = $user;
+        $this->data[ 'groups' ] = $user->getGroups();
+
+        return $this->respond( SUCCESS );
     }
 
     /**
      * Prepare all of the dashboard data for a group.
      */
-    public function group( $name, $year = "" )
+    public function group( $name, $year = "", Application $app )
     {
+        // @TODO AUTH, STUBBED
+        // THIS SHOULD USE A USER OBJECT IN THE SESSION
+        $user = new User( 1 );
+
         $year = ( $year ) ?: date( "Y" );
         $group = Group::loadByName( $name );
 
@@ -57,9 +76,10 @@ class Controller
 
         // Prepare all of the statistics and return them
         $this->data[ 'year' ] = $year;
+        $this->data[ 'user' ] = $user;
         $this->data[ 'group' ] = $group;
-        //$this->data[ 'groups' ] = Group::loadAllByUser();
-        $this->data[ 'staff' ] = $group->getMembers( $year );
+        $this->data[ 'groups' ] = $user->getGroups();
+        $this->data[ 'members' ] = $group->getMembers( $year );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );
         $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );
 
@@ -70,7 +90,7 @@ class Controller
      * Master response method. This sends back a response in the
      * same format to the client.
      * @param const $status
-     * @param string $message
+     * @param string|array $message
      * @param int $code
      * @return JsonResponse
      */
@@ -90,6 +110,10 @@ class Controller
             }
             else {
                 $this->message = $message;
+                $this->messages = [[
+                    'type' => $status,
+                    'message' => $message
+                ]];
             }
         }
 

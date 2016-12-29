@@ -4,7 +4,7 @@
  * This library sets up a wrapper around the reqwest library.
  * It handles GET and POST API calls to the backend.
  */
-var Request = (function ( Config, Const ) {
+var Request = (function ( Config, Const, Message ) {
     'use strict';
 
     var HTTP_GET = 'get';
@@ -27,6 +27,19 @@ var Request = (function ( Config, Const ) {
     }
 
     /**
+     * Loads a parameter from the context, with a default
+     * if it's not found.
+     * @param Object ctx
+     * @param String key
+     * @param Mixed def Default value (null)
+     */
+    function param ( ctx, key, def ) {
+        return ( ctx.params && ctx.params[ key ] )
+            ? ctx.params[ key ]
+            : def || null;
+    }
+
+    /**
      * Master wrapper for making API calls.
      * @param string url
      * @param string method
@@ -41,13 +54,49 @@ var Request = (function ( Config, Const ) {
             crossOrigin: true,
             url: Config.api_path + url,
             success: function ( r ) {
-                cb( r.data );
+                if ( handle( r ) ) {
+                    cb( r.data );
+                }
+            },
+            error: function ( e ) {
+                console.error( e );
+                Message.error( "There was a problem with that request." );
             }
         });
     }
 
+    /**
+     * Handles a response based on the status code.
+     * @param Object r
+     * @return Bool
+     */
+    function handle( r ) {
+        // Render any notifications
+        if ( r.messages && r.messages.length ) {
+            r.messages.forEach( function ( m ) {
+                Message[ m.type ]( m.message );
+            });
+        }
+
+        switch ( r.code ) {
+            case 401:
+                alert( 'GOTO LOGIN' );
+                return false;
+            case 400:
+            case 403:
+            case 404:
+            case 500:
+                Message.halt( r.code, r.message );
+                return false;
+            case 200:
+            default:
+                return true;
+        }
+    }
+
     return {
+        param: param,
         group: group,
         dashboard: dashboard
     };
-}( Config, Const ));
+}( Config, Const, Message ));

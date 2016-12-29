@@ -1,0 +1,59 @@
+section.notifications {
+    right: 0;
+    top: 5rem;
+    width: 40%;
+    z-index: 3;
+    position: fixed;
+    max-width: 32rem;
+}
+
+section.notifications .notification {
+    margin: 1rem;
+    position: relative;
+}
+
+section.notifications .notification a.close {
+    color: #fff;
+    top: 0.25rem;
+    right: 0.5rem;
+    padding: 0 0.5rem;
+    position: absolute;
+    text-decoration: none;
+}
+
+section.notifications .notification .box {
+    padding: 1rem 2rem 1rem 1.5rem;
+}
+
+section.notifications .notification .info {
+    color: #fff;
+    background-color: #007db6;
+}
+
+section.notifications .notification .error {
+    color: #fff;
+    background-color: #ce3c3c;
+}
+
+section.notifications .notification .success {
+    color: #fff;
+    background-color: #28a94c;
+}
+
+section.notifications .notification .warning {
+    color: #fff;
+    background-color: #d1712d;
+}
+
+section.error {
+    padding: 1rem 2rem;
+}
+
+section.error h2 {
+    font-weight: 300;
+    margin: 1rem 0;
+}
+
+section.error p {
+    font-size: 2rem;
+}

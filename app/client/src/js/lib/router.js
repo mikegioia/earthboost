@@ -6,7 +6,7 @@
  * for each change in controller, the layout is re-rendered
  * and events/state from the previous controller is torn down.
  */
-Router = (function ( Pages ) {
+var Router = (function ( Pages ) {
     'use strict';
     // Currently loaded controller
     var current = null;
@@ -33,7 +33,7 @@ Router = (function ( Pages ) {
      * @route /{group}/{year}
      */
     Group.view = function ( ctx, next ) {
-        load( controllers.GROUPS ).view( ctx, next );
+        load( controllers.GROUP ).view( ctx, next );
     };
 
     /**

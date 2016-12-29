@@ -10,14 +10,16 @@ module.exports = function ( grunt ) {
         // File Watching
         watch: {
             js: {
-                files: [
-                    './src/js/**/*.js'
-                ],
+                files: [ './src/js/**/*.js' ],
                 tasks: [ 'concat:js' ]
             },
             css: {
                 files: [ './src/css/**/*.css' ],
                 tasks: [ 'concat:css' ]
+            },
+            html: {
+                files: [ './src/html/**/*.html' ],
+                tasks: [ 'html' ]
             },
             grunt: {
                 files: [ 'Gruntfile.js' ]
@@ -34,6 +36,7 @@ module.exports = function ( grunt ) {
                     // Vendor dependencies
                     './vendor/page/page.js',
                     './vendor/reqwest/reqwest.js',
+                    './vendor/mustache.js/mustache.js',
                     // Environment config
                     './build/js/config.js',
                     // Bootstrap file
@@ -59,7 +62,11 @@ module.exports = function ( grunt ) {
                     './src/css/fonts.css',
                     './src/css/header.css',
                     './src/css/buttons.css',
-                    './src/css/stage.css'
+                    './src/css/notifications.css',
+                    './src/css/stage.css',
+                    './src/css/dashboard.css',
+                    './src/css/group.css',
+                    './src/css/media.css'
                 ],
                 dest: './build/css/earthboost.css'
             }
@@ -156,22 +163,21 @@ module.exports = function ( grunt ) {
     // from the config directory. This also generates a config file
     // that is used by build compilation.
     grunt.registerTask( 'html', 'Generate the HTML files.', function ( env ) {
+        var env;
         var html;
         var config;
-        var options;
         var template;
         var configText;
 
         // Fails if not found
         env = getEnvironment( env );
-
-        // Try to read the config files, and extend the options
+        // Try to read the config file
         config = grunt.file.readJSON( './config/' + env + '.json' );
-        options.env = env;
+        config.env = env;
 
         // Write out the index and config file
         template = grunt.file.read( './src/html/template.html' );
-        html = grunt.template.process( template, { data: options } );
+        html = grunt.template.process( template, { data: config } );
 
         // Write the file to the appropriate location
         if ( _.indexOf( SERVER_ENVS, env ) !== -1 ) {

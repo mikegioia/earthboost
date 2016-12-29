@@ -45,7 +45,9 @@ CREATE TABLE IF NOT EXISTS `members` (
   `locale` varchar(5) COLLATE utf8_unicode_ci NOT NULL,
   `locale_percent` tinyint(4) NOT NULL DEFAULT '100',
   `emissions` float unsigned DEFAULT NULL,
-  `is_standard` tinyint(1) unsigned DEFAULT '1',
+  `is_admin` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `is_champion` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `is_standard` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `created_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

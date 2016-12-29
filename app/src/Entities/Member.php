@@ -16,8 +16,14 @@ class Member extends Entity
     public $locale;
     public $user_id;
     public $group_id;
+    public $is_admin;
     public $emissions;
+    public $group_name;
+    public $group_type;
+    public $group_label;
+    public $is_champion;
     public $is_standard;
+    public $offset_amount;
     public $locale_percent;
     // Loaded from the database
     public $emissions_data = [];
@@ -31,6 +37,8 @@ class Member extends Entity
     {
         parent::__construct( $id, $options );
 
+        $this->is_admin = ( $this->is_admin == 1 );
+        $this->is_champion = ( $this->is_champion == 1 );
         $this->is_standard = ( $this->is_standard == 1 );
 
         if ( is_null( $this->emissions )
@@ -38,6 +46,7 @@ class Member extends Entity
         {
             $this->emissions = $this->getEmissions();
             $this->emissions_data = $this->getEmissionsData();
+            $this->offset_amount = (new Emissions)->price( $this->emissions );
         }
     }
 
@@ -97,6 +106,13 @@ class Member extends Entity
     static public function findByGroup( Group $group, $year )
     {
         $members = (new MemberModel)->fetchByGroupYear( $group->id, $year );
+
+        return self::hydrate( $members );
+    }
+
+    static public function findByUser( User $user )
+    {
+        $members = (new MemberModel)->fetchByUser( $user->id );
 
         return self::hydrate( $members );
     }

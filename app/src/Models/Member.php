@@ -14,8 +14,10 @@ class Member extends Model
     public $locale;
     public $user_id;
     public $group_id;
+    public $is_admin;
     public $emissions;
     public $created_on;
+    public $is_champion;
     public $is_standard;
     public $locale_percent;
 
@@ -39,6 +41,8 @@ class Member extends Model
         $val->required( 'user_id', 'User ID' )->numeric();
         $val->required( 'group_id', 'Group ID' )->nuermic();
         $val->optional( 'emissions', 'Emissions' )->digits();
+        $val->required( 'is_admin', 'Is Admin' )->isBetween( 0, 1 );
+        $val->required( 'is_champion', 'Is Champion' )->isBetween( 0, 1 );
         $val->required( 'is_standard', 'Is Standard' )->isBetween( 0, 1 );
         $val->required( 'locale_percent', 'Locale Percentage' )->isBetween( 1, 100 );
         $res = $val->validate( $data );
@@ -59,11 +63,33 @@ class Member extends Model
             ->select([
                 "members.*",
                 "users.name",
-                "users.id" => "user_id"
+                "users.id" => "user_id",
+                "groups.name" => "group_name",
+                "groups.type" => "group_type",
+                "groups.label" => "group_label"
             ])
             ->join( 'users', 'users.id', '=', 'members.user_id' )
+            ->join( 'groups', 'members.group_id', '=', 'groups.id' )
             ->where( 'group_id', '=', $groupId )
             ->where( 'year', '=', $year )
+            ->get();
+    }
+
+    public function fetchByUser( $userId )
+    {
+        return $this->qb()
+            ->table( $this->_table )
+            ->select([
+                "members.*",
+                "users.name",
+                "users.id" => "user_id",
+                "groups.name" => "group_name",
+                "groups.type" => "group_type",
+                "groups.label" => "group_label"
+            ])
+            ->join( 'users', 'users.id', '=', 'members.user_id' )
+            ->join( 'groups', 'members.group_id', '=', 'groups.id' )
+            ->where( 'users.id', '=', $userId )
             ->get();
     }
 }

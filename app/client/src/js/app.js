@@ -14,10 +14,12 @@
  *       routes, and loads the corresponding path to the Router method.
  *
  * This app exposes the following within the application:
+ *    URL           Page nagivation
  *    Const         Constants used in application
  *    Pages         Container for all pages/controllers
  *    Components    Container for all web components
  *    Router        Interface between page.js and the controllers
+ *    Message       Library for notifications and messages
  *
  * The vendor dependencies used are:
  *    Modernizr
@@ -26,10 +28,40 @@
 var Pages = {};
 var Components = {};
 var Const = {
+    title_stem: 'EarthBoost',
     url: {
         group: '/{name}',
+        logout: '/logout',
         dashboard: '/dashboard',
         group_year: '/{name}/{year}'
+    }
+};
+
+/**
+ * Go to a particular route.
+ */
+var URL = {
+    // Default method for navigating to a URL
+    goto: function () {
+        var args = Array.prototype.slice.call( arguments );
+        var filterFn = function ( a ) {
+            return a != undefined && a != null;
+        };
+
+        page( '/' + args.filter( filterFn ).join( '/' ) );
+    },
+    // Helpers
+    group: function ( name, year ) {
+        this.goto( name, year );
+    },
+    login: function () {
+        this.goto( 'login' );
+    },
+    logout: function () {
+        this.goto( 'logout' );
+    },
+    dashbord: function () {
+        this.goto( 'dashboard' );
     }
 };
 
@@ -58,3 +90,10 @@ String.prototype.capitalize = function () {
             return a.toUpperCase();
         });
 };
+
+/**
+ * Replace a number string with commas.
+ */
+String.prototype.numberCommas = function () {
+    return this.replace( /\B(?=(\d{3})+(?!\d))/g, ',' );
+}
