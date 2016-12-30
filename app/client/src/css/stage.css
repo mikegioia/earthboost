@@ -22,8 +22,8 @@ main {
     bottom: 0;
     z-index: 1;
     width: 100%;
-    overflow-y: auto;
     position: absolute;
+    overflow-y: hidden;
     background-color: #cce8da;
     height: calc(100vh - 5rem);
     background-repeat: no-repeat;
@@ -33,10 +33,6 @@ main {
     -moz-background-size: contain;
     -o-background-size: contain;
     background-size: contain;
-}
-
-.sans {
-    font-family: 'Alegreya Sans', Helvetica, Arial, sans-serif;
 }
 
 .loading {
@@ -49,15 +45,22 @@ main {
     text-align: center;
     margin-left: -10rem;
 }
-
 .loading i {
     color: #555;
     display: block;
     line-height: 1;
     font-size: 10rem;
 }
-
 .loading span {
     color: #8cd1ad;
     font-size: 2rem;
+}
+.sans {
+    font-family: 'Alegreya Sans', Helvetica, Arial, sans-serif;
+}
+.u-no-margin {
+    margin: 0 !important;
+}
+.u-push-left-one {
+    margin-left: 1rem;
 }

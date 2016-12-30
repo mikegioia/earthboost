@@ -1,0 +1,51 @@
+main form {
+    margin: 0;
+}
+main label {
+    color: #666;
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+main label > .label-body {
+    transform: translateY(0.1rem);
+}
+main input[type="text"],
+main input[type="number"] {
+    width: 100%;
+    outline: none;
+    display: block;
+    font-weight: 300;
+    font-size: 1.5rem;
+    box-sizing: border-box;
+    transition: border 0.3s;
+    border: 0.3rem solid #e9e9e9;
+    padding: 1.66rem 1rem 1.5rem;
+}
+main input[type="text"]:active,
+main input[type="text"]:focus,
+main input[type="number"]:active,
+main input[type="number"]:focus {
+    border: 0.3rem solid #85d2d8;
+}
+main input[type="submit"] {
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    background: #333;
+    font-size: 1.75rem;
+    line-height: 1.5rem;
+    padding: 1rem 1.5rem 1.125rem;
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+}
+main input[type="submit"]:hover,
+main input[type="submit"]:active {
+    background: #111;
+}
+main form p {
+    padding: 0;
+    margin-bottom: 1.5rem;
+}
+main form p:last-child {
+    margin-bottom: 0;
+}

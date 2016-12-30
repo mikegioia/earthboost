@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS `users`;
 DROP TABLE IF EXISTS `groups`;
 DROP TABLE IF EXISTS `events`;
 DROP TABLE IF EXISTS `members`;
+DROP TABLE IF EXISTS `answers`;
 DROP TABLE IF EXISTS `emissions`;
 
 -- Create all tables
@@ -51,6 +52,14 @@ CREATE TABLE IF NOT EXISTS `members` (
   `created_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+CREATE TABLE IF NOT EXISTS `answers` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `question_id` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `member_id` int(10) UNSIGNED NOT NULL,
+  `answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_on` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS `emissions` (
   `id` int(10) unsigned NOT NULL,
   `type_id` varchar(2) NOT NULL,
@@ -75,6 +84,9 @@ ALTER TABLE `events`
 ALTER TABLE `members`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`group_id`);
+ALTER TABLE `answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `group_id` (`member_id`);
 ALTER TABLE `emissions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`group_id`),
@@ -85,4 +97,5 @@ ALTER TABLE `users` MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 ALTER TABLE `groups` MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 ALTER TABLE `events` MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 ALTER TABLE `members` MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+ALTER TABLE `answers` MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;
 ALTER TABLE `emissions` MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;

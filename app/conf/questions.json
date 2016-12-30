@@ -1,51 +1,51 @@
 [
     {
-        "id": 1,
+        "id": "FT",
         "type": "radio",
         "label": "Have you or your %GROUP% taken any flights this year?",
         "choices": [
             {
                 "label": "Yes",
-                "goto": 2,
+                "goto": "FS",
             }, {
                 "label": "No",
-                "goto": 5
+                "goto": "CA"
             }
         ]
     }, {
-        "id": 2,
-        "goto": 3,
+        "id": "FS",
+        "goto": "FM",
         "type": "number",
         "emissions_key": "flights_short",
         "label": "How many short (less than 300 mi) round trip flights were taken?"
     }, {
-        "id": 3,
-        "goto": 4,
+        "id": "FM",
+        "goto": "FL",
         "type": "number",
         "emissions_key": "flights_medium",
         "label": "How many long (less than 2,300 mi) round trip flights were taken?"
     }, {
-        "id": 4,
-        "goto": 5,
+        "id": "FL",
+        "goto": "CA",
         "type": "number",
         "emissions_key": "flights_long",
         "label": "How many very far or international (more than 2,300 mi) round trip flights were taken?"
     }, {
-        "id": 5,
+        "id": "CA",
         "type": "radio",
         "label": "Have you or your %GROUP% used any cars (owned or rented) this year?",
         "choices": [
             {
                 "label": "Yes",
-                "goto": 6,
+                "goto": "CM",
             }, {
                 "label": "No",
-                "goto": 7
+                "goto": "TR"
             }
         ]
     }, {
-        "id": 6,
-        "goto": 7,
+        "id": "CM",
+        "goto": "TR",
         "type": "number",
         "emissions_key": "cars_miles",
         "label": "How many car miles per #SELECT# were driven?",
@@ -56,77 +56,83 @@
             "day": 365
         }
     }, {
-        "id": 7,
+        "id": "TR",
         "type": "radio",
         "label": "Have you or your %GROUP% taken any train trips this year?",
         "choices": [
             {
                 "label": "Yes",
-                "goto": 8,
+                "goto": "TS",
             }, {
                 "label": "No",
-                "goto": 11
+                "goto": "SU"
             }
         ]
     }, {
-        "id": 8,
-        "goto": 9,
+        "id": "TS",
+        "goto": "TM",
         "type": "number",
         "emissions_key": "trains_short",
         "label": "How many short (less than 200 mi) trips were taken?"
     }, {
-        "id": 9,
-        "goto": 10,
+        "id": "TM",
+        "goto": "TL",
         "type": "number",
         "emissions_key": "trains_medium",
         "label": "How many long (less than 500 mi) trips were taken?"
     }, {
-        "id": 10,
-        "goto": 11,
+        "id": "TL",
+        "goto": "SU",
         "type": "number",
         "emissions_key": "trains_long",
         "label": "How many very far or cross-country (more than 500 mi) trips were taken?"
     }, {
-        "id": 11,
+        "id": "SU",
         "type": "radio",
         "label": "Have you or your %GROUP% taken any subway trips this year?",
         "choices": [
             {
                 "label": "Yes",
-                "goto": 12,
+                "goto": "SS",
             }, {
                 "label": "No",
-                "goto": 14
+                "goto": "PC"
             }
         ]
     }, {
-        "id": 12,
-        "goto": 13,
+        "id": "SS",
+        "goto": "SL",
         "type": "number",
         "emissions_key": "subways_short",
         "label": "How many short (less than 2 mi) trips were taken?"
     }, {
-        "id": 13,
-        "goto": 14,
+        "id": "SL",
+        "goto": "PC",
         "type": "number",
         "emissions_key": "subways_long",
         "label": "How many long (> 2 mi) trips were taken?"
     }, {
-        "id": 14,
+        "id": "PC",
         "type": "radio",
-        "label": "Have you or your %GROUP% used any computers, or owned or rented any web servers?",
+        "label": "Have you or your %GROUP% owned or rented any web servers?",
         "choices": [
             {
                 "label": "Yes",
-                "goto": 15,
+                "goto": "WS",
             }, {
                 "label": "No",
-                "goto": 16
+                "goto": "OA"
             }
         ]
     }, {
-        "id": 15,
-        "goto": 16,
+        "id": "WS",
+        "goto": "OA",
+        "type": "number",
+        "emissions_key": "web_servers",
+        "label": "How many 'always on' web servers (or computers) were owned or rented?"
+    }, {
+        "id": "OA",
+        "goto": "HP",
         "type": "number",
         "emissions_key": "office_area",
         "label": "What is the square footage of all office space for the year?",
@@ -134,8 +140,8 @@
             "user"
         ]
     }, {
-        "id": 16,
-        "goto": 17,
+        "id": "HP",
+        "goto": "HA",
         "type": "number",
         "emissions_key": "home_people",
         "label": "How many people live in your home?",
@@ -143,8 +149,8 @@
             "group"
         ]
     }, {
-        "id": 17,
-        "goto": 18,
+        "id": "HA",
+        "goto": "EL",
         "type": "number",
         "emissions_key": "home_area",
         "label": "What is the square footage of your home?",
@@ -152,21 +158,21 @@
             "group"
         ]
     }, {
-        "id": 18,
+        "id": "EL",
         "type": "radio",
         "label": "Does your electricity come from a wind, solar, hydro, or another renewable source?",
         "choices": [
             {
                 "label": "Yes",
-                "goto": 20,
+                "goto": "FF",
             }, {
                 "label": "No",
-                "goto": 19
+                "goto": "EP"
             }
         ]
     }, {
-        "id": 19,
-        "goto": 20,
+        "id": "EP",
+        "goto": "FF",
         "type": "number",
         "emissions_key": "energy_power",
         "label": "What is the #SELECT# electrical usage (on average) in Kilowatt Hours?",
@@ -175,21 +181,22 @@
             "yearly": 1
         }
     }, {
-        "id": 20,
+        "id": "FF",
         "type": "radio",
         "label": "Is your home or office heated with Natural Gas or Coal?",
+        "hint": "If you see 'therms' on your heating or gas bill, then fill this out.",
         "choices": [
             {
                 "label": "Yes",
-                "goto": 21,
+                "goto": "EG",
             }, {
                 "label": "No",
-                "goto": 22
+                "goto": "OI"
             }
         ]
     }, {
-        "id": 21,
-        "goto": 22,
+        "id": "EG",
+        "goto": "OI",
         "type": "number",
         "emissions_key": "energy_gas",
         "label": "What is the #SELECT# gas or coal usage (on average) for heating in Therms?",
@@ -198,21 +205,21 @@
             "yearly": 1
         }
     }, {
-        "id": 22,
+        "id": "OI",
         "type": "radio",
         "label": "Is your home or office heated with Oil?",
         "choices": [
             {
                 "label": "Yes",
-                "goto": 23,
+                "goto": "EO",
             }, {
                 "label": "No",
-                "goto": 24
+                "goto": "PR"
             }
         ]
     }, {
-        "id": 23,
-        "goto": 24,
+        "id": "EO",
+        "goto": "PR",
         "type": "number",
         "emissions_key": "energy_oil",
         "label": "What is the #SELECT# heating oil (on average) in Gallons?",
@@ -221,21 +228,21 @@
             "yearly": 1
         }
     }, {
-        "id": 24,
+        "id": "PR",
         "type": "radio",
         "label": "Is your home or office heated with Propane?",
         "choices": [
             {
                 "label": "Yes",
-                "goto": 25,
+                "goto": "EP",
             }, {
                 "label": "No",
-                "goto": 26
+                "goto": "HD"
             }
         ]
     }, {
-        "id": 25,
-        "goto": 26,
+        "id": "EP",
+        "goto": "HD",
         "type": "number",
         "emissions_key": "energy_propane",
         "label": "What is the #SELECT# propane gas (on average) in Gallons?",
@@ -244,14 +251,14 @@
             "yearly": 1
         }
     }, {
-        "id": 26,
-        "goto": 27,
+        "id": "HD",
+        "goto": "MD",
         "type": "number",
         "emissions_key": "hotel_days",
         "label": "How many nights have you or your %GROUP% stayed at hotels?"
     }, {
-        "id": 27,
-        "goto": 28,
+        "id": "MD",
+        "goto": "WA",
         "type": "number",
         "emissions_key": "meat_days",
         "label": "About how many days per #SELECT# do you consume animal meat?",
@@ -261,7 +268,7 @@
             "year": 1
         }
     }, {
-        "id": 28,
+        "id": "WA",
         "type": "checkbox",
         "emissions_key": "waste",
         "label": "Choose all of the following waste reduction practices",

@@ -97,11 +97,14 @@ $app->get( '/login', 'controller:login' );
 $app->get( '/logout', 'controller:logout' );
 $app->post( '/signup', 'controller:signup' );
 $app->get( '/dashboard', 'controller:dashboard' );
-$app->get( '/{name}', 'controller:group' )
-    ->assert( 'name', REGEXP_ALPHA );
+$app->post( '/savemember/{name}/{year}', 'controller:saveMember' )
+    ->assert( 'name', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR );
 $app->get( '/{name}/{year}', 'controller:group' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
+$app->get( '/{name}', 'controller:group' )
+    ->assert( 'name', REGEXP_ALPHA );
 $app->get( '/{path}', 'controller:error' )
     ->assert( 'path', REGEXP_ANY );
 

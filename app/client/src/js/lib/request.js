@@ -26,6 +26,15 @@ var Request = (function ( Config, Const, Message ) {
         send( url, HTTP_GET, cb );
     }
 
+    function saveMember ( groupName, year, data, cb ) {
+        var url = Const.url.save_member.supplant({
+            year: year,
+            name: groupName
+        });
+
+        send( url, HTTP_POST, cb, data );
+    }
+
     /**
      * Loads a parameter from the context, with a default
      * if it's not found.
@@ -55,7 +64,7 @@ var Request = (function ( Config, Const, Message ) {
             url: Config.api_path + url,
             success: function ( r ) {
                 if ( handle( r ) ) {
-                    cb( r.data );
+                    typeof cb === 'function' && cb( r.data );
                 }
             },
             error: function ( e ) {
@@ -97,6 +106,7 @@ var Request = (function ( Config, Const, Message ) {
     return {
         param: param,
         group: group,
-        dashboard: dashboard
+        dashboard: dashboard,
+        saveMember: saveMember
     };
 }( Config, Const, Message ));

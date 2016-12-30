@@ -1,7 +1,7 @@
 /**
  * Notifications Component
  */
-Components.Notifications = (function ( DOM ) {
+Components.Notifications = (function ( DOM, Const ) {
 'use strict';
 // Returns a new instance
 return function ( $root ) {
@@ -22,8 +22,10 @@ return function ( $root ) {
      *   type: String
      *   message: String
      * }
+     * @param Bool expire
      */
-    function insert ( data ) {
+    function insert ( data, expire ) {
+        var timeout;
         var newNode = DOM.create( 'div', {
             classes: 'notification',
             html: DOM.render( tpl.notification, data ).html()
@@ -32,7 +34,14 @@ return function ( $root ) {
         DOM.append( newNode, $root );
         DOM.get( '.close', newNode ).onclick = function ( e ) {
             DOM.remove( newNode, $root );
+            timeout && clearTimeout( timeout );
         };
+
+        if ( expire === true ) {
+            timeout = setTimeout( function () {
+                DOM.remove( newNode, $root );
+            }, Const.expire_ms );
+        }
     }
 
     function closeAll () {
@@ -61,4 +70,4 @@ return function ( $root ) {
         insert: insert,
         closeAll: closeAll
     };
-}}( DOM ));
+}}( DOM, Const ));

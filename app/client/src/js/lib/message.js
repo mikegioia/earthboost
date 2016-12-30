@@ -4,7 +4,7 @@
  * This library can render messages to the DOM and display
  * full page error messages.
  */
-var Message = (function ( Components ) {
+var Message = (function ( DOM, Components ) {
     'use strict';
     // DOM container
     var $wrapper = DOM.get( '#notifications' );
@@ -25,7 +25,7 @@ var Message = (function ( Components ) {
     }
 
     function success ( message ) {
-        notify( SUCCESS, message );
+        notify( SUCCESS, message, true );
     }
 
     function warning ( message ) {
@@ -37,15 +37,12 @@ var Message = (function ( Components ) {
      * @param String type
      * @param String message
      */
-    function notify ( type, message ) {
-        if ( ! Notifications ) {
-             Notifications = new Components.Notifications( $wrapper );
-        }
-
-        Notifications.insert({
+    function notify ( type, message, expire ) {
+        expire = expire || false;
+        getComponent().insert({
             type: type,
             message: message
-        });
+        }, expire );
     }
 
     /**
@@ -54,11 +51,15 @@ var Message = (function ( Components ) {
      * @param String message
      */
     function halt ( code, message ) {
+        getComponent().halt( code, message );
+    }
+
+    function getComponent () {
         if ( ! Notifications ) {
-             Notifications = new Components.Notifications( $wrapper );
+            Notifications = new Components.Notifications( $wrapper );
         }
 
-        Notifications.halt( code, message );
+        return Notifications;
     }
 
     return {
@@ -68,4 +69,4 @@ var Message = (function ( Components ) {
         success: success,
         warning: warning
     };
-}( Components ));
+}( DOM, Components ));

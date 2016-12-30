@@ -1,4 +1,7 @@
 @media only screen and (max-width: 550px) {
+    main {
+        overflow-y: auto;
+    }
     section.group .members ol {
         max-height: none;
         overflow-y: visible;

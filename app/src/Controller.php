@@ -2,9 +2,11 @@
 
 namespace App;
 
-use Silex\Application
+use App\Entity
+  , Silex\Application
   , App\Entities\User
   , App\Entities\Group
+  , App\Entities\Member
   , Symfony\Component\HttpFoundation\Request
   , App\Exceptions\NotFound as NotFoundException
   , Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,7 +44,7 @@ class Controller
     /**
      * Records user info and redirects them to success message.
      */
-    public function signup()
+    public function signup( Request $request )
     {
     }
 
@@ -61,7 +63,7 @@ class Controller
     /**
      * Prepare all of the dashboard data for a group.
      */
-    public function group( $name, $year = "", Application $app )
+    public function group( $name, $year = "" )
     {
         // @TODO AUTH, STUBBED
         // THIS SHOULD USE A USER OBJECT IN THE SESSION
@@ -84,6 +86,44 @@ class Controller
         $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );
 
         return $this->respond( SUCCESS );
+    }
+
+    /**
+     * Saves a group member.
+     */
+    public function saveMember( $name, $year, Request $request )
+    {
+        $post = $request->request->all();
+        $id = get( $post, 'id', NULL );
+        $group = Group::loadByName( $name );
+        $months = get( $post, 'locale_months', 12 );
+        $params = [
+            'name' => get( $post, 'name' ),
+            'email' => get( $post, 'email' ),
+            'locale' => get( $post, 'locale' ),
+            'is_admin' => ( get( $post, 'is_admin' ) == 1 ) ? 1 : 0,
+            'locale_percent' => round( intval( $months ) / 12 * 100 ),
+            'is_champion' => ( get( $post, 'is_champion' ) == 1 ) ? 1 : 0
+        ];
+
+        if ( ! $group->exists() ) {
+            throw new NotFoundException( GROUP, $name );
+        }
+
+        $member = new Member( $id ?: NULL );
+        $member->save( $params );
+
+        $this->data[ 'member' ] = new Member(
+            $member->id, [
+                Entity::POPULATE_SQL => FALSE,
+                Member::POPULATE_FULL => TRUE
+            ]);
+        $this->messages[] = [
+            'type' => SUCCESS,
+            'message' => "New account successfully saved."
+        ];
+
+        return $this->group( $name, $year );
     }
 
     /**

@@ -116,24 +116,67 @@
                     {{/member}}
                     </div>
                 </div>
-                <div class="six columns">
-                    <div class="members">
-                        <h3 class="sans u-cf">
-                            <span>Members</span>
-                            <button>Add Person</button>
-                        </h3>
-                        <ol>
-                        {{#members}}
-                            <li>
-                                <span class="name">{{name}}</span>
-                                <span class="locale">({{locale}})</span>
-                                <span class="emissions">{{emissions}} <small>t</small></span>
-                            </li>
-                        {{/members}}
-                        </ol>
-                    </div>
+                <div class="six columns panel">
+                    {{> members}}
                 </div>
             </section>
+        </script>
+        <!-- Members List -->
+        <script id="members" type="text/template">
+            <div class="members">
+                <h3 class="sans u-cf">
+                    <span>Members</span>
+                    <button class="add-member">Add Person</button>
+                </h3>
+                <ol>
+                {{#members}}
+                    <li>
+                        <span class="name">{{name}}</span>
+                        <span class="locale">({{locale}})</span>
+                        <span class="emissions">{{emissions}} <small>t</small></span>
+                    </li>
+                {{/members}}
+                </ol>
+            </div>
+        </script>
+        <!-- Add New Member Form -->
+        <script id="add-member-form" type="text/template">
+            <div class="new-member-form">
+                <h3 class="sans u-cf">
+                    <span>Add a Person</span>
+                    <a class="cancel" href="javascript:;">
+                        <i class="icon-cross"></i>
+                    </a>
+                </h3>
+                <form method="post" action="" name="add-new-member">
+                    <label for="new-member-name">Name</label>
+                    <input class="u-full-width" name="name" placeholder="Full name&hellip;" type="text" id="new-member-name" value="{{name}}" required />
+                    <label for="new-member-email">Email</label>
+                    <input class="u-full-width" name="email" placeholder="Email address&hellip;" type="text" id="new-member-email" value="{{email}}" required />
+                    <div class="row">
+                        <div class="six columns">
+                            <label for="new-member-locale">Locale</label>
+                            <select class="u-full-width" name="locale" id="new-member-locale" required>
+                                <option>ASD</option>
+                            </select>
+                        </div>
+                        <div class="six columns">
+                            <label for="new-member-locale-months">Months of Year</label>
+                            <input class="u-full-width" name="locale_months" placeholder="1 to 12&hellip;" type="number" id="new-member-locale-months" value="{{locale_months}}" min="1" max="12" required />
+                        </div>
+                    </div>
+                    <label class="u-pull-right u-push-left-one">
+                        <input type="checkbox" name="is_admin" value="1"{{#is_admin}} checked{{/is_admin}} />
+                        <span class="label-body">Admin?</span>
+                    </label>
+                    <label class="u-pull-right">
+                        <input type="checkbox" name="is_champion" value="1"{{#is_champion}} checked{{/is_champion}} />
+                        <span class="label-body">Champion?</span>
+                    </label>
+                    <input type="hidden" value="{{id}}" name="id" />
+                    <button type="submit" class="u-no-margin button-primary">Save New Person</button>
+                </form>
+            </div>
         </script>
         <!-- Notification -->
         <script id="notification" type="text/template">

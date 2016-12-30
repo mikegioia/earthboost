@@ -58,18 +58,7 @@ class Member extends Model
 
     public function fetchByGroupYear( $groupId, $year )
     {
-        return $this->qb()
-            ->table( $this->_table )
-            ->select([
-                "members.*",
-                "users.name",
-                "users.id" => "user_id",
-                "groups.name" => "group_name",
-                "groups.type" => "group_type",
-                "groups.label" => "group_label"
-            ])
-            ->join( 'users', 'users.id', '=', 'members.user_id' )
-            ->join( 'groups', 'members.group_id', '=', 'groups.id' )
+        return $this->buildBaseQuery()
             ->where( 'group_id', '=', $groupId )
             ->where( 'year', '=', $year )
             ->get();
@@ -77,19 +66,32 @@ class Member extends Model
 
     public function fetchByUser( $userId )
     {
+        return $this->buildBaseQuery()
+            ->where( 'users.id', '=', $userId )
+            ->get();
+    }
+
+    public function getFullMember( $memberId )
+    {
+        return $this->buildBaseQuery()
+            ->where( 'members.id', '=', $memberId )
+            ->first();
+    }
+
+    private function buildBaseQuery()
+    {
         return $this->qb()
             ->table( $this->_table )
             ->select([
                 "members.*",
                 "users.name",
+                "users.email",
                 "users.id" => "user_id",
                 "groups.name" => "group_name",
                 "groups.type" => "group_type",
                 "groups.label" => "group_label"
             ])
             ->join( 'users', 'users.id', '=', 'members.user_id' )
-            ->join( 'groups', 'members.group_id', '=', 'groups.id' )
-            ->where( 'users.id', '=', $userId )
-            ->get();
+            ->join( 'groups', 'members.group_id', '=', 'groups.id' );
     }
 }

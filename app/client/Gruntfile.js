@@ -42,7 +42,10 @@ module.exports = function ( grunt ) {
                     // Bootstrap file
                     './src/js/app.js',
                     // Libraries
-                    './src/js/lib/**/*.js',
+                    './src/js/lib/dom.js',
+                    './src/js/lib/router.js',
+                    './src/js/lib/message.js',
+                    './src/js/lib/request.js',
                     // Controllers
                     './src/js/pages/**/*.js',
                     // Components
@@ -60,6 +63,7 @@ module.exports = function ( grunt ) {
                     './vendor/skeleton/css/normalize.css',
                     './vendor/skeleton/css/skeleton.css',
                     './src/css/fonts.css',
+                    './src/css/forms.css',
                     './src/css/header.css',
                     './src/css/buttons.css',
                     './src/css/notifications.css',

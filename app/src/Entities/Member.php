@@ -13,6 +13,7 @@ class Member extends Entity
     public $id;
     public $year;
     public $name;
+    public $email;
     public $locale;
     public $user_id;
     public $group_id;
@@ -24,6 +25,7 @@ class Member extends Entity
     public $is_champion;
     public $is_standard;
     public $offset_amount;
+    public $locale_months;
     public $locale_percent;
     // Loaded from the database
     public $emissions_data = [];
@@ -31,17 +33,30 @@ class Member extends Entity
     // Cached
     private $_rawEmissions;
 
+    protected $_modelClass = 'Member';
+
+    const POPULATE_FULL = 'populate_full';
     const POPULATE_EMISSIONS = 'populate_emissions';
 
     public function __construct( $id = NULL, $options = [] )
     {
         parent::__construct( $id, $options );
 
+        if ( is_numeric( $id )
+            && get( $options, self::POPULATE_FULL, FALSE ) === TRUE )
+        {
+            $this->populateArray( (new MemberModel)->getFullMember( $id ) );
+        }
+
         $this->is_admin = ( $this->is_admin == 1 );
         $this->is_champion = ( $this->is_champion == 1 );
         $this->is_standard = ( $this->is_standard == 1 );
+        $this->locale_months = ( $this->locale_percent )
+            ? round( $this->locale_percent * 12 / 100 )
+            : 12;
 
-        if ( is_null( $this->emissions )
+        if ( $this->exists()
+            && is_null( $this->emissions )
             && get( $options, self::POPULATE_EMISSIONS, TRUE ) === TRUE )
         {
             $this->emissions = $this->getEmissions();
@@ -101,6 +116,24 @@ class Member extends Entity
         $raw = $this->getRawEmissions();
 
         return (new Emissions( $raw ))->getEmissionsData();
+    }
+
+    /**
+     * Saves a new member. This will also add a new User account if
+     * the email doesn't exist.
+     * @param array $data
+     */
+    public function save( array $data = NULL )
+    {
+        $user = User::getByEmail( $data[ 'email' ] );
+        $user->save([
+            'name' => $data[ 'name' ],
+            'email' => $data[ 'email' ]
+        ]);
+
+        print_r($user);exit;
+
+        exit('asd');
     }
 
     static public function findByGroup( Group $group, $year )

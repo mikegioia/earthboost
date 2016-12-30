@@ -76,3 +76,18 @@ function camel_to_underscore( $string )
             )),
         '_' );
 }
+
+/**
+ * Returns the public object properties
+ */
+function get_public_vars( $object )
+{
+    $array = [];
+    $data = get_object_vars( $object );
+
+    foreach ( $data as $k => $v ) {
+        $array[ $k ] = $v;
+    }
+
+    return $array;
+}

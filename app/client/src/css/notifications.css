@@ -5,6 +5,7 @@ section.notifications {
     z-index: 3;
     position: fixed;
     max-width: 32rem;
+    min-width: 25rem;
 }
 
 section.notifications .notification {
@@ -14,8 +15,8 @@ section.notifications .notification {
 
 section.notifications .notification a.close {
     color: #fff;
-    top: 0.25rem;
-    right: 0.5rem;
+    top: 0.5rem;
+    right: 0.25rem;
     padding: 0 0.5rem;
     position: absolute;
     text-decoration: none;
@@ -23,6 +24,10 @@ section.notifications .notification a.close {
 
 section.notifications .notification .box {
     padding: 1rem 2rem 1rem 1.5rem;
+}
+
+section.notifications .notification .message {
+    line-height: 1.4;
 }
 
 section.notifications .notification .info {

@@ -83,21 +83,32 @@ var DOM = (function ( Const, Mustache ) {
     }
 
     /**
+     * Serializes a form into an object.
+     * @param Node form
+     * @return Object
+     */
+    function serialize ( form ) {
+        var data = {};
+        var formData = new FormData( form );
+
+        for ( var pair of formData.entries() ) {
+            data[ pair[ 0 ] ] = pair[ 1 ];
+        }
+
+        return data;
+    }
+
+    /**
      * Renders a Mustache template to a DOM node. This can return
      * an object with two function-properties. One is to get the
      * HTML string, and the other is to render to an element.
      * @param String template
      * @param Object data
-     * @param Node ctx Optional
+     * @param Object subTpl Sub-templates to pass to Mustache
      * @return Object or null
      */
-    function render ( tpl, data, ctx ) {
-        var html = Mustache.render( tpl, data );
-
-        if ( ctx ) {
-            ctx.innerHTML = html;
-            return;
-        }
+    function render ( tpl, data, subTpl ) {
+        var html = Mustache.render( tpl, data, subTpl || {} );
 
         return {
             html: function () {
@@ -127,6 +138,7 @@ var DOM = (function ( Const, Mustache ) {
         append: append,
         create: create,
         remove: remove,
-        render: render
+        render: render,
+        serialize: serialize
     };
 }( Const, Mustache ));

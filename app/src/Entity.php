@@ -8,8 +8,7 @@
  */
 namespace App;
 
-use App\Exception
-  , App\Exceptions\Validation as ValidationException;
+use App\Exceptions\Validation as ValidationException;
 
 abstract class Entity
 {
@@ -105,17 +104,22 @@ abstract class Entity
      * Saves the data to the entity in SQL.
      * @param array $data
      */
-    public function save( array $data )
+    public function save( array $data = NULL )
     {
         if ( !  $this->_modelClass ) {
-            throw new Exception( "Missing model class in Entity save()" );
+            throw new ValidationException(
+                "Missing model class in Entity save()" );
+        }
+
+        if ( $data ) {
+            $this->populateArray( $data );
         }
 
         $modelClass = "App\Models\\". $this->_modelClass;
         $model = new $modelClass([
             'id' => $this->id
         ]);
-        $data = array_map( 'trim', $data );
+        $data = array_map( 'trim', $this->toArray() );
         $sqlObject = $model->save( $data );
 
         if ( $sqlObject ) {
@@ -158,6 +162,14 @@ abstract class Entity
      */
     static public function hydrate( $rows )
     {
+        if ( ! $rows ) {
+            return;
+        }
+
+        if ( is_object( $rows ) ) {
+            return new static( $rows );
+        }
+
         $entities = [];
 
         foreach ( $rows as $row ) {

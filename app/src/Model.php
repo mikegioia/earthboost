@@ -135,17 +135,15 @@ class Model
      */
     public function save( array $data = [], array $options = [] )
     {
-        exit( 'todo' );
         $this->validate( $data );
-        $data = $this->quoteIdentifiers( $data );
 
-        if ( valid( $this->id ) ) {
-            $updated = $this->db( WRITE, FALSE )
-                ->update(
-                    $this->table,
-                    $data, [
-                        'id' => $this->id
-                    ]);
+        if ( valid( $this->id, INT ) ) {
+            $updated = $this->qb()
+                ->table( $this->_table )
+                ->where( 'id', $this->id )
+                ->update( $data );
+echo "update: ";
+            var_dump($updated);exit;
 
             // This appears to return 0 on update when it should return
             // the number of non-affected rows. Keep an eye on this, because
@@ -158,16 +156,18 @@ class Model
             }
         }
         else {
-            $inserted = $this->db( WRITE, FALSE )
-                ->insert( $this->table, $data );
-
-            if ( ! $inserted ) {
+            $inserted = $this->qb()
+                ->table( $this->_table )
+                ->insert( $data );
+echo "insert: ";
+var_dump($inserted);
+            if ( ! is_numeric( $inserted ) ) {
                 throw new DatabaseException(
                     "Failed to insert new row into database table ".
                     "{$this->table}." );
             }
 
-            $this->id = $this->db( WRITE, FALSE )->lastInsertId();
+            $this->id = $inserted;
         }
 
         return $this->getById( $this->id, $options );

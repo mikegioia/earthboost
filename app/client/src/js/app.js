@@ -28,12 +28,14 @@
 var Pages = {};
 var Components = {};
 var Const = {
+    expire_ms: 5000,
     title_stem: 'EarthBoost',
     url: {
         group: '/{name}',
         logout: '/logout',
         dashboard: '/dashboard',
-        group_year: '/{name}/{year}'
+        group_year: '/{name}/{year}',
+        save_member: '/savemember/{name}/{year}'
     }
 };
 
