@@ -136,7 +136,15 @@ return function ( $root ) {
      * @param Integer id
      */
     function removeMember ( id ) {
-        // @TODO PROMPT
+        var remove = confirm(
+            "Are you sure you want to remove this group member?" +
+            "Their data will not be lost, but you will need to " +
+            "re-add them by email to restore it." );
+
+        if ( ! remove ) {
+            return;
+        }
+
         Request.removeMember(
             data.group.name,
             data.year,
