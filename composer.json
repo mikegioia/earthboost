@@ -1,12 +1,18 @@
 {
     "name": "teachboost/earthboost",
     "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/mikegioia/pixie"
+        }
+    ],
     "require": {
         "silex/silex": "^2.0",
         "monolog/monolog": "^1.22",
         "particle/validator": "^2.0",
-        "usmanhalalit/pixie": "^2.0",
-        "wildbit/postmark-php": "^2.3"
+        "wildbit/postmark-php": "^2.3",
+        "usmanhalalit/pixie": "dev-2.x-insert-fixes"
     },
     "authors": [
         {

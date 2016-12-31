@@ -53,6 +53,7 @@ Pages.Group = (function ( Request, DOM, Components ) {
                     group: data.group,
                     groups: data.groups,
                     members: data.members,
+                    locales: data.locales,
                     emissions: data.emissions,
                     offset_amount: data.offset_amount
                 });

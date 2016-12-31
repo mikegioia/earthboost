@@ -100,6 +100,9 @@ $app->get( '/dashboard', 'controller:dashboard' );
 $app->post( '/savemember/{name}/{year}', 'controller:saveMember' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
+$app->post( '/removemember/{name}/{year}', 'controller:removeMember' )
+    ->assert( 'name', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR );
 $app->get( '/{name}/{year}', 'controller:group' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
@@ -124,15 +127,13 @@ Entity::setLocales( $app[ 'locales' ] );
 // then this will let the Symfony debug exception handler to take it.
 // See App\Log for more info.
 $app->error( function ( \Exception $e, Request $request, $code ) use ( $app ) {
-    // If we're in debug mode, let error handler get this
-    //if ( $app[ 'debug' ] ):
-    //    return NULL;
-    //endif;
-
     // For certain exceptions, get the code and message
     $code = ( method_exists( $e, 'getHttpCode' ) )
         ? $e->getHttpCode()
         : $code;
+    $code = ( intval( $code ) >= 200 )
+        ? $code
+        : 500;
     // Send back a 200 so that the app can handle them
     $responseCode = ( in_array( $code, [ 400, 401, 403, 404, 500 ] ) )
         ? 200
@@ -143,7 +144,10 @@ $app->error( function ( \Exception $e, Request $request, $code ) use ( $app ) {
         'data' => [],
         'status' => ERROR,
         'message' => $e->getMessage(),
-        'messages' => []
+        'messages' => [[
+            'type' => ERROR,
+            'message' => $e->getMessage()
+        ]]
     ], 200 );
 });
 

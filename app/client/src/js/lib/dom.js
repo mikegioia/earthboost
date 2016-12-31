@@ -89,11 +89,46 @@ var DOM = (function ( Const, Mustache ) {
      */
     function serialize ( form ) {
         var data = {};
-        var formData = new FormData( form );
+        var selector = 'input:not(:disabled), '
+            + 'textarea:not(:disabled), '
+            + 'select:not(:disabled)';
+        var checkedTypes = [ 'checkbox', 'radio' ];
+        var inputs = form.querySelectorAll( selector );
+        var skipTypes = [ 'file', 'reset', 'submit', 'button' ];
 
-        for ( var pair of formData.entries() ) {
-            data[ pair[ 0 ] ] = pair[ 1 ];
-        }
+        Array.prototype.slice.call( inputs ).forEach( function ( el ) {
+            var key = el.name;
+
+            // If an element has no name, of if it's an ignored type,
+            // or if it's not selected.
+            if ( ! key
+                || skipTypes.indexOf( el.type ) > -1
+                || ( checkedTypes.indexOf( el.type ) > -1 && ! el.checked ) )
+            {
+                return;
+            }
+
+            // Check if the field is an array []
+            if ( /\[\]$/.test( key ) ) {
+                key = key.slice( 0, -2 );
+
+                // If using array notation, go ahead and put the first
+                // value into an array.
+                if ( data[ key ] === undefined ) {
+                    data[ key ] = [];
+                }
+            }
+
+            if ( data[ key ] === undefined ) {
+                data[ key ] = el.value;
+            }
+            else if ( Object.prototype.toString.call( data[ key ] ) === '[object Array]' ) {
+                data[ key ].push( el.value );
+            }
+            else {
+                data[ key ] = [ data[ key ], el.value ];
+            }
+        });
 
         return data;
     }

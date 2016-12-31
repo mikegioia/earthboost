@@ -119,12 +119,33 @@ abstract class Entity
         $model = new $modelClass([
             'id' => $this->id
         ]);
-        $data = array_map( 'trim', $this->toArray() );
-        $sqlObject = $model->save( $data );
+
+        $sqlObject = $model->save( $this->toArray() );
 
         if ( $sqlObject ) {
             $this->populateArray( $sqlObject );
         }
+    }
+
+    public function remove( array $options = [] )
+    {
+        if ( !  $this->_modelClass ) {
+            throw new ValidationException(
+                "Missing model class in Entity save()" );
+        }
+
+        if ( ! $this->exists() ) {
+            return TRUE;
+        }
+
+        $modelClass = "App\Models\\". $this->_modelClass;
+        $model = new $modelClass([
+            'id' => $this->id
+        ]);
+
+        return $model->remove([
+            'id' => $this->id
+        ], $options );
     }
 
     /**

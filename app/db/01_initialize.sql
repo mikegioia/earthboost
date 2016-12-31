@@ -83,7 +83,9 @@ ALTER TABLE `events`
   ADD KEY `group_id` (`group_id`);
 ALTER TABLE `members`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `group_id` (`group_id`);
+  ADD KEY `group_id` (`group_id`),
+  ADD UNIQUE KEY `user_group_year_locale`
+    (`user_id`,`group_id`,`year`,`locale`);
 ALTER TABLE `answers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`member_id`);

@@ -69,6 +69,12 @@
 .icon-happy:before {
     content: "\263a";
 }
+.icon-sad:before {
+    content: "\2639";
+}
+.icon-cog:before {
+    content: "\e810";
+}
 .icon-star:before {
     content: "\2606";
 }
@@ -80,4 +86,7 @@
 }
 .icon-cross:before {
     content: "\2715";
+}
+.icon-trash:before {
+    content: "\1f5d1";
 }

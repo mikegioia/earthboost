@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6255c1f67ff698606ee07c0a8b790b0e",
-    "content-hash": "1f20498c9fc1585585797d367e88be27",
+    "hash": "bdc79d6073561b635e0ab276028b1be6",
+    "content-hash": "58331091b6e2b9b586bec98ae1715fcc",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -934,15 +934,15 @@
         },
         {
             "name": "usmanhalalit/pixie",
-            "version": "2.0.0",
+            "version": "dev-2.x-insert-fixes",
             "source": {
                 "type": "git",
-                "url": "https://github.com/usmanhalalit/pixie.git",
+                "url": "https://github.com/mikegioia/pixie.git",
                 "reference": "5820ef4f62c7be697767fd84830b7ad6fc057375"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/usmanhalalit/pixie/zipball/5820ef4f62c7be697767fd84830b7ad6fc057375",
+                "url": "https://api.github.com/repos/mikegioia/pixie/zipball/5820ef4f62c7be697767fd84830b7ad6fc057375",
                 "reference": "5820ef4f62c7be697767fd84830b7ad6fc057375",
                 "shasum": ""
             },
@@ -960,7 +960,6 @@
                     "Pixie": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -986,6 +985,9 @@
                 "sql",
                 "sqlite"
             ],
+            "support": {
+                "source": "https://github.com/mikegioia/pixie/tree/2.0.0"
+            },
             "time": "2016-04-08 10:58:01"
         },
         {
@@ -1073,7 +1075,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "usmanhalalit/pixie": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

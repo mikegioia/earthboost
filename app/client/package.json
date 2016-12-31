@@ -25,5 +25,8 @@
     "grunt-template": "^1.0.0",
     "grunt-wrap": "^0.3.0",
     "lodash": "^4.17.3"
+  },
+  "dependencies": {
+    "grunt-contrib-concat": "^1.0.1"
   }
 }

@@ -63,13 +63,15 @@ class Controller
     /**
      * Prepare all of the dashboard data for a group.
      */
-    public function group( $name, $year = "" )
+    public function group( $name, $year = "", Application $app )
     {
         // @TODO AUTH, STUBBED
         // THIS SHOULD USE A USER OBJECT IN THE SESSION
         $user = new User( 1 );
 
         $year = ( $year ) ?: date( "Y" );
+        // @TODO USE FACTORY
+        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
         $group = Group::loadByName( $name );
 
         if ( ! $group->exists() ) {
@@ -81,6 +83,7 @@ class Controller
         $this->data[ 'user' ] = $user;
         $this->data[ 'group' ] = $group;
         $this->data[ 'groups' ] = $user->getGroups();
+        $this->data[ 'locales' ] = $app[ 'locales' ];
         $this->data[ 'members' ] = $group->getMembers( $year );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );
         $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );
@@ -91,10 +94,12 @@ class Controller
     /**
      * Saves a group member.
      */
-    public function saveMember( $name, $year, Request $request )
+    public function saveMember( $name, $year, Request $request, Application $app )
     {
         $post = $request->request->all();
         $id = get( $post, 'id', NULL );
+        // @TODO USE FACTORY
+        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
         $group = Group::loadByName( $name );
         $months = get( $post, 'locale_months', 12 );
         $params = [
@@ -110,20 +115,45 @@ class Controller
             throw new NotFoundException( GROUP, $name );
         }
 
-        $member = new Member( $id ?: NULL );
-        $member->save( $params );
+        $member = new Member( $id ?: NULL, [
+            Member::POPULATE_EMISSIONS => FALSE
+        ]);
+        $member->saveToGroup( $params, $group, $year );
+        $member->buildProfile();
 
-        $this->data[ 'member' ] = new Member(
-            $member->id, [
-                Entity::POPULATE_SQL => FALSE,
-                Member::POPULATE_FULL => TRUE
-            ]);
+        $this->data[ 'member' ] = $member;
         $this->messages[] = [
             'type' => SUCCESS,
-            'message' => "New account successfully saved."
+            'message' => ( valid( $id, INT ) )
+                ? "Account info saved."
+                : "New account successfully saved."
         ];
 
-        return $this->group( $name, $year );
+        return $this->group( $name, $year, $app );
+    }
+
+    /**
+     * Removes a member.
+     */
+    public function removeMember( $name, $year, Request $request, Application $app )
+    {
+        $id = $request->request->get( 'id' );
+        $member = new Member( $id );
+        // @TODO USE FACTORY
+        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
+        $group = Group::loadByName( $name );
+
+        if ( ! $member->exists() ) {
+            throw new NotFoundException( MEMBER, $id );
+        }
+
+        $member->removeFromGroup();
+        $this->messages[] = [
+            'type' => SUCCESS,
+            'message' => "That person was removed from {$group->label}."
+        ];
+
+        return $this->group( $name, $year, $app );
     }
 
     /**

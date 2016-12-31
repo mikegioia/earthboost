@@ -206,13 +206,13 @@
         }
     },
     "UK": {
-        "LN": {
-            "mt": 5.1,
-            "name": "London"
-        },
         "LV": {
             "mt": 5.57,
             "name": "Liverpool"
+        },
+        "LN": {
+            "mt": 5.1,
+            "name": "London"
         }
     }
 }

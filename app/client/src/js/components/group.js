@@ -29,6 +29,7 @@ return function ( $root ) {
      *   group: Object
      *   groups: Array
      *   members: Array
+     *   locales: Object
      *   emissions: Float
      *   offset_amount: Float
      * }
@@ -38,6 +39,7 @@ return function ( $root ) {
         updateData( data );
         DOM.render( tpl.group, data, tpl ).to( $root );
         addButtonEvent();
+        memberActionEvents();
     }
 
     /**
@@ -68,9 +70,7 @@ return function ( $root ) {
             });
 
         // Pick out the user's record
-        data.member = data.members.filter( function ( member ) {
-            return member.user_id == data.user.id;
-        })[ 0 ];
+        data.member = findMember( data.user.id, 'user_id' );
     }
 
     /**
@@ -86,24 +86,72 @@ return function ( $root ) {
     }
 
     /**
-     * Renders the add a new user form to the DOM.
+     * Sets up an event listener for edit/remove members.
      */
-    function renderAddMemberForm () {
+    function memberActionEvents () {
+        var $panel = DOM.get( '.panel' );
+
+        $panel.addEventListener( 'click', function ( e ) {
+            var $target = e.target;
+
+            if ( $target.className === 'edit-member' ) {
+                renderAddMemberForm( null, findMember( $target.dataset.id ) );
+            }
+            else if ( $target.className === 'remove-member' ) {
+                removeMember( $target.dataset.id );
+            }
+        }, false );
+    }
+
+    /**
+     * Renders the add a new user form to the DOM.
+     * @param Event e
+     * @param Object member
+     */
+    function renderAddMemberForm ( e, member ) {
         var $panel = DOM.get( '.panel' );
 
         AddMemberForm = new Components.AddMemberForm( $panel );
         AddMemberForm.render(
+            // onCancel
             function () {
                 DOM.render( tpl.members, data ).to( $panel );
                 addButtonEvent();
             },
-            function ( data ) {
-                render( data );
-                // Reload the form
-                $addButton && $addButton.click();
+            // onSubmit
+            function ( responseData ) {
+                var m = responseData.member;
+                // Re-render the data and reload the form
+                render( responseData );
+                renderAddMemberForm( null, member ? m : undefined );
             },
             data.group.name,
-            data.year );
+            data.year,
+            data.locales,
+            member );
+    }
+
+    /**
+     * Removes a member from the group.
+     * @param Integer id
+     */
+    function removeMember ( id ) {
+        // @TODO PROMPT
+        Request.removeMember(
+            data.group.name,
+            data.year,
+            id,
+            function ( responseData ) {
+                render( responseData );
+            });
+    }
+
+    function findMember ( id, field ) {
+        field = field || 'id';
+
+        return data.members.filter( function ( member ) {
+            return member[ field ] == id;
+        })[ 0 ];
     }
 
     function tearDown () {

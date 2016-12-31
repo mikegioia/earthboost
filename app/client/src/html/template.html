@@ -134,6 +134,26 @@
                         <span class="name">{{name}}</span>
                         <span class="locale">({{locale}})</span>
                         <span class="emissions">{{emissions}} <small>t</small></span>
+                        <span class="questions">
+                            <i class="icon-sad"></i>
+                        </span>
+                        <a class="actions dropdown-toggle" href="javascript:;">
+                            <i class="icon-cog"></i>
+                        </a>
+                        <ul class="dropdown">
+                            <li>
+                                <a href="javascript:;" class="edit-member" data-id="{{id}}">
+                                    <i class="icon-edit"></i>
+                                    Edit Account
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" class="remove-member" data-id="{{id}}">
+                                    <i class="icon-trash"></i>
+                                    Remove from Group
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                 {{/members}}
                 </ol>
@@ -157,7 +177,13 @@
                         <div class="six columns">
                             <label for="new-member-locale">Locale</label>
                             <select class="u-full-width" name="locale" id="new-member-locale" required>
-                                <option>ASD</option>
+                            {{#locales}}
+                                <optgroup label="{{country}}">
+                                {{#regions}}
+                                    <option value="{{code}}"{{#selected}} selected="selected"{{/selected}}>{{region}}</option>
+                                {{/regions}}
+                                </optgroup>
+                            {{/locales}}
                             </select>
                         </div>
                         <div class="six columns">
@@ -165,11 +191,11 @@
                             <input class="u-full-width" name="locale_months" placeholder="1 to 12&hellip;" type="number" id="new-member-locale-months" value="{{locale_months}}" min="1" max="12" required />
                         </div>
                     </div>
-                    <label class="u-pull-right u-push-left-one">
+                    <label class="checkboxes u-pull-right u-push-left-two">
                         <input type="checkbox" name="is_admin" value="1"{{#is_admin}} checked{{/is_admin}} />
                         <span class="label-body">Admin?</span>
                     </label>
-                    <label class="u-pull-right">
+                    <label class="checkboxes u-pull-right">
                         <input type="checkbox" name="is_champion" value="1"{{#is_champion}} checked{{/is_champion}} />
                         <span class="label-body">Champion?</span>
                     </label>

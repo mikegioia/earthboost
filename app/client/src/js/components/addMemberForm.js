@@ -1,7 +1,7 @@
 /**
  * New Member Form Component
  */
-Components.AddMemberForm = (function ( DOM, Request ) {
+Components.AddMemberForm = (function ( DOM, Request, Const ) {
 'use strict';
 // Returns a new instance
 return function ( $root ) {
@@ -16,12 +16,14 @@ return function ( $root ) {
     // Internal storage
     var year;
     var onSave;
+    var locales;
     var onCancel;
     var groupName;
 
-    function render ( _onCancel, _onSave, _groupName, _year, member ) {
+    function render ( _onCancel, _onSave, _groupName, _year, _locales, member ) {
         year = _year;
         onSave = _onSave;
+        locales = _locales;
         onCancel = _onCancel;
         groupName = _groupName;
         member = member || {
@@ -34,6 +36,7 @@ return function ( $root ) {
             locale_months: 12
         };
 
+        member.locales = processLocales( locales, member.locale );
         DOM.render( tpl.addForm, member ).to( $root );
         DOM.get( 'input[name="name"]' ).focus();
         DOM.get( 'a.cancel' ).onclick = onCancel;
@@ -51,7 +54,55 @@ return function ( $root ) {
         return false;
     }
 
+    /**
+     * Creates a list of locales for a select menu.
+     * @param Object locales
+     * @param String selectedCode
+     * @return Object
+     */
+    function processLocales ( locales, selectedCode ) {
+        var country;
+        var flat = [];
+        var regionCode;
+        var localeCode;
+        var countryCode;
+
+        for ( countryCode in locales ) {
+            country = {
+                regions: [],
+                country: Const.countries[ countryCode ]
+            };
+
+            if ( ! Const.countries[ countryCode ] ) {
+                return;
+            }
+
+            for ( regionCode in locales[ countryCode ] ) {
+                localeCode = countryCode + '-' + regionCode;
+                country.regions.push({
+                    code: localeCode,
+                    selected: localeCode == selectedCode,
+                    region: locales[ countryCode ][ regionCode ][ 'name' ]
+                });
+            };
+
+            flat.push( country );
+        }
+
+        return flat;
+    }
+
+    function tearDown () {
+        year = null;
+        onSave = null;
+        locales = null;
+        onCancel = null;
+        $addForm = null;
+        groupName = null;
+    }
+
     return {
-        render: render
+        render: render,
+        tearDown: tearDown
     };
-}}( DOM, Request ));
+}}( DOM, Request, Const ));

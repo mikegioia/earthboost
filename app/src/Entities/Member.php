@@ -2,7 +2,8 @@
 
 namespace App\Entities;
 
-use App\Entity
+use App\Model
+  , App\Entity
   , App\Emissions
   , App\Entities\Group
   , App\Models\Member as MemberModel
@@ -45,12 +46,9 @@ class Member extends Entity
         if ( is_numeric( $id )
             && get( $options, self::POPULATE_FULL, FALSE ) === TRUE )
         {
-            $this->populateArray( (new MemberModel)->getFullMember( $id ) );
+            $this->buildProfile();
         }
 
-        $this->is_admin = ( $this->is_admin == 1 );
-        $this->is_champion = ( $this->is_champion == 1 );
-        $this->is_standard = ( $this->is_standard == 1 );
         $this->locale_months = ( $this->locale_percent )
             ? round( $this->locale_percent * 12 / 100 )
             : 12;
@@ -77,7 +75,7 @@ class Member extends Entity
 
         // If this is a "standard" calculation then use the
         // locale value.
-        if ( $this->is_standard ) {
+        if ( $this->is_standard == 1 ) {
             $locale = $this->getLocale( $this->locale );
 
             return ( $locale->mt * $this->locale_percent / 100 );
@@ -98,7 +96,7 @@ class Member extends Entity
             return $this->_rawEmissions;
         }
 
-        if ( ! $this->exists() || $this->is_standard ) {
+        if ( ! $this->exists() || $this->is_standard == 1 ) {
             return [];
         }
 
@@ -118,22 +116,63 @@ class Member extends Entity
         return (new Emissions( $raw ))->getEmissionsData();
     }
 
+    public function buildProfile()
+    {
+        if ( ! $this->exists() ) {
+            return;
+        }
+
+        $this->populateArray( (new MemberModel)->getFullMember( $this->id ) );
+    }
+
     /**
      * Saves a new member. This will also add a new User account if
      * the email doesn't exist.
      * @param array $data
+     * @param Group $group
+     * @param integer $year
      */
-    public function save( array $data = NULL )
+    public function saveToGroup( array $data, $group, $year )
     {
+        expects( $data )->toHave([
+            'name', 'email', 'locale', 'is_admin',
+            'is_champion', 'locale_percent'
+        ]);
+
+        // Find the user
         $user = User::getByEmail( $data[ 'email' ] );
         $user->save([
             'name' => $data[ 'name' ],
             'email' => $data[ 'email' ]
         ]);
 
-        print_r($user);exit;
+        // Create the new member association
+        $this->year = $year;
+        $this->user_id = $user->id;
+        $this->group_id = $group->id;
+        $this->populateArray( $data );
+        $this->is_admin = ( $data[ 'is_admin' ] == 1 ) ? 1 : 0;
+        $this->is_champion = ( $data[ 'is_champion' ] == 1 ) ? 1 : 0;
+        $this->is_standard = ( is_numeric( $this->is_standard ) )
+            ? $this->is_standard
+            : 1;
+        $this->save();
 
-        exit('asd');
+        // Clear this to reload the emissions/members
+        $group->clearCache();
+    }
+
+    /**
+     * Removes a member from the group.
+     * @param array $data
+     * @param Group $group
+     * @param integer $year
+     */
+    public function removeFromGroup()
+    {
+        $this->remove([
+            Model::OPTION_DELETE => TRUE
+        ]);
     }
 
     static public function findByGroup( Group $group, $year )

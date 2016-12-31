@@ -1,5 +1,7 @@
 <?php
 
+use App\Libraries\Expects;
+
 /**
  * Get a value from an object/array. Optionally you can
  * specify a default to return if the key isn't set. The
@@ -90,4 +92,12 @@ function get_public_vars( $object )
     }
 
     return $array;
+}
+
+/**
+ * Wrapper for Expects assertion library.
+ */
+function expects( $data )
+{
+    return new Expects( $data );
 }

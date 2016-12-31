@@ -30,12 +30,17 @@ var Components = {};
 var Const = {
     expire_ms: 5000,
     title_stem: 'EarthBoost',
+    countries: {
+        US: "United States",
+        UK: "United Kingdom"
+    },
     url: {
         group: '/{name}',
         logout: '/logout',
         dashboard: '/dashboard',
         group_year: '/{name}/{year}',
-        save_member: '/savemember/{name}/{year}'
+        save_member: '/savemember/{name}/{year}',
+        remove_member: '/removemember/{name}/{year}'
     }
 };
 

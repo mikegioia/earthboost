@@ -5,7 +5,7 @@ namespace App\Models;
 use DateTime
   , App\Model
   , Particle\Validator\Validator
-  , App\Exception\ValidationException;
+  , App\Exceptions\Validation as ValidationException;
 
 class Member extends Model
 {
@@ -30,21 +30,21 @@ class Member extends Model
             $data[ 'created_on' ] = (new DateTime)->format( DATE_SQL );
         }
 
-        return parent::save( $data, $options );
+        return parent::upsert( $data, $options );
     }
 
     public function validate( array $data )
     {
         $val = new Validator;
-        $val->required( 'year', 'Year' )->numeric();
+        $val->required( 'year', 'Year' )->integer();
         $val->required( 'locale', 'Locale' )->length( 5 );
-        $val->required( 'user_id', 'User ID' )->numeric();
-        $val->required( 'group_id', 'Group ID' )->nuermic();
-        $val->optional( 'emissions', 'Emissions' )->digits();
-        $val->required( 'is_admin', 'Is Admin' )->isBetween( 0, 1 );
-        $val->required( 'is_champion', 'Is Champion' )->isBetween( 0, 1 );
-        $val->required( 'is_standard', 'Is Standard' )->isBetween( 0, 1 );
-        $val->required( 'locale_percent', 'Locale Percentage' )->isBetween( 1, 100 );
+        $val->required( 'user_id', 'User ID' )->integer();
+        $val->required( 'group_id', 'Group ID' )->integer();
+        $val->optional( 'emissions', 'Emissions' )->numeric();
+        $val->required( 'is_admin', 'Is Admin' )->between( 0, 1 );
+        $val->required( 'is_champion', 'Is Champion' )->between( 0, 1 );
+        $val->required( 'is_standard', 'Is Standard' )->between( 0, 1 );
+        $val->required( 'locale_percent', 'Locale Percentage' )->between( 1, 100 );
         $res = $val->validate( $data );
 
         if ( ! $res->isValid() ) {
@@ -54,6 +54,9 @@ class Member extends Model
                     "There was a problem validating this member."
                 ));
         }
+
+        // Remove any optional fields that are NULL
+
     }
 
     public function fetchByGroupYear( $groupId, $year )

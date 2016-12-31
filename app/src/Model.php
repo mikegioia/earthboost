@@ -2,7 +2,9 @@
 
 namespace App;
 
-use Pixie\Connection as DatabaseConnection
+use Particle\Validator\ValidationResult
+  , Pixie\Connection as DatabaseConnection
+  , App\Exceptions\Database as DatabaseException
   , Pixie\QueryBuilder\QueryBuilderHandler as QueryBuilder;
 
 class Model
@@ -15,6 +17,7 @@ class Model
 
     const SORT_ASC = 'asc';
     const SORT_DESC = 'desc';
+    const OPTION_DELETE = 'delete';
 
     public function __construct( $data = [] )
     {
@@ -136,39 +139,53 @@ class Model
     public function save( array $data = [], array $options = [] )
     {
         $this->validate( $data );
+        $data = $this->stripInvalid( $data );
 
         if ( valid( $this->id, INT ) ) {
             $updated = $this->qb()
                 ->table( $this->_table )
                 ->where( 'id', $this->id )
                 ->update( $data );
-echo "update: ";
-            var_dump($updated);exit;
 
-            // This appears to return 0 on update when it should return
-            // the number of non-affected rows. Keep an eye on this, because
-            // it could be a DBAL bug, or we could be looking for a boolean
-            // false on error.
-            if ( ! is_numeric( $updated ) ) {
+            if ( ! is_numeric( $updated->rowCount() ) ) {
                 throw new DatabaseException(
                     "Failed to update row #{$this->id} in database ".
-                    "table {$this->table}." );
+                    "table {$this->_table}." );
             }
         }
         else {
             $inserted = $this->qb()
                 ->table( $this->_table )
                 ->insert( $data );
-echo "insert: ";
-var_dump($inserted);
+
             if ( ! is_numeric( $inserted ) ) {
                 throw new DatabaseException(
                     "Failed to insert new row into database table ".
-                    "{$this->table}." );
+                    "{$this->_table}." );
             }
 
             $this->id = $inserted;
         }
+
+        return $this->getById( $this->id, $options );
+    }
+
+    public function upsert( array $data = [], array $options = [] )
+    {
+        $this->validate( $data );
+        $data = $this->stripInvalid( $data );
+        $inserted = $this->qb()
+            ->table( $this->_table )
+            ->onDuplicateKeyUpdate( $data )
+            ->insert( $data );
+
+        if ( ! is_numeric( $inserted ) && ! is_null( $inserted ) ) {
+            throw new DatabaseException(
+                "Failed to upsert new row into database table ".
+                "{$this->_table}." );
+        }
+
+        $this->id = $inserted;
 
         return $this->getById( $this->id, $options );
     }
@@ -179,64 +196,35 @@ var_dump($inserted);
      * options with key 'delete' => TRUE.
      * @param array $params
      * @param array $options
+     * @throws DatabaseException
      * @return boolean
      */
     public function remove( array $params, array $options = [] )
     {
-        exit( 'todo' );
-        $qry = $this->db( WRITE );
-        $conn = $this->dbConn( WRITE );
+        $qry = $this->qb()->table( $this->_table );
 
         if ( ! $params || ! count( $params ) ) {
             throw new DatabaseException(
                 "Attempted to remove records with no search parameters!" );
         }
 
-        $this->applyParams( $params, $qry, $conn );
+        $this->applyParams( $params, $qry );
 
-        if ( get( $options, 'delete' ) === TRUE ) {
-            return $qry->delete( $this->table )->execute();
+        if ( get( $options, self::OPTION_DELETE ) === TRUE ) {
+            return $qry->delete();
         }
 
-        return $qry
-            ->update( $this->table )
-            ->set( 'is_deleted', 1 )
-            ->execute();
-    }
+        $updated = $qry->update([
+            'is_deleted' => 1
+        ]);
 
-    /**
-     * Applies updates to the table, using params as where clauses.
-     * @param array $params Where clauses
-     * @param array $changes Set statements
-     * @param array $options
-     * @return boolean
-     */
-    public function update( array $params, array $changes, array $options = [] )
-    {
-        exit( 'todo' );
-        $qry = $this->db( WRITE );
-        $conn = $this->dbConn( WRITE );
-
-        if ( ! $params || ! count( $params ) ) {
+        if ( ! is_numeric( $updated->rowCount() ) ) {
             throw new DatabaseException(
-                "Attempted to update records with no search parameters!" );
+                "Failed to mark deleted row #{$this->id} in database ".
+                "table {$this->_table}." );
         }
 
-        if ( ! $changes || ! count( $changes ) ) {
-            throw new DatabaseException(
-                "Attempted to update records with no changes!" );
-        }
-
-        $this->applyParams( $params, $qry, $conn );
-
-        foreach ( $changes as $key => $value ) {
-            $qry->set( $key, $conn->quote( $value ) );
-        }
-
-        $updated = $qry->update( $this->table )->execute();
-
-        // See comment in save()
-        return is_numeric( $updated );
+        return TRUE;
     }
 
     /**
@@ -267,6 +255,11 @@ var_dump($inserted);
      */
     public function validate( array $data ) {}
 
+    private function stripInvalid( array $data )
+    {
+        return array_intersect_key( $data, get_public_vars( $this ) );
+    }
+
     public function getErrorString( ValidationResult $result, $message )
     {
         $return = [];
@@ -280,8 +273,8 @@ var_dump($inserted);
             sprintf(
                 "%s\n\n%s",
                 $message,
-                implode( "\n", $return )
-            ));
+                implode( "\n", $return )),
+             ". \t\n\r\0\x0B" ) . ".";
     }
 
     /**

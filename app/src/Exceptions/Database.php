@@ -6,5 +6,12 @@ use App\Exception;
 
 class Database extends Exception
 {
-    private $httpCode = 412;
+    public $httpCode = 412;
+
+    public function __construct( $message = "" )
+    {
+        $message = ( $message ) ?: "Unknown database error.";
+
+        parent::__construct( $this->statusCode, $message );
+    }
 }

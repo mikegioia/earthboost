@@ -145,7 +145,7 @@ module.exports = function ( grunt ) {
     grunt.loadNpmTasks( 'grunt-contrib-uglify' );
     grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 
-    grunt.registerTask( 'build', [ 'concat', 'copy:main' ] );
+    grunt.registerTask( 'build', [ 'config', 'concat', 'copy:main' ] );
     grunt.registerTask( 'default', [ 'build', 'watch' ] );
     grunt.registerTask( 'dist', [ 'config:prod', 'build', 'uglify', 'copy:dist', 'wrap', 'html:prod' ])
     grunt.registerTask( 'printenv', function () {

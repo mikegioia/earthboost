@@ -5,7 +5,7 @@ namespace App\Models;
 use DateTime
   , App\Model
   , Particle\Validator\Validator
-  , App\Exception\ValidationException;
+  , App\Exceptions\Validation as ValidationException;
 
 class User extends Model
 {

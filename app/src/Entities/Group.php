@@ -119,4 +119,11 @@ class Group extends Entity
     {
         return (new Emissions)->price( $this->getEmissions( $year ) );
     }
+
+    public function clearCache()
+    {
+        $this->_members = NULL;
+        $this->_emissions = NULL;
+        $this->_rawEmissions = NULL;
+    }
 }

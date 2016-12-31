@@ -5,7 +5,7 @@ namespace App\Models;
 use DateTime
   , App\Model
   , Particle\Validator\Validator
-  , App\Exception\ValidationException;
+  , App\Exceptions\Validation as ValidationException;
 
 class Emissions extends Model
 {
@@ -33,12 +33,12 @@ class Emissions extends Model
     public function validate( array $data )
     {
         $val = new Validator;
-        $val->required( 'year', 'Year' )->numeric();
+        $val->required( 'year', 'Year' )->integer();
         $val->required( 'value', 'Value' )->digits();
-        $val->optional( 'user_id', 'User ID' )->numeric();
-        $val->required( 'group_id', 'Group ID' )->numeric();
+        $val->optional( 'user_id', 'User ID' )->integer();
+        $val->required( 'group_id', 'Group ID' )->integer();
         $val->required( 'type_id', 'Type ID' )->length( 2 );
-        $val->optional( 'event_id', 'Event ID' )->numeric();
+        $val->optional( 'event_id', 'Event ID' )->integer();
         $res = $val->validate( $data );
 
         if ( ! $res->isValid() ) {

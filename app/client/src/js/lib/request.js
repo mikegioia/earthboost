@@ -9,6 +9,9 @@ var Request = (function ( Config, Const, Message ) {
 
     var HTTP_GET = 'get';
     var HTTP_POST = 'post';
+    var STATUS_INFO = 'info';
+    var STATUS_ERROR = 'error';
+    var STATUS_SUCCESS = 'success';
 
     function dashboard ( cb ) {
         send( Const.url.dashboard, HTTP_GET, cb );
@@ -33,6 +36,17 @@ var Request = (function ( Config, Const, Message ) {
         });
 
         send( url, HTTP_POST, cb, data );
+    }
+
+    function removeMember ( groupName, year, id, cb ) {
+        var url = Const.url.remove_member.supplant({
+            year: year,
+            name: groupName
+        });
+
+        send( url, HTTP_POST, cb, {
+            id: id
+        });
     }
 
     /**
@@ -99,7 +113,7 @@ var Request = (function ( Config, Const, Message ) {
                 return false;
             case 200:
             default:
-                return true;
+                return r.status === STATUS_SUCCESS;
         }
     }
 
@@ -107,6 +121,7 @@ var Request = (function ( Config, Const, Message ) {
         param: param,
         group: group,
         dashboard: dashboard,
-        saveMember: saveMember
+        saveMember: saveMember,
+        removeMember: removeMember
     };
 }( Config, Const, Message ));

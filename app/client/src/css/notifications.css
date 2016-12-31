@@ -4,7 +4,7 @@ section.notifications {
     width: 40%;
     z-index: 3;
     position: fixed;
-    max-width: 32rem;
+    max-width: 35rem;
     min-width: 25rem;
 }
 
@@ -23,11 +23,12 @@ section.notifications .notification a.close {
 }
 
 section.notifications .notification .box {
-    padding: 1rem 2rem 1rem 1.5rem;
+    padding: 1rem 2.5rem 1rem 1.5rem;
 }
 
 section.notifications .notification .message {
     line-height: 1.4;
+    font-size: 1.75rem;
 }
 
 section.notifications .notification .info {
