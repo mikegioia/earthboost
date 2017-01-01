@@ -82,7 +82,7 @@
     "EP": {
         "metric": "kw/h",
         "key": "energy_power",
-        "label": "Kilowatts hours"
+        "label": "Kilowatt hours"
     },
     "EG": {
         "metric": "therms",

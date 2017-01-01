@@ -4,8 +4,8 @@ namespace App\Entities;
 
 use App\Model
   , App\Entity
-  , App\Emissions
   , App\Entities\Group
+  , App\Libraries\Emissions
   , App\Models\Member as MemberModel
   , App\Models\Emissions as EmissionsModel;
 

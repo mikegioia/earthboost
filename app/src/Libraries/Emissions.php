@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Libraries;
 
 /**
  * Calculates the emissions in metric tonnes and dollar

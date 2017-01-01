@@ -6,10 +6,13 @@
         "choices": [
             {
                 "label": "Yes",
-                "goto": "FS",
+                "goto": "FS"
             }, {
                 "label": "No",
-                "goto": "CA"
+                "goto": "CA",
+                "clear": [
+                    "FS", "FM", "FL"
+                ]
             }
         ]
     }, {
@@ -37,10 +40,13 @@
         "choices": [
             {
                 "label": "Yes",
-                "goto": "CM",
+                "goto": "CM"
             }, {
                 "label": "No",
-                "goto": "TR"
+                "goto": "TR",
+                "clear": [
+                    "CM"
+                ]
             }
         ]
     }, {
@@ -62,10 +68,13 @@
         "choices": [
             {
                 "label": "Yes",
-                "goto": "TS",
+                "goto": "TS"
             }, {
                 "label": "No",
-                "goto": "SU"
+                "goto": "SU",
+                "clear": [
+                    "TS", "TM", "TL"
+                ]
             }
         ]
     }, {
@@ -93,10 +102,13 @@
         "choices": [
             {
                 "label": "Yes",
-                "goto": "SS",
+                "goto": "SS"
             }, {
                 "label": "No",
-                "goto": "PC"
+                "goto": "PC",
+                "clear": [
+                    "SS", "SL"
+                ]
             }
         ]
     }, {
@@ -118,10 +130,13 @@
         "choices": [
             {
                 "label": "Yes",
-                "goto": "WS",
+                "goto": "WS"
             }, {
                 "label": "No",
-                "goto": "OA"
+                "goto": "OA",
+                "clear": [
+                    "WS"
+                ]
             }
         ]
     }, {
@@ -165,6 +180,9 @@
             {
                 "label": "Yes",
                 "goto": "FF",
+                "clear": [
+                    "EP"
+                ]
             }, {
                 "label": "No",
                 "goto": "EP"
@@ -188,10 +206,13 @@
         "choices": [
             {
                 "label": "Yes",
-                "goto": "EG",
+                "goto": "EG"
             }, {
                 "label": "No",
-                "goto": "OI"
+                "goto": "OI",
+                "clear": [
+                    "EG"
+                ]
             }
         ]
     }, {
@@ -211,10 +232,13 @@
         "choices": [
             {
                 "label": "Yes",
-                "goto": "EO",
+                "goto": "EO"
             }, {
                 "label": "No",
-                "goto": "PR"
+                "goto": "PR",
+                "clear": [
+                    "EO"
+                ]
             }
         ]
     }, {
@@ -234,10 +258,13 @@
         "choices": [
             {
                 "label": "Yes",
-                "goto": "EP",
+                "goto": "EP"
             }, {
                 "label": "No",
-                "goto": "HD"
+                "goto": "HD",
+                "clear": [
+                    "EP"
+                ]
             }
         ]
     }, {

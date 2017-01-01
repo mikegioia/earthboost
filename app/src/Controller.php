@@ -84,6 +84,7 @@ class Controller
         $this->data[ 'group' ] = $group;
         $this->data[ 'groups' ] = $user->getGroups();
         $this->data[ 'locales' ] = $app[ 'locales' ];
+        $this->data[ 'questions' ] = $app[ 'questions' ];
         $this->data[ 'members' ] = $group->getMembers( $year );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );
         $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );

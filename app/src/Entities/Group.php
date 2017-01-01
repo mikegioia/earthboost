@@ -3,8 +3,8 @@
 namespace App\Entities;
 
 use App\Entity
-  , App\Emissions
   , App\Entities\Member
+  , App\Libraries\Emissions
   , App\Models\Group as GroupModel
   , App\Models\Emissions as EmissionsModel;
 
