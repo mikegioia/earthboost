@@ -53,10 +53,14 @@ CREATE TABLE IF NOT EXISTS `members` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `answers` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL,
   `question_id` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  `member_id` int(10) UNSIGNED NOT NULL,
+  `group_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `event_id` int(10) unsigned DEFAULT NULL,
+  `year` smallint(5) unsigned NOT NULL,
   `answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `select` varchar(20) CHARACTER SET utf32 COLLATE utf32_unicode_ci DEFAULT NULL,
   `created_on` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -88,7 +92,7 @@ ALTER TABLE `members`
     (`user_id`,`group_id`,`year`,`locale`);
 ALTER TABLE `answers`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `group_id` (`member_id`);
+  ADD KEY `group_id` (`group_id`);
 ALTER TABLE `emissions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `group_id` (`group_id`),
