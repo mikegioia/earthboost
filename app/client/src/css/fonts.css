@@ -63,6 +63,9 @@
     -webkit-font-smoothing: antialiased;
 }
 
+.icon-lightbulb:before {
+    content: "\2600";
+}
 .icon-edit:before {
     content: "\270e";
 }
@@ -72,8 +75,14 @@
 .icon-sad:before {
     content: "\2639";
 }
+.icon-home:before {
+    content: "\27f0";
+}
 .icon-cog:before {
-    content: "\e810";
+    content: "\2699";
+}
+.icon-trash:before {
+    content: "\1f5d1";
 }
 .icon-star:before {
     content: "\2606";
@@ -84,9 +93,9 @@
 .icon-logout:before {
     content: "\2326";
 }
+.icon-train:before {
+    content: "\2708";
+}
 .icon-cross:before {
     content: "\2715";
-}
-.icon-trash:before {
-    content: "\1f5d1";
 }

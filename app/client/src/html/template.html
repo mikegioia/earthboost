@@ -11,15 +11,15 @@
         <!-- Place favicon.ico in the root directory -->
 
     <% if ( use_minified === true ) { %>
-        <link rel="stylesheet" href="css/earthboost.min.css">
+        <link rel="stylesheet" href="/css/earthboost.min.css">
     <% } else { %>
-        <link rel="stylesheet" href="css/earthboost.css">
+        <link rel="stylesheet" href="/css/earthboost.css">
     <% } %>
     </head>
     <body>
         <header class="row">
             <section class="logo one-half column u-cf">
-                <img src="images/organic.svg">
+                <img src="/images/organic.svg">
                 <h3>EarthBoost</h3>
             </section>
             <nav class="one-half column"></nav>
@@ -33,12 +33,19 @@
         <section id="notifications" class="notifications"></section>
         <!-- Navigation -->
         <script id="nav" type="text/template">
+        {{#showGroupSelect}}
             <select name="group">
             {{#groups}}
                 <option value="{{group_name}}"{{#selected}} selected="selected"{{/selected}}>{{group_label}}</option>
             {{/groups}}
             </select>
-            <button class="logout">Logout</button>
+        {{/showGroupSelect}}
+        {{#showLogout}}
+            <a class="button" href="/logout">Logout</a>
+        {{/showLogout}}
+        {{#showCancel}}
+            <a class="button" href="/{{groupName}}/{{year}}">Save and Close</a>
+        {{/showCancel}}
         </script>
         <!-- Dashboard -->
         <script id="dashboard" type="text/template">
@@ -204,6 +211,112 @@
                 </form>
             </div>
         </script>
+        <!-- Carbon Calculator -->
+        <script id="questions" type="text/template">
+            <section class="questions row">
+            {{#question.show_intro}}
+                <div class="intro">
+                    <div class="progress">
+                        <div class="progress-bar" style="width:{{question.progress}}%;"></div>
+                    </div>
+                    <h2>Carbon Calculator</h2>
+                    <div class="steps">
+                    {{#question.groups}}
+                        <div class="group u-cf">
+                            <span class="name u-pull-left">
+                                <i class="icon-{{icon}}"></i>
+                                {{name}}
+                            </span>
+                            <span class="totals u-pull-right">{{answered}} / {{total}}</span>
+                        </div>
+                    {{/question.groups}}
+                    </div>
+                    <div class="hint">
+                        This takes about 5 to 10 minutes to complete. You will need a copy of
+                        your electric bill and your heating bill.
+                    </div>
+                    <div class="controls">
+                    {{#question.answer_count}}
+                        <a class="button button-primary" href="{{url_stem}}/{{question.goto}}">Resume</a>
+                        <div class="restart">
+                            <a class="link" href="{{url_stem}}/{{question.start_id}}">Start from beginning</a>
+                        </div>
+                    {{/question.answer_count}}
+                    {{^question.answer_count}}
+                        <a class="button button-primary" href="{{url_stem}}/{{question.start_id}}">Start</a>
+                    {{/question.answer_count}}
+                    </div>
+                </div>
+            {{/question.show_intro}}
+            {{^question.show_intro}}
+                <div class="five columns">
+                    <div class="summary">
+                        <div class="group-label">{{group.label}}</div>
+                        <div class="emissions">
+                            {{emissions}} <small>t CO<sub>2</sub>e</small>
+                        </div>
+                        <div class="offset-amount">
+                            ${{offset_amount}} to offset
+                        </div>
+                    </div>
+                </div>
+                <div class="seven columns panel">
+                    {{> question}}
+                </div>
+            {{/question.show_intro}}
+            </section>
+        </script>
+        <!-- Question -->
+        <script id="question" type="text/template">
+            <div class="question">
+                <form action="" method="GET" name="question" data-type="{{question.type}}">
+                    <h3 class="sans u-cf">
+                        <span class="text">{{question.group}}:</span>
+                        <span class="text u-push-left-one">{{question.index}} <small>of</small> {{question.total}}</span>
+                        <span class="progress" style="width:{{question.progress}}%"></span>
+                    </h3>
+                    <div class="form">
+                        <label class="label">{{question.label}}</label>
+                    {{#question.radio}}
+                        {{#question.choices}}
+                        <label class="radio-label">
+                            <input type="radio" name="answer" value="{{value}}" data-goto="{{goto}}" {{#selected}} checked="checked"{{/selected}} required>
+                            <span>{{label}}</span>
+                        </label>
+                        {{/question.choices}}
+                    {{/question.radio}}
+                    {{#question.checkbox}}
+                        {{#question.choices}}
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="{{name}}" value="{{value}}">
+                            <span>{{label}}</span>
+                        </label>
+                        {{/question.choices}}
+                    {{/question.checkbox}}
+                    {{#question.number}}
+                        <input class="input" name="answer" type="number" id="answer" value="{{question.value}}" min="0" data-goto="{{question.goto}}" required />
+                        <span class="suffix">{{question.input_suffix}}</span>
+                        {{#question.select.length}}
+                        <span class="per">per</span>
+                        <select name="select">
+                            {{#question.select}}
+                            <option value="{{value}}"{{#selected}} selected="selected"{{/selected}}>{{label}}</option>
+                            {{/question.select}}
+                        </select>
+                        {{/question.select.length}}
+                    {{/question.number}}
+                    {{#question.hint}}
+                        <div class="hint">{{question.hint}}</div>
+                    {{/question.hint}}
+                        <input type="hidden" name="id" value="{{question.id}}" />
+                    </div>
+                    <div class="controls u-cf">
+                        <button class="back u-pull-left">Back</a>
+                        <button class="next button-primary u-pull-right">Next</button>
+                    </div>
+                </form>
+            </div>
+        </script>
         <!-- Notification -->
         <script id="notification" type="text/template">
             <div class="box {{type}}">
@@ -222,9 +335,9 @@
         </script>
         <!-- Application -->
     <% if ( use_minified === true ) { %>
-        <script src="js/earthboost.min.js"></script>
+        <script src="/js/earthboost.min.js"></script>
     <% } else { %>
-        <script src="js/earthboost.js"></script>
+        <script src="/js/earthboost.js"></script>
     <% } %>
     </body>
 </html>

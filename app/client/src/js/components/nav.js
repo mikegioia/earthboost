@@ -37,9 +37,26 @@ return function ( $root ) {
             group.selected = ( group.group_name == groupName );
         });
 
+        data.showLogout = true;
+        data.showGroupSelect = true;
         DOM.render( tpl.nav, data ).to( $root );
         $select = DOM.get( 'select', $root );
         $select.onchange = switchGroup;
+    }
+
+    /**
+     * Load the <nav> element with a cancel button.
+     * @param String groupName
+     * @param String year
+     */
+    function renderCalculator ( groupName, year ) {
+        var data = {
+            year: year,
+            showCancel: true,
+            groupName: groupName
+        };
+
+        DOM.render( tpl.nav, data ).to( $root );
     }
 
     function tearDown () {
@@ -61,6 +78,7 @@ return function ( $root ) {
 
     return {
         render: render,
-        tearDown: tearDown
+        tearDown: tearDown,
+        renderCalculator: renderCalculator
     };
 }}( DOM, URL ));

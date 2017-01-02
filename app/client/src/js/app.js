@@ -20,6 +20,7 @@
  *    Components    Container for all web components
  *    Router        Interface between page.js and the controllers
  *    Message       Library for notifications and messages
+ *    Calculator    Library for the Carbon Calculator
  *
  * The vendor dependencies used are:
  *    Modernizr
@@ -39,8 +40,10 @@ var Const = {
         logout: '/logout',
         dashboard: '/dashboard',
         group_year: '/{name}/{year}',
+        questions: '/questions/{name}/{year}',
         save_member: '/savemember/{name}/{year}',
-        remove_member: '/removemember/{name}/{year}'
+        remove_member: '/removemember/{name}/{year}',
+        questions_user: '/questions/{name}/{year}/{userid}'
     }
 };
 

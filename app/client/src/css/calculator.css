@@ -1,0 +1,207 @@
+main.calculator {
+    background: #85d2d8;
+}
+section.questions {
+    padding: 2rem;
+}
+
+/* Intro */
+section.questions .intro {
+    width: 60%;
+    margin: 0 auto;
+    background: #fff;
+    max-width: 45rem;
+    position: relative;
+    padding: 2rem 1.5rem 1.5rem;
+    box-shadow: 4px 4px 0 rgba(83, 176, 183, 0.33);
+}
+section.questions .intro h2 {
+    font-weight: 300;
+    text-align: center;
+    margin: 0 0 2rem 0;
+}
+section.questions .intro .progress {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1rem;
+    background: #eee;
+    position: absolute;
+}
+section.questions .intro .progress-bar {
+    height: 100%;
+    background: #f1dc2b;
+}
+section.questions .intro .steps {
+    padding-left: 1rem;
+    margin-bottom: 3rem;
+}
+section.questions .intro .group {
+    width: 23rem;
+    font-size: 1.75rem;
+    padding-left: 2rem;
+    position: relative;
+    margin: 0 auto 0.5rem;
+}
+section.questions .intro .group i {
+    left: -1rem;
+    width: 2rem;
+    top: 0.33rem;
+    display: block;
+    font-size: 2rem;
+    position: absolute;
+    text-align: center;
+}
+section.questions .intro .hint {
+    color: #666;
+    margin: 0 0 2rem;
+    text-align: center;
+}
+section.questions .intro .controls {
+    text-align: center;
+}
+section.questions .intro .controls .restart {
+    margin-top: 0.75rem;
+}
+section.questions .intro .controls .button {
+    margin: 0;
+    height: 3.8rem;
+    font-size: 2rem;
+    padding: 0.44rem 1.2rem;
+}
+
+/* Questions */
+section.questions .summary {
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    background-color: #fff;
+    box-shadow: 4px 4px 0 rgba(83, 176, 183, 0.33);
+}
+section.questions .summary .group-label {
+    font-size: 2.5rem;
+}
+section.questions .summary .emissions {
+    line-height: 1;
+    display: block;
+    overflow: hidden;
+    font-size: 7.5rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+section.questions .summary .emissions small {
+    color: #aaa;
+    font-size: 2rem;
+}
+section.questions .summary .offset-amount {
+    color: #aaa;
+    font-size: 2rem;
+}
+section.questions .question {
+    min-height: 22rem;
+    position: relative;
+    padding-bottom: 4rem;
+    background-color: #ffffd2;
+    box-shadow: 4px 4px 0 rgba(83, 176, 183, 0.33);
+}
+section.questions .question h3 {
+    width: 100%;
+    color: #828217;
+    font-size: 2rem;
+    font-weight: 200;
+    line-height: 1.5;
+    position: relative;
+    background: #f3f37e;
+    box-sizing: border-box;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+}
+section.questions .question h3 small {
+    color: #b1b12f;
+    margin: 0 0.2rem;
+    font-size: 1.33rem;
+}
+section.questions .question h3 button {
+    margin: 0;
+    float: right;
+}
+section.questions .question h3 .text {
+    z-index: 2;
+    position: relative;
+}
+section.questions .question h3 .progress {
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 4rem;
+    position: absolute;
+    background-color: #f1dc2b;
+}
+section.questions .question .form {
+    margin: 0;
+    padding: 1rem;
+    overflow-y: auto;
+    list-style-position: inside;
+    max-height: calc(100vh - 13rem);
+}
+section.questions .question .form label {
+    color: #444;
+    display: block;
+    font-weight: 400;
+    margin-bottom: 0;
+    font-size: 1.8rem;
+}
+section.questions .question .form label.label {
+    line-height: 1.5;
+    margin-bottom: 2rem;
+}
+section.questions .question .form .radio-label,
+section.questions .question .form .checkbox-label {
+    margin-left: 1rem;
+}
+section.questions .question .form .radio-label span,
+section.questions .question .form .checkbox-label span {
+    margin-left: 0.5rem;
+    display: inline-block;
+    transform: translateY(0.15rem);
+}
+section.questions .question .form h4 {
+    color: #999;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+section.questions .question .form .input {
+    width: 10rem;
+    height: 4rem;
+    font-size: 2rem;
+    margin-bottom: 0;
+    line-height: 1rem;
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+}
+section.questions .question .form select {
+    margin-bottom: 0;
+    margin-left: 0.25rem;
+}
+section.questions .question .controls {
+    bottom: 0;
+    width: 100%;
+    padding: 1rem;
+    position: absolute;
+    box-sizing: border-box;
+}
+section.questions .question .controls button,
+section.questions .question .controls .button {
+    margin: 0;
+    height: 3.8rem;
+    font-size: 2rem;
+    padding: 0.44rem 1.2rem;
+}
+section.questions .question .hint {
+    color: #bbbb80;
+    font-size: 1.33rem;
+    margin: 1rem 0 2rem;
+}
+section.questions .question .hint:hover {
+    color: #828217;
+}

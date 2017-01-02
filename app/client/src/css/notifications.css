@@ -56,10 +56,11 @@ section.error {
 }
 
 section.error h2 {
-    font-weight: 300;
     margin: 1rem 0;
+    font-size: 6rem;
+    font-weight: 400;
 }
 
 section.error p {
-    font-size: 2rem;
+    font-size: 3rem;
 }

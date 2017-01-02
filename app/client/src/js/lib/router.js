@@ -13,11 +13,13 @@ var Router = (function ( Pages ) {
     // Controller keys
     var controllers = {
         GROUP: 'group',
-        DASHBOARD: 'dashboard'
+        DASHBOARD: 'dashboard',
+        QUESTIONS: 'questions'
     };
     // Route handlers
     var Group = {};
     var Dashboard = {};
+    var Questions = {};
 
     /**
      * Dashboard page.
@@ -35,6 +37,15 @@ var Router = (function ( Pages ) {
     Group.view = function ( ctx, next ) {
         load( controllers.GROUP ).view( ctx, next );
     };
+
+    /**
+     * Load the questions form.
+     * @route /questions/{group}/{year}
+     * @route /questions/{group}/{year}/{userid}
+     */
+    Questions.view = function ( ctx, next ) {
+        load( controllers.QUESTIONS ).view( ctx, next );
+    }
 
     /**
      * Loads a controller at the specified key. This will call
@@ -94,6 +105,7 @@ var Router = (function ( Pages ) {
 
     return {
         Group: Group,
-        Dashboard: Dashboard
+        Dashboard: Dashboard,
+        Questions: Questions
     };
 }( Pages ));

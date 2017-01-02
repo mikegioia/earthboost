@@ -7,7 +7,9 @@ use App\Entity
   , App\Entities\User
   , App\Entities\Group
   , App\Entities\Member
+  , App\Entities\Answer
   , Symfony\Component\HttpFoundation\Request
+  , App\Exceptions\NoMember as NoMemberException
   , App\Exceptions\NotFound as NotFoundException
   , Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -84,7 +86,6 @@ class Controller
         $this->data[ 'group' ] = $group;
         $this->data[ 'groups' ] = $user->getGroups();
         $this->data[ 'locales' ] = $app[ 'locales' ];
-        $this->data[ 'questions' ] = $app[ 'questions' ];
         $this->data[ 'members' ] = $group->getMembers( $year );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );
         $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );
@@ -144,17 +145,53 @@ class Controller
         // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
         $group = Group::loadByName( $name );
 
+        if ( ! $group->exists() ) {
+            throw new NotFoundException( GROUP, $name );
+        }
+
         if ( ! $member->exists() ) {
             throw new NotFoundException( MEMBER, $id );
         }
 
         $member->removeFromGroup();
+
         $this->messages[] = [
             'type' => SUCCESS,
             'message' => "That person was removed from {$group->label}."
         ];
 
         return $this->group( $name, $year, $app );
+    }
+
+    public function questions( $name, $year, $userId = NULL, Application $app )
+    {
+        // @TODO USE FACTORY
+        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
+        $user = new User( $userId );
+        $group = Group::loadByName( $name );
+
+        if ( ! valid( $userId, INT ) && $user->exists() ) {
+            throw new NotFoundException( USER, $userId );
+        }
+
+        if ( ! $group->exists() ) {
+            throw new NotFoundException( GROUP, $name );
+        }
+
+        if ( $user->exists() && ! $user->isMemberOf( $group ) ) {
+            throw new NoMemberException( $user, $group );
+        }
+
+        $this->data[ 'year' ] = $year;
+        $this->data[ 'user' ] = $user;
+        $this->data[ 'group' ] = $group;
+        $this->data[ 'questions' ] = $app[ 'questions' ];
+        $this->data[ 'mode' ] = ( $user->exists() ) ? USER : GROUP;
+        $this->data[ 'answers' ] = Answer::findByGroup( $group, $year );
+        $this->data[ 'emissions' ] = $group->getEmissions( $year, FALSE );
+        $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );
+
+        return $this->respond( SUCCESS );
     }
 
     /**

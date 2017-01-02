@@ -2,14 +2,16 @@
     main {
         overflow-y: auto;
     }
-    section.group .members ol {
+    section.group .members ol,
+    section.questions .question .form {
         max-height: none;
         overflow-y: visible;
     }
 }
 
 @media only screen and (min-width: 920px) {
-    section.group .summary {
+    section.group .summary,
+    section.questions .summary {
         display: inline-block;
         padding: 1rem 5rem 1rem 1.5rem;
     }

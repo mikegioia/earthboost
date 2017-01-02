@@ -29,6 +29,19 @@ var Request = (function ( Config, Const, Message ) {
         send( url, HTTP_GET, cb );
     }
 
+    function questions ( name, year, userId, cb ) {
+        var o = {
+            name: name,
+            year: year,
+            userid: userId
+        };
+        var url = ( userId )
+            ? Const.url.questions_user.supplant( o )
+            : Const.url.questions.supplant( o );
+
+        send( url, HTTP_GET, cb );
+    }
+
     function saveMember ( groupName, year, data, cb ) {
         var url = Const.url.save_member.supplant({
             year: year,
@@ -94,13 +107,6 @@ var Request = (function ( Config, Const, Message ) {
      * @return Bool
      */
     function handle( r ) {
-        // Render any notifications
-        if ( r.messages && r.messages.length ) {
-            r.messages.forEach( function ( m ) {
-                Message[ m.type ]( m.message );
-            });
-        }
-
         switch ( r.code ) {
             case 401:
                 alert( 'GOTO LOGIN' );
@@ -113,7 +119,17 @@ var Request = (function ( Config, Const, Message ) {
                 return false;
             case 200:
             default:
+                displayMessages( r.messages );
                 return r.status === STATUS_SUCCESS;
+        }
+    }
+
+    function displayMessages ( messages ) {
+        // Render any notifications
+        if ( messages && messages.length ) {
+            messages.forEach( function ( m ) {
+                Message[ m.type ]( m.message );
+            });
         }
     }
 
@@ -121,6 +137,7 @@ var Request = (function ( Config, Const, Message ) {
         param: param,
         group: group,
         dashboard: dashboard,
+        questions: questions,
         saveMember: saveMember,
         removeMember: removeMember
     };

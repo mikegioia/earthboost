@@ -79,20 +79,16 @@ class Group extends Entity
      */
     public function getEmissions( $year, $includeMembers = TRUE )
     {
-        if ( $this->_emissions ) {
-            return $this->_emissions;
-        }
-
         $raw = $this->getRawEmissions( $year );
-        $this->_emissions = (new Emissions( $raw ))->calculate();
+        $emissions = (new Emissions( $raw ))->calculate();
 
         if ( $includeMembers === TRUE ) {
             foreach ( $this->getMembers( $year ) as $member ) {
-                $this->_emissions += $member->emissions;
+                $emissions += $member->emissions;
             }
         }
 
-        return $this->_emissions;
+        return $emissions;
     }
 
     /**
@@ -115,15 +111,21 @@ class Group extends Entity
         return $this->_rawEmissions;
     }
 
-    public function getOffsetAmount( $year )
+    /**
+     * Computes the group's offset amount in USD.
+     * @param int $year
+     * @param bool $includeMembers
+     * @return float
+     */
+    public function getOffsetAmount( $year, $includeMembers = TRUE )
     {
-        return (new Emissions)->price( $this->getEmissions( $year ) );
+        return (new Emissions)->price(
+            $this->getEmissions( $year, $includeMembers ) );
     }
 
     public function clearCache()
     {
         $this->_members = NULL;
-        $this->_emissions = NULL;
         $this->_rawEmissions = NULL;
     }
 }

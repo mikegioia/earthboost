@@ -37,6 +37,7 @@ return function ( $root ) {
     function render ( _data ) {
         data = _data;
         updateData( data );
+        $root.className = 'group';
         DOM.render( tpl.group, data, tpl ).to( $root );
         addButtonEvent();
         memberActionEvents();
@@ -168,6 +169,7 @@ return function ( $root ) {
         $group = null;
         $addButton = null;
         DOM.clear( $root );
+        $root.className = '';
     }
 
     return {

@@ -46,6 +46,7 @@ module.exports = function ( grunt ) {
                     './src/js/lib/router.js',
                     './src/js/lib/message.js',
                     './src/js/lib/request.js',
+                    './src/js/lib/calculator.js',
                     // Controllers
                     './src/js/pages/**/*.js',
                     // Components
@@ -70,6 +71,7 @@ module.exports = function ( grunt ) {
                     './src/css/stage.css',
                     './src/css/dashboard.css',
                     './src/css/group.css',
+                    './src/css/calculator.css',
                     './src/css/media.css'
                 ],
                 dest: './build/css/earthboost.css'

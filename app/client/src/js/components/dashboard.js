@@ -32,6 +32,7 @@ return function ( $root ) {
                 : 'Housemate';
         });
 
+        $root.className = 'dashboard';
         DOM.render( tpl.dashboard, data ).to( $root );
     }
 
@@ -39,6 +40,7 @@ return function ( $root ) {
         tpl = {};
         $dashboard = null;
         DOM.clear( $root );
+        $root.className = '';
     }
 
     return {

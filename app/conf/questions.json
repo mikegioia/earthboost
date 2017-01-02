@@ -2,13 +2,16 @@
     {
         "id": "FT",
         "type": "radio",
-        "label": "Have you or your %GROUP% taken any flights this year?",
+        "group": "transportation",
+        "label": "Have you %GROUP% taken any flights this year?",
         "choices": [
             {
                 "label": "Yes",
+                "value": 1,
                 "goto": "FS"
             }, {
                 "label": "No",
+                "value": 0,
                 "goto": "CA",
                 "clear": [
                     "FS", "FM", "FL"
@@ -19,30 +22,42 @@
         "id": "FS",
         "goto": "FM",
         "type": "number",
+        "group": "transportation",
+        "input_suffix": "RT flights",
         "emissions_key": "flights_short",
+        "heading": "Short flights (< 300 mi)",
         "label": "How many short (less than 300 mi) round trip flights were taken?"
     }, {
         "id": "FM",
         "goto": "FL",
         "type": "number",
+        "group": "transportation",
+        "input_suffix": "RT flights",
         "emissions_key": "flights_medium",
+        "heading": "Long flights (< 2,300 mi)",
         "label": "How many long (less than 2,300 mi) round trip flights were taken?"
     }, {
         "id": "FL",
         "goto": "CA",
         "type": "number",
+        "group": "transportation",
+        "input_suffix": "RT flights",
         "emissions_key": "flights_long",
+        "heading": "Far, or international flights (> 2,300 mi)",
         "label": "How many very far or international (more than 2,300 mi) round trip flights were taken?"
     }, {
         "id": "CA",
         "type": "radio",
-        "label": "Have you or your %GROUP% used any cars (owned or rented) this year?",
+        "group": "transportation",
+        "label": "Have you %GROUP% used any cars (owned or rented) this year?",
         "choices": [
             {
                 "label": "Yes",
+                "value": 1,
                 "goto": "CM"
             }, {
                 "label": "No",
+                "value": 0,
                 "goto": "TR",
                 "clear": [
                     "CM"
@@ -53,8 +68,11 @@
         "id": "CM",
         "goto": "TR",
         "type": "number",
+        "heading": "Car miles",
+        "input_suffix": "miles",
+        "group": "transportation",
         "emissions_key": "cars_miles",
-        "label": "How many car miles per #SELECT# were driven?",
+        "label": "How many car miles were driven?",
         "select": {
             "week": 52,
             "month": 12,
@@ -64,13 +82,16 @@
     }, {
         "id": "TR",
         "type": "radio",
-        "label": "Have you or your %GROUP% taken any train trips this year?",
+        "group": "transportation",
+        "label": "Have you %GROUP% taken any train trips this year?",
         "choices": [
             {
                 "label": "Yes",
+                "value": 1,
                 "goto": "TS"
             }, {
                 "label": "No",
+                "value": 0,
                 "goto": "SU",
                 "clear": [
                     "TS", "TM", "TL"
@@ -81,31 +102,43 @@
         "id": "TS",
         "goto": "TM",
         "type": "number",
+        "group": "transportation",
+        "input_suffix": "train rides",
         "emissions_key": "trains_short",
-        "label": "How many short (less than 200 mi) trips were taken?"
+        "heading": "Short train rides (< 200 mi)",
+        "label": "How many short (less than 200 mi) train trips were taken?"
     }, {
         "id": "TM",
         "goto": "TL",
         "type": "number",
+        "group": "transportation",
+        "input_suffix": "train rides",
         "emissions_key": "trains_medium",
-        "label": "How many long (less than 500 mi) trips were taken?"
+        "heading": "Long train rides (< 500 mi)",
+        "label": "How many long (less than 500 mi) train trips were taken?"
     }, {
         "id": "TL",
         "goto": "SU",
         "type": "number",
+        "group": "transportation",
+        "input_suffix": "train rides",
         "emissions_key": "trains_long",
-        "label": "How many very far or cross-country (more than 500 mi) trips were taken?"
+        "heading": "Long, or cross-country train rides (> 500 mi)",
+        "label": "How many very far or cross-country train trips were taken?"
     }, {
         "id": "SU",
         "type": "radio",
-        "label": "Have you or your %GROUP% taken any subway trips this year?",
+        "group": "transportation",
+        "label": "Have you %GROUP% taken any subway trips this year?",
         "choices": [
             {
                 "label": "Yes",
+                "value": 1,
                 "goto": "SS"
             }, {
                 "label": "No",
-                "goto": "PC",
+                "value": 0,
+                "goto": "BR",
                 "clear": [
                     "SS", "SL"
                 ]
@@ -115,100 +148,112 @@
         "id": "SS",
         "goto": "SL",
         "type": "number",
+        "group": "transportation",
+        "input_suffix": "subway rides",
         "emissions_key": "subways_short",
-        "label": "How many short (less than 2 mi) trips were taken?"
+        "heading": "Short subway rides (< 2 mi)",
+        "label": "How many short (less than 2 mi) subway rides were taken?"
     }, {
         "id": "SL",
-        "goto": "PC",
+        "goto": "BR",
         "type": "number",
+        "group": "transportation",
+        "input_suffix": "subway rides",
         "emissions_key": "subways_long",
-        "label": "How many long (> 2 mi) trips were taken?"
+        "heading": "Long subway rides (> 2 mi)",
+        "label": "How many long (> 2 mi) subway rides were taken?"
     }, {
-        "id": "PC",
+        "id": "BR",
         "type": "radio",
-        "label": "Have you or your %GROUP% owned or rented any web servers?",
+        "group": "transportation",
+        "label": "Have you %GROUP% taken any bus trips this year?",
         "choices": [
             {
                 "label": "Yes",
-                "goto": "WS"
+                "value": 1,
+                "goto": "BS"
             }, {
                 "label": "No",
-                "goto": "OA",
+                "value": 0,
+                "goto": "EL",
                 "clear": [
-                    "WS"
+                    "BS", "BM", "BL"
                 ]
             }
         ]
     }, {
-        "id": "WS",
-        "goto": "OA",
+        "id": "BS",
+        "goto": "BM",
         "type": "number",
-        "emissions_key": "web_servers",
-        "label": "How many 'always on' web servers (or computers) were owned or rented?"
+        "group": "transportation",
+        "input_suffix": "bus rides",
+        "emissions_key": "buses_short",
+        "heading": "Short bus rides (< 200 mi)",
+        "label": "How many short (less than 200 mi) bus trips were taken?"
     }, {
-        "id": "OA",
-        "goto": "HP",
+        "id": "BM",
+        "goto": "BL",
         "type": "number",
-        "emissions_key": "office_area",
-        "label": "What is the square footage of all office space for the year?",
-        "skip_for": [
-            "user"
-        ]
+        "group": "transportation",
+        "input_suffix": "bus rides",
+        "emissions_key": "buses_medium",
+        "heading": "Long bus rides (< 500 mi)",
+        "label": "How many long (less than 500 mi) bus trips were taken?"
     }, {
-        "id": "HP",
-        "goto": "HA",
-        "type": "number",
-        "emissions_key": "home_people",
-        "label": "How many people live in your home?",
-        "skip_for": [
-            "group"
-        ]
-    }, {
-        "id": "HA",
+        "id": "BL",
         "goto": "EL",
         "type": "number",
-        "emissions_key": "home_area",
-        "label": "What is the square footage of your home?",
-        "skip_for": [
-            "group"
-        ]
+        "group": "transportation",
+        "input_suffix": "bus rides",
+        "emissions_key": "buses_long",
+        "heading": "Long, or cross-country train rides (> 500 mi)",
+        "label": "How many very far or cross-country bus trips were taken?"
     }, {
         "id": "EL",
         "type": "radio",
+        "group": "energy",
         "label": "Does your electricity come from a wind, solar, hydro, or another renewable source?",
         "choices": [
             {
+                "label": "No",
+                "value": 0,
+                "goto": "EP"
+            }, {
                 "label": "Yes",
+                "value": 1,
                 "goto": "FF",
                 "clear": [
                     "EP"
                 ]
-            }, {
-                "label": "No",
-                "goto": "EP"
             }
         ]
     }, {
         "id": "EP",
         "goto": "FF",
         "type": "number",
+        "group": "energy",
+        "heading": "Electricity usage",
         "emissions_key": "energy_power",
-        "label": "What is the #SELECT# electrical usage (on average) in Kilowatt Hours?",
+        "input_suffix": "killowatt hours (kWh)",
+        "label": "What is the electrical usage (on average) in Kilowatt Hours?",
         "select": {
-            "monthly": 12,
-            "yearly": 1
+            "month": 12,
+            "year": 1
         }
     }, {
         "id": "FF",
         "type": "radio",
+        "group": "energy",
         "label": "Is your home or office heated with Natural Gas or Coal?",
         "hint": "If you see 'therms' on your heating or gas bill, then fill this out.",
         "choices": [
             {
                 "label": "Yes",
+                "value": 1,
                 "goto": "EG"
             }, {
                 "label": "No",
+                "value": 0,
                 "goto": "OI",
                 "clear": [
                     "EG"
@@ -219,22 +264,29 @@
         "id": "EG",
         "goto": "OI",
         "type": "number",
+        "group": "energy",
+        "input_suffix": "therms",
         "emissions_key": "energy_gas",
-        "label": "What is the #SELECT# gas or coal usage (on average) for heating in Therms?",
+        "heading": "Heating (gas, wood, or coal) therms",
+        "hint": "You will need your heating bill. Look for the 'therms'.",
+        "label": "What is the gas or coal usage (on average) for heating in Therms?",
         "select": {
-            "monthly": 12,
-            "yearly": 1
+            "month": 12,
+            "year": 1
         }
     }, {
         "id": "OI",
         "type": "radio",
+        "group": "energy",
         "label": "Is your home or office heated with Oil?",
         "choices": [
             {
                 "label": "Yes",
+                "value": 1,
                 "goto": "EO"
             }, {
                 "label": "No",
+                "value": 0,
                 "goto": "PR",
                 "clear": [
                     "EO"
@@ -245,22 +297,27 @@
         "id": "EO",
         "goto": "PR",
         "type": "number",
+        "group": "energy",
         "emissions_key": "energy_oil",
-        "label": "What is the #SELECT# heating oil (on average) in Gallons?",
+        "input_suffix": "gallons of oil",
+        "label": "What is the average heating oil usage (on average) in Gallons?",
         "select": {
-            "monthly": 12,
-            "yearly": 1
+            "month": 12,
+            "year": 1
         }
     }, {
         "id": "PR",
         "type": "radio",
+        "group": "energy",
         "label": "Is your home or office heated with Propane?",
         "choices": [
             {
                 "label": "Yes",
+                "value": 1,
                 "goto": "EP"
             }, {
                 "label": "No",
+                "value": 0,
                 "goto": "HD",
                 "clear": [
                     "EP"
@@ -269,34 +326,106 @@
         ]
     }, {
         "id": "EP",
-        "goto": "HD",
+        "goto": "OA",
         "type": "number",
+        "group": "energy",
+        "heading": "Propane gas",
         "emissions_key": "energy_propane",
-        "label": "What is the #SELECT# propane gas (on average) in Gallons?",
+        "input_suffix": "gallons of propane",
+        "label": "What is the propane gas usage (on average) in Gallons?",
         "select": {
-            "monthly": 12,
-            "yearly": 1
-        }
-    }, {
-        "id": "HD",
-        "goto": "MD",
-        "type": "number",
-        "emissions_key": "hotel_days",
-        "label": "How many nights have you or your %GROUP% stayed at hotels?"
-    }, {
-        "id": "MD",
-        "goto": "WA",
-        "type": "number",
-        "emissions_key": "meat_days",
-        "label": "About how many days per #SELECT# do you consume animal meat?",
-        "select": {
-            "week": 52,
             "month": 12,
             "year": 1
         }
     }, {
+        "id": "OA",
+        "goto": "HP",
+        "type": "number",
+        "group": "home_office",
+        "input_suffix": "square feet",
+        "emissions_key": "office_area",
+        "label": "What is the square footage of all office space for the year?",
+        "skip_for": [
+            "user"
+        ]
+    }, {
+        "id": "HP",
+        "goto": "HA",
+        "type": "number",
+        "group": "home_office",
+        "input_suffix": "people",
+        "emissions_key": "home_people",
+        "label": "How many people live in your home?",
+        "skip_for": [
+            "group"
+        ]
+    }, {
+        "id": "HA",
+        "goto": "EL",
+        "type": "number",
+        "group": "home_office",
+        "emissions_key": "home_area",
+        "input_suffix": "square feet",
+        "label": "What is the square footage of your home?",
+        "skip_for": [
+            "group"
+        ]
+    }, {
+        "id": "PC",
+        "type": "radio",
+        "group": "home_office",
+        "label": "Have you %GROUP% owned or rented any web servers?",
+        "choices": [
+            {
+                "label": "Yes",
+                "value": 1,
+                "goto": "WS"
+            }, {
+                "label": "No",
+                "value": 0,
+                "goto": "OA",
+                "clear": [
+                    "WS"
+                ]
+            }
+        ]
+    }, {
+        "id": "WS",
+        "goto": "OA",
+        "type": "number",
+        "group": "home_office",
+        "emissions_key": "web_servers",
+        "input_suffix": "servers / computers",
+        "label": "How many 'always on' web servers (or computers) were owned or rented?"
+    }, {
+        "id": "HD",
+        "goto": "MD",
+        "type": "number",
+        "group": "home_office",
+        "input_suffix": "days",
+        "emissions_key": "hotel_days",
+        "label": "How many nights have you %GROUP% stayed at hotels?"
+    }, {
+        "id": "MD",
+        "goto": "WA",
+        "type": "number",
+        "group": "home_office",
+        "input_suffix": "days",
+        "emissions_key": "meat_days",
+        "label": "About how many days do you consume animal meat?",
+        "hint": "This includes chicken, beef, pork, lamb, or any other land animal.",
+        "select": {
+            "week": 52,
+            "month": 12,
+            "year": 1
+        },
+        "skip_for": [
+            "group"
+        ]
+    }, {
         "id": "WA",
         "type": "checkbox",
+        "group": "home_office",
         "emissions_key": "waste",
         "label": "Choose all of the following waste reduction practices",
         "hint": "The average person disposes 1,570 lbs of waste every year.",
@@ -308,7 +437,7 @@
             }, {
                 "value": -300,
                 "name": "recyle",
-                "label": "Recyle everything"
+                "label": "Recyle everything I can"
             }, {
                 "value": -350,
                 "name": "compost",
@@ -316,16 +445,19 @@
             }, {
                 "value": -800,
                 "name": "compost",
-                "label": "Compost everything"
+                "label": "Compost everything I can"
             }, {
                 "value": -50,
                 "name": "bags",
-                "label": "Bring your own grocery bags"
+                "label": "Bring my own grocery bags"
             }, {
                 "value": -50,
                 "name": "cups",
-                "label": "Bring your own coffee travel mug"
+                "label": "Bring my own coffee travel mug"
             }
+        ],
+        "skip_for": [
+            "group"
         ]
     }
 ]

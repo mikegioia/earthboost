@@ -184,7 +184,7 @@ abstract class Entity
     static public function hydrate( $rows )
     {
         if ( ! $rows ) {
-            return;
+            return [];
         }
 
         if ( is_object( $rows ) ) {

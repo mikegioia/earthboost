@@ -139,7 +139,7 @@ class Model
     public function save( array $data = [], array $options = [] )
     {
         $this->validate( $data );
-        $data = $this->stripInvalid( $data );
+        $this->stripInvalid( $data );
 
         if ( valid( $this->id, INT ) ) {
             $updated = $this->qb()
@@ -173,7 +173,7 @@ class Model
     public function upsert( array $data = [], array $options = [] )
     {
         $this->validate( $data );
-        $data = $this->stripInvalid( $data );
+        $this->stripInvalid( $data );
         $inserted = $this->qb()
             ->table( $this->_table )
             ->onDuplicateKeyUpdate( $data )
@@ -255,9 +255,9 @@ class Model
      */
     public function validate( array $data ) {}
 
-    private function stripInvalid( array $data )
+    private function stripInvalid( array &$data )
     {
-        return array_intersect_key( $data, get_public_vars( $this ) );
+        $data = array_intersect_key( $data, get_public_vars( $this ) );
     }
 
     public function getErrorString( ValidationResult $result, $message )

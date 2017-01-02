@@ -103,6 +103,13 @@ $app->post( '/savemember/{name}/{year}', 'controller:saveMember' )
 $app->post( '/removemember/{name}/{year}', 'controller:removeMember' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
+$app->get( '/questions/{name}/{year}', 'controller:questions' )
+    ->assert( 'name', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR );
+$app->get( '/questions/{name}/{year}/{userId}', 'controller:questions' )
+    ->assert( 'name', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR )
+    ->assert( 'userId', REGEXP_NUMBER );
 $app->get( '/{name}/{year}', 'controller:group' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
