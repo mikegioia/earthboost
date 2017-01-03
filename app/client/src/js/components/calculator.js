@@ -1,10 +1,10 @@
 /**
  * Carbon Calculator Component
  */
-Components.Calculator = (function ( DOM, Calculator ) {
+Components.Calculator = (function ( DOM, Calculator, Message ) {
 'use strict';
 // Returns a new instance
-return function ( $root ) {
+return function ( $root, saveCallback ) {
     // Event namespace
     var namespace = '.calculator';
     // DOM template nodes
@@ -69,7 +69,7 @@ return function ( $root ) {
             .toString()
             .numberCommas();
         // Used for links
-        data.url_stem = ( data.user_id )
+        data.url_stem = ( data.user.id )
             ? Const.url.questions_user.supplant( urlParams )
             : Const.url.questions.supplant( urlParams );
         // Add the question to render
@@ -105,8 +105,9 @@ return function ( $root ) {
         var $input;
         var $form = DOM.get( 'form[name="question"]' );
         var $select = DOM.get( 'select[name="select"]' );
-        var value = DOM.get( 'input[name="answer"]' ).value;
-        var urlStem = ( data.user_id )
+        var answer = DOM.get( 'input[name="answer"]' ).value;
+        var questionId = DOM.get( 'input[name="id"]' ).value;
+        var urlStem = ( data.user.id )
             ? Const.url.questions_user.supplant( urlParams )
             : Const.url.questions.supplant( urlParams );
         var inputType = $form.dataset.type;
@@ -122,12 +123,29 @@ return function ( $root ) {
                 $input = $form;
         }
 
-        gotoId = $input ? $input.dataset.goto : null;
         e.preventDefault();
-        // @TODO save the answer
-
-        // Render the next question
-        page( urlStem + '/' + gotoId );
+        gotoId = $input ? $input.dataset.goto : null;
+        saveCallback(
+            {
+                answer: answer,
+                question_id: questionId,
+                select: ( $select ) ? $select.value : null
+            },
+            function () {
+                // Render the next question
+                if ( gotoId ) {
+                    page( urlStem + '/' + gotoId );
+                }
+                // Or take them back to the group page
+                else {
+                    page( Const.url.group_year.supplant( urlParams ) );
+                    Message.success(
+                        "Wonderful! You've finished calculating your carbon " +
+                        "emissions! You can edit these answers at any time. " +
+                        "Look for the <i class='icon icon-edit'></i> icon.",
+                        false );
+                }
+            });
     }
 
     function tearDown () {
@@ -141,4 +159,4 @@ return function ( $root ) {
         render: render,
         tearDown: tearDown
     };
-}}( DOM, Calculator ));
+}}( DOM, Calculator, Message ));

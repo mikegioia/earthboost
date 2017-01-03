@@ -39,11 +39,11 @@ var Calculator = (function () {
      * @param Object group
      * @return Object
      */
-    function get ( questions, answers, userId, questionId, group )
+    function get ( allQuestions, answers, userId, questionId, group )
     {
         var answers = getAnswers( answers, userId );
         var mode = ( userId ) ? MODES.user : MODES.group;
-        var questions = prepQuestions( questions, mode );
+        var questions = prepQuestions( allQuestions, mode );
         var question = findQuestion( questions, questionId );
 
         // If no question ID came in, then load the landing page
@@ -56,7 +56,9 @@ var Calculator = (function () {
             question,
             answers.array[ questionId ],
             questions,
-            group );
+            allQuestions,
+            group,
+            mode );
     }
 
     /**
@@ -127,13 +129,47 @@ var Calculator = (function () {
     }
 
     /**
+     * Looks for the correct question to "go to". Some questions are
+     * skipped for group or user mode, and if a question points to a
+     * skipped question, then we need to find the NEXT one that applies.
+     * @param String gotoId Question ID to travel to
+     * @param Array allQuestions
+     * @param String mode
+     * @return String
+     */
+    function findGoto ( gotoId, allQuestions, mode ) {
+        var i;
+        var q;
+
+        for ( i in allQuestions ) {
+            q = allQuestions[ i ];
+
+            if ( q.id != gotoId ) {
+                continue;
+            }
+
+            if ( q.skip_for && q.skip_for.indexOf( mode ) > -1 ) {
+                gotoId = q.goto;
+                continue;
+            }
+
+            return q.id;
+        }
+
+        return gotoId;
+    }
+
+    /**
      * Extends a question object to be used in the template.
      * @param Object question
      * @param Object answer
-     * @param Array questions
+     * @param Array questions Skipped questions removed
+     * @param Array allQuestions Contains every question for goto lookups
+     * @param Object group
+     * @param String mode One of 'group' or 'user'
      * @return Object
      */
-    function buildQuestion ( question, answer, questions, group ) {
+    function buildQuestion ( question, answer, questions, allQuestions, group, mode ) {
         var i;
         var index = 0;
         var groupTotal = 0;
@@ -144,7 +180,7 @@ var Calculator = (function () {
         var q = {
             select: false,
             choices: false,
-            goto: question.goto,
+            id: question.id,
             type: question.type,
             hint: question.hint,
             label: question.label,
@@ -154,7 +190,8 @@ var Calculator = (function () {
             input_suffix: question.input_suffix,
             radio: question.type == TYPES.radio,
             number: question.type == TYPES.number,
-            checkbox: question.type == TYPES.checkbox
+            checkbox: question.type == TYPES.checkbox,
+            goto: findGoto( question.goto, allQuestions, mode )
         };
 
         // Get the index position in the group, and the total
@@ -177,10 +214,9 @@ var Calculator = (function () {
             question.choices.forEach( function ( choice ) {
                 q.choices.push({
                     name: choice.name,
-                    goto: choice.goto,
                     label: choice.label,
                     value: choice.value,
-                    clear: choice.clear ? choice.clear : [],
+                    goto: findGoto( choice.goto, allQuestions, mode ),
                     // @TODO split string for checkboxes and check inArray
                     selected: choice.value.toString() == q.value.toString()
                 });

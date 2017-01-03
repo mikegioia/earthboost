@@ -110,6 +110,13 @@ $app->get( '/questions/{name}/{year}/{userId}', 'controller:questions' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR )
     ->assert( 'userId', REGEXP_NUMBER );
+$app->post( '/saveanswer/{name}/{year}', 'controller:saveAnswer' )
+    ->assert( 'name', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR );
+$app->post( '/saveanswer/{name}/{year}/{userId}', 'controller:saveAnswer' )
+    ->assert( 'name', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR )
+    ->assert( 'userId', REGEXP_NUMBER );
 $app->get( '/{name}/{year}', 'controller:group' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );

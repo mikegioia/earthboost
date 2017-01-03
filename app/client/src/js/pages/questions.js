@@ -9,6 +9,9 @@ Pages.Questions = (function ( Request, DOM, Components, Message ) {
     // Components
     var Nav;
     var Main;
+    // Used for caching
+    var data;
+    var isRendered = false;
 
     /**
      * Public API method to setup the controller. This will render
@@ -16,17 +19,16 @@ Pages.Questions = (function ( Request, DOM, Components, Message ) {
      */
     function setup () {
         Nav = new Components.Nav( DOM.get( 'nav' ) );
-        Main = new Components.Calculator( DOM.get( 'main' ) );
-console.log( 'qestions setup' );
+        Main = new Components.Calculator( DOM.get( 'main' ), saveAnswer );
     }
 
     /**
      * Called to destroy all state and any event handlers.
      */
     function tearDown () {
+        isRendered = false;
         Nav && Nav.tearDown();
         Main && Main.tearDown();
-console.log( 'qestions teardown' );
     }
 
     /**
@@ -38,31 +40,72 @@ console.log( 'qestions teardown' );
     function view ( ctx, next ) {
         var questionId = Request.param( ctx, 'questionid' );
 
+        if ( isRendered === true ) {
+            renderQuestion( questionId );
+            return;
+        }
+
         Request.questions(
             Request.param( ctx, 'group' ),
             Request.param( ctx, 'year' ),
             Request.param( ctx, 'userid' ),
-            function ( data ) {
+            function ( _data ) {
                 // Check if the question exists. If not we're going to
                 // halt and display an error.
-                if ( ! checkQuestion( data.questions, questionId ) ) {
+                if ( ! checkQuestion( _data.questions, questionId ) ) {
                     Message.halt( 404, "That question doesn't exist." );
                     return;
                 }
 
+                data = _data;
+                isRendered = true;
                 DOM.title([ "Carbon Calculator", data.group.name ]);
                 Nav.renderCalculator( data.group.name, data.year );
-                Main.render({
-                    mode: data.mode,
-                    user: data.user,
-                    year: data.year,
-                    group: data.group,
-                    answers: data.answers,
-                    question_id: questionId,
-                    questions: data.questions,
-                    emissions: data.emissions,
-                    offset_amount: data.offset_amount
-                });
+                renderQuestion( questionId );
+            });
+    }
+
+    /**
+     * Loads a question through the component.
+     * @param String questionId
+     */
+    function renderQuestion ( questionId, checkExists ) {
+        checkExists = checkExists || false;
+
+        if ( checkExists && ! checkQuestion( data.questions, questionId ) ) {
+            Message.halt( 404, "That question doesn't exist." );
+            return;
+        }
+
+        Main.render({
+            mode: data.mode,
+            user: data.user,
+            year: data.year,
+            group: data.group,
+            answers: data.answers,
+            question_id: questionId,
+            questions: data.questions,
+            emissions: data.emissions,
+            offset_amount: data.offset_amount
+        });
+    }
+
+    /**
+     * Called by the Main component to save a new answer.
+     * @param Object params
+     * @param Function cb
+     */
+    function saveAnswer ( params, cb ) {
+        Request.saveAnswer(
+            data.group.name,
+            data.year,
+            data.user.id,
+            params,
+            function ( _data, status ) {
+                data.answers = _data.answers;
+                data.emissions = _data.emissions;
+                data.offset_amount = _data.offset_amount;
+                cb();
             });
     }
 
@@ -79,7 +122,8 @@ console.log( 'qestions teardown' );
             return false;
         }
 
-        if ( ! questionId || ! questionId.length ) {
+        // IN is for Intro
+        if ( ! questionId || ! questionId.length || questionId == 'IN' ) {
             return true;
         }
 

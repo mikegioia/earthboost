@@ -51,6 +51,11 @@ section.notifications .notification .warning {
     background-color: #d1712d;
 }
 
+section.notifications .notification .message .icon {
+    font-weight: 600;
+    margin: 0 0.25rem;
+}
+
 section.error {
     padding: 1rem 2rem;
 }

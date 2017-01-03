@@ -27,6 +27,7 @@ define( 'REGEXP_ALPHANUMERIC', '\w+' );
 // Entity types
 define( 'USER', 'user' );
 define( 'GROUP', 'group' );
+define( 'QUESTION', 'question' );
 
 // HTTP Verbs
 define( 'GET', 'GET' );

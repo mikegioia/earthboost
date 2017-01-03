@@ -26,7 +26,10 @@
         "input_suffix": "RT flights",
         "emissions_key": "flights_short",
         "heading": "Short flights (< 300 mi)",
-        "label": "How many short (less than 300 mi) round trip flights were taken?"
+        "label": "How many short (less than 300 mi) round trip flights were taken?",
+        "update": {
+            "FT": 1
+        }
     }, {
         "id": "FM",
         "goto": "FL",
@@ -35,7 +38,10 @@
         "input_suffix": "RT flights",
         "emissions_key": "flights_medium",
         "heading": "Long flights (< 2,300 mi)",
-        "label": "How many long (less than 2,300 mi) round trip flights were taken?"
+        "label": "How many long (less than 2,300 mi) round trip flights were taken?",
+        "update": {
+            "FT": 1
+        }
     }, {
         "id": "FL",
         "goto": "CA",
@@ -44,7 +50,10 @@
         "input_suffix": "RT flights",
         "emissions_key": "flights_long",
         "heading": "Far, or international flights (> 2,300 mi)",
-        "label": "How many very far or international (more than 2,300 mi) round trip flights were taken?"
+        "label": "How many very far or international (more than 2,300 mi) round trip flights were taken?",
+        "update": {
+            "FT": 1
+        }
     }, {
         "id": "CA",
         "type": "radio",
@@ -78,6 +87,9 @@
             "month": 12,
             "year": 1,
             "day": 365
+        },
+        "update": {
+            "CA": 1
         }
     }, {
         "id": "TR",
@@ -106,7 +118,10 @@
         "input_suffix": "train rides",
         "emissions_key": "trains_short",
         "heading": "Short train rides (< 200 mi)",
-        "label": "How many short (less than 200 mi) train trips were taken?"
+        "label": "How many short (less than 200 mi) train trips were taken?",
+        "update": {
+            "TR": 1
+        }
     }, {
         "id": "TM",
         "goto": "TL",
@@ -115,7 +130,10 @@
         "input_suffix": "train rides",
         "emissions_key": "trains_medium",
         "heading": "Long train rides (< 500 mi)",
-        "label": "How many long (less than 500 mi) train trips were taken?"
+        "label": "How many long (less than 500 mi) train trips were taken?",
+        "update": {
+            "TR": 1
+        }
     }, {
         "id": "TL",
         "goto": "SU",
@@ -124,7 +142,10 @@
         "input_suffix": "train rides",
         "emissions_key": "trains_long",
         "heading": "Long, or cross-country train rides (> 500 mi)",
-        "label": "How many very far or cross-country train trips were taken?"
+        "label": "How many very far or cross-country train trips were taken?",
+        "update": {
+            "TR": 1
+        }
     }, {
         "id": "SU",
         "type": "radio",
@@ -152,7 +173,10 @@
         "input_suffix": "subway rides",
         "emissions_key": "subways_short",
         "heading": "Short subway rides (< 2 mi)",
-        "label": "How many short (less than 2 mi) subway rides were taken?"
+        "label": "How many short (less than 2 mi) subway rides were taken?",
+        "update": {
+            "SU": 1
+        }
     }, {
         "id": "SL",
         "goto": "BR",
@@ -161,7 +185,10 @@
         "input_suffix": "subway rides",
         "emissions_key": "subways_long",
         "heading": "Long subway rides (> 2 mi)",
-        "label": "How many long (> 2 mi) subway rides were taken?"
+        "label": "How many long (> 2 mi) subway rides were taken?",
+        "update": {
+            "SU": 1
+        }
     }, {
         "id": "BR",
         "type": "radio",
@@ -189,7 +216,10 @@
         "input_suffix": "bus rides",
         "emissions_key": "buses_short",
         "heading": "Short bus rides (< 200 mi)",
-        "label": "How many short (less than 200 mi) bus trips were taken?"
+        "label": "How many short (less than 200 mi) bus trips were taken?",
+        "update": {
+            "BR": 1
+        }
     }, {
         "id": "BM",
         "goto": "BL",
@@ -198,7 +228,10 @@
         "input_suffix": "bus rides",
         "emissions_key": "buses_medium",
         "heading": "Long bus rides (< 500 mi)",
-        "label": "How many long (less than 500 mi) bus trips were taken?"
+        "label": "How many long (less than 500 mi) bus trips were taken?",
+        "update": {
+            "BR": 1
+        }
     }, {
         "id": "BL",
         "goto": "EL",
@@ -207,7 +240,10 @@
         "input_suffix": "bus rides",
         "emissions_key": "buses_long",
         "heading": "Long, or cross-country train rides (> 500 mi)",
-        "label": "How many very far or cross-country bus trips were taken?"
+        "label": "How many very far or cross-country bus trips were taken?",
+        "update": {
+            "BR": 1
+        }
     }, {
         "id": "EL",
         "type": "radio",
@@ -239,6 +275,9 @@
         "select": {
             "month": 12,
             "year": 1
+        },
+        "update": {
+            "EL": 1
         }
     }, {
         "id": "FF",
@@ -273,6 +312,9 @@
         "select": {
             "month": 12,
             "year": 1
+        },
+        "update": {
+            "FF": 1
         }
     }, {
         "id": "OI",
@@ -304,6 +346,9 @@
         "select": {
             "month": 12,
             "year": 1
+        },
+        "update": {
+            "OI": 1
         }
     }, {
         "id": "PR",
@@ -318,7 +363,7 @@
             }, {
                 "label": "No",
                 "value": 0,
-                "goto": "HD",
+                "goto": "OA",
                 "clear": [
                     "EP"
                 ]
@@ -336,6 +381,9 @@
         "select": {
             "month": 12,
             "year": 1
+        },
+        "update": {
+            "PR": 1
         }
     }, {
         "id": "OA",
@@ -361,7 +409,7 @@
         ]
     }, {
         "id": "HA",
-        "goto": "EL",
+        "goto": "PC",
         "type": "number",
         "group": "home_office",
         "emissions_key": "home_area",
@@ -383,7 +431,7 @@
             }, {
                 "label": "No",
                 "value": 0,
-                "goto": "OA",
+                "goto": "HD",
                 "clear": [
                     "WS"
                 ]
@@ -391,12 +439,15 @@
         ]
     }, {
         "id": "WS",
-        "goto": "OA",
+        "goto": "HD",
         "type": "number",
         "group": "home_office",
         "emissions_key": "web_servers",
         "input_suffix": "servers / computers",
-        "label": "How many 'always on' web servers (or computers) were owned or rented?"
+        "label": "How many 'always on' web servers (or computers) were owned or rented?",
+        "update": {
+            "PC": 1
+        }
     }, {
         "id": "HD",
         "goto": "MD",

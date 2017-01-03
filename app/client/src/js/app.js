@@ -42,8 +42,11 @@ var Const = {
         group_year: '/{name}/{year}',
         questions: '/questions/{name}/{year}',
         save_member: '/savemember/{name}/{year}',
+        save_answer: '/saveanswer/{name}/{year}',
         remove_member: '/removemember/{name}/{year}',
-        questions_user: '/questions/{name}/{year}/{userid}'
+        finished_questions: '/questions/finished/{name}',
+        questions_user: '/questions/{name}/{year}/{userid}',
+        save_answer_user: '/saveanswer/{name}/{year}/{userid}'
     }
 };
 

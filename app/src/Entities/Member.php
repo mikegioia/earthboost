@@ -58,24 +58,27 @@ class Member extends Entity
             && get( $options, self::POPULATE_EMISSIONS, TRUE ) === TRUE )
         {
             $this->emissions = $this->getEmissions();
+            $this->offset_amount = $this->getOffsetAmount();
             $this->emissions_data = $this->getEmissionsData();
-            $this->offset_amount = (new Emissions)->price( $this->emissions );
         }
     }
 
     /**
      * Returns the emissions if it's hard-set on the member record.
      * Otherwise, computes it from the database.
+     * @param bool $ignoreCache
+     * @param bool $ignoreStandard
+     * @return float
      */
-    public function getEmissions()
+    public function getEmissions( $ignoreCache = FALSE, $ignoreStandard = FALSE )
     {
-        if ( $this->emissions ) {
+        if ( $this->emissions && ! $ignoreCache ) {
             return $this->emissions;
         }
 
         // If this is a "standard" calculation then use the
         // locale value.
-        if ( $this->is_standard == 1 ) {
+        if ( $this->is_standard == 1 && ! $ignoreStandard ) {
             $locale = $this->getLocale( $this->locale );
 
             return ( $locale->mt * $this->locale_percent / 100 );
@@ -87,7 +90,7 @@ class Member extends Entity
     }
 
     /**
-     * Load the raw emissions records.
+     * Load the raw emissions records from the database.
      * @return array of objects
      */
     public function getRawEmissions()
@@ -109,11 +112,29 @@ class Member extends Entity
         return $this->_rawEmissions;
     }
 
+    /**
+     * Returns the raw emissions data from the database.
+     * @return array
+     */
     public function getEmissionsData()
     {
         $raw = $this->getRawEmissions();
 
         return (new Emissions( $raw ))->getEmissionsData();
+    }
+
+    /**
+     * Computes the price to offset the emissions in MT.
+     * @param float $emissions
+     * @return float
+     */
+    public function getOffsetAmount( $emissions = NULL )
+    {
+        $emissions = ( is_null( $emissions ) )
+            ? $this->emissions
+            : $emissions;
+
+        return (new Emissions)->price( $emissions );
     }
 
     public function buildProfile()

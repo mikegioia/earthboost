@@ -62,6 +62,19 @@ var Request = (function ( Config, Const, Message ) {
         });
     }
 
+    function saveAnswer ( groupName, year, userId, data, cb, errCb ) {
+        var o = {
+            year: year,
+            userid: userId,
+            name: groupName
+        };
+        var url = ( userId )
+            ? Const.url.save_answer_user.supplant( o )
+            : Const.url.save_answer.supplant( o );
+
+        send( url, HTTP_POST, cb, data, errCb );
+    }
+
     /**
      * Loads a parameter from the context, with a default
      * if it's not found.
@@ -81,8 +94,9 @@ var Request = (function ( Config, Const, Message ) {
      * @param string method
      * @param function cb
      * @param object data Optional
+     * @param function errCb Optional
      */
-    function send ( url, method, cb, data ) {
+    function send ( url, method, cb, data, errCb ) {
         reqwest({
             type: 'json',
             method: method,
@@ -91,11 +105,12 @@ var Request = (function ( Config, Const, Message ) {
             url: Config.api_path + url,
             success: function ( r ) {
                 if ( handle( r ) ) {
-                    typeof cb === 'function' && cb( r.data );
+                    typeof cb === 'function' && cb( r.data, r.status );
                 }
             },
             error: function ( e ) {
                 console.error( e );
+                typeof errCb === 'function' && errCb();
                 Message.error( "There was a problem with that request." );
             }
         });
@@ -139,6 +154,10 @@ var Request = (function ( Config, Const, Message ) {
         dashboard: dashboard,
         questions: questions,
         saveMember: saveMember,
-        removeMember: removeMember
+        saveAnswer: saveAnswer,
+        STATUS_INFO: STATUS_INFO,
+        STATUS_ERROR: STATUS_ERROR,
+        removeMember: removeMember,
+        STATUS_SUCCESS: STATUS_SUCCESS
     };
 }( Config, Const, Message ));

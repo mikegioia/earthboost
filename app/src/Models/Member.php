@@ -54,9 +54,6 @@ class Member extends Model
                     "There was a problem validating this member."
                 ));
         }
-
-        // Remove any optional fields that are NULL
-
     }
 
     public function fetchByGroupYear( $groupId, $year )

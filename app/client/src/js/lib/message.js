@@ -24,8 +24,12 @@ var Message = (function ( DOM, Components ) {
         notify( ERROR, message );
     }
 
-    function success ( message ) {
-        notify( SUCCESS, message, true );
+    function success ( message /*, expire */ ) {
+        var expire = ( arguments.length > 1 )
+            ? arguments[ 1 ]
+            : true;
+
+        notify( SUCCESS, message, expire );
     }
 
     function warning ( message ) {

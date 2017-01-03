@@ -8,6 +8,7 @@ use App\Entity
   , App\Entities\Group
   , App\Entities\Member
   , App\Entities\Answer
+  , App\Libraries\Questions
   , Symfony\Component\HttpFoundation\Request
   , App\Exceptions\NoMember as NoMemberException
   , App\Exceptions\NotFound as NotFoundException
@@ -188,8 +189,59 @@ class Controller
         $this->data[ 'questions' ] = $app[ 'questions' ];
         $this->data[ 'mode' ] = ( $user->exists() ) ? USER : GROUP;
         $this->data[ 'answers' ] = Answer::findByGroup( $group, $year );
-        $this->data[ 'emissions' ] = $group->getEmissions( $year, FALSE );
-        $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );
+        $this->data[ 'emissions' ] = ( $user->exists() )
+            ? $user->getEmissions( $group, $year )
+            : $group->getEmissions( $year, FALSE );
+        $this->data[ 'offset_amount' ] = ( $user->exists() )
+            ? $user->getOffsetAmount( $group, $year )
+            : $group->getOffsetAmount( $year );
+
+        return $this->respond( SUCCESS );
+    }
+
+    public function saveAnswer( $name, $year, $userId = NULL, Request $request, Application $app )
+    {
+        // @TODO USE FACTORY
+        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
+        $user = new User( $userId );
+        $post = $request->request->all();
+        $group = Group::loadByName( $name );
+        $answerVal = get( $post, 'answer' );
+        $selectVal = get( $post, 'select' );
+
+        if ( ! valid( $userId, INT ) && $user->exists() ) {
+            throw new NotFoundException( USER, $userId );
+        }
+
+        if ( ! $group->exists() ) {
+            throw new NotFoundException( GROUP, $name );
+        }
+
+        if ( $user->exists() && ! $user->isMemberOf( $group ) ) {
+            throw new NoMemberException( $user, $group );
+        }
+
+        if ( ! valid( $answerVal, STRING ) ) {
+            return $this->respond( INFO, "Please enter a value for that answer." );
+        }
+
+        // Save the answer to the database
+        $answer = new Answer([
+            'year' => $year,
+            'group_id' => $group->id,
+            'question_id' => get( $post, 'question_id' ),
+            'user_id' => ( $user->exists() ) ? $user->id : NULL
+        ]);
+        $questions = new Questions( $app[ 'questions' ] );
+        $questions->saveAnswer( $answer, $answerVal, $selectVal );
+
+        $this->data[ 'answers' ] = Answer::findByGroup( $group, $year );
+        $this->data[ 'emissions' ] = ( $user->exists() )
+            ? $user->getEmissions( $group, $year )
+            : $group->getEmissions( $year, FALSE );
+        $this->data[ 'offset_amount' ] = ( $user->exists() )
+            ? $user->getOffsetAmount( $group, $year )
+            : $group->getOffsetAmount( $year );
 
         return $this->respond( SUCCESS );
     }

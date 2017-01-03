@@ -90,7 +90,7 @@
                         <div class="progress">
                             <div class="progress-bar" style="width:65%;"></div>
                         </div>
-                        <a class="edit" href="javascript:;">
+                        <a class="edit" href="/questions/{{group.name}}/{{year}}">
                             <i class="icon-edit"></i>
                         </a>
                         <div class="group-label">{{group.label}}</div>
@@ -107,7 +107,7 @@
                             <div class="progress">
                                 <div class="progress-bar" style="width:65%;"></div>
                             </div>
-                            <a class="edit" href="javascript:;">
+                            <a class="edit" href="/questions/{{group.name}}/{{year}}/{{user_id}}/IN">
                                 <i class="icon-edit"></i>
                             </a>
                             <div class="member-name">{{name}}</div>
@@ -268,47 +268,48 @@
         </script>
         <!-- Question -->
         <script id="question" type="text/template">
+            {{#question}}
             <div class="question">
-                <form action="" method="GET" name="question" data-type="{{question.type}}">
+                <form action="" method="GET" name="question" data-type="{{type}}" data-goto="{{goto}}">
                     <h3 class="sans u-cf">
-                        <span class="text">{{question.group}}:</span>
-                        <span class="text u-push-left-one">{{question.index}} <small>of</small> {{question.total}}</span>
-                        <span class="progress" style="width:{{question.progress}}%"></span>
+                        <span class="text">{{group}}:</span>
+                        <span class="text u-push-left-one">{{index}} <small>of</small> {{total}}</span>
+                        <span class="progress" style="width:{{progress}}%"></span>
                     </h3>
                     <div class="form">
-                        <label class="label">{{question.label}}</label>
-                    {{#question.radio}}
-                        {{#question.choices}}
+                        <label class="label">{{label}}</label>
+                    {{#radio}}
+                        {{#choices}}
                         <label class="radio-label">
                             <input type="radio" name="answer" value="{{value}}" data-goto="{{goto}}" {{#selected}} checked="checked"{{/selected}} required>
                             <span>{{label}}</span>
                         </label>
-                        {{/question.choices}}
-                    {{/question.radio}}
-                    {{#question.checkbox}}
-                        {{#question.choices}}
+                        {{/choices}}
+                    {{/radio}}
+                    {{#checkbox}}
+                        {{#choices}}
                         <label class="checkbox-label">
                             <input type="checkbox" name="{{name}}" value="{{value}}">
                             <span>{{label}}</span>
                         </label>
-                        {{/question.choices}}
-                    {{/question.checkbox}}
-                    {{#question.number}}
-                        <input class="input" name="answer" type="number" id="answer" value="{{question.value}}" min="0" data-goto="{{question.goto}}" required />
-                        <span class="suffix">{{question.input_suffix}}</span>
-                        {{#question.select.length}}
+                        {{/choices}}
+                    {{/checkbox}}
+                    {{#number}}
+                        <input class="input" name="answer" type="number" id="answer" value="{{value}}" min="0" data-goto="{{goto}}" required />
+                        <span class="suffix">{{input_suffix}}</span>
+                        {{#select.length}}
                         <span class="per">per</span>
                         <select name="select">
-                            {{#question.select}}
+                            {{#select}}
                             <option value="{{value}}"{{#selected}} selected="selected"{{/selected}}>{{label}}</option>
-                            {{/question.select}}
+                            {{/select}}
                         </select>
-                        {{/question.select.length}}
-                    {{/question.number}}
-                    {{#question.hint}}
-                        <div class="hint">{{question.hint}}</div>
-                    {{/question.hint}}
-                        <input type="hidden" name="id" value="{{question.id}}" />
+                        {{/select.length}}
+                    {{/number}}
+                    {{#hint}}
+                        <div class="hint">{{hint}}</div>
+                    {{/hint}}
+                        <input type="hidden" name="id" value="{{id}}" />
                     </div>
                     <div class="controls u-cf">
                         <button class="back u-pull-left">Back</a>
@@ -316,6 +317,7 @@
                     </div>
                 </form>
             </div>
+            {{/question}}
         </script>
         <!-- Notification -->
         <script id="notification" type="text/template">
@@ -323,7 +325,7 @@
                 <a class="close" href="javascript:;">
                     <i class="icon-cross"></i>
                 </a>
-                <div class="message">{{message}}</div>
+                <div class="message">{{{message}}}</div>
             </div>
         </script>
             <!-- Full page error overlay -->
