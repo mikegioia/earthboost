@@ -129,7 +129,7 @@ class Questions
      * @param Group $group
      * @param User $user Optional, if saving for a user's profile
      */
-    public function saveAsEmissions( array $answers, Group $group, User $user = NULL )
+    public function writeEmissions( array $answers, Group $group, User $user = NULL )
     {
         foreach ( $answers as $answer ) {
             switch ( $answer->question_id ) {

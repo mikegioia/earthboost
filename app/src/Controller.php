@@ -234,6 +234,8 @@ class Controller
         ]);
         $questions = new Questions( $app[ 'questions' ] );
         $questions->saveAnswer( $answer, $answerVal, $selectVal );
+        // get answers
+        //$questions->writeEmissions( $group, $user );
 
         $this->data[ 'answers' ] = Answer::findByGroup( $group, $year );
         $this->data[ 'emissions' ] = ( $user->exists() )
