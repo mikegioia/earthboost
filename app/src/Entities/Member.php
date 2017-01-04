@@ -5,7 +5,7 @@ namespace App\Entities;
 use App\Model
   , App\Entity
   , App\Entities\Group
-  , App\Libraries\Emissions
+  , App\Libraries\Calculator
   , App\Models\Member as MemberModel
   , App\Models\Emissions as EmissionsModel;
 
@@ -84,22 +84,24 @@ class Member extends Entity
             return ( $locale->mt * $this->locale_percent / 100 );
         }
 
-        $raw = $this->getRawEmissions();
+        $raw = $this->getRawEmissions( $ignoreStandard );
 
-        return (new Emissions( $raw ))->calculate();
+        return (new Calculator( $raw ))->calculate();
     }
 
     /**
      * Load the raw emissions records from the database.
      * @return array of objects
      */
-    public function getRawEmissions()
+    public function getRawEmissions( $ignoreStandard = FALSE )
     {
         if ( $this->_rawEmissions ) {
             return $this->_rawEmissions;
         }
 
-        if ( ! $this->exists() || $this->is_standard == 1 ) {
+        if ( ! $this->exists()
+            || $this->is_standard == 1 && ! $ignoreStandard )
+        {
             return [];
         }
 
@@ -118,9 +120,9 @@ class Member extends Entity
      */
     public function getEmissionsData()
     {
-        $raw = $this->getRawEmissions();
+        $raw = $this->getRawEmissions( TRUE );
 
-        return (new Emissions( $raw ))->getEmissionsData();
+        return (new Calculator( $raw ))->getEmissionsData();
     }
 
     /**
@@ -134,9 +136,12 @@ class Member extends Entity
             ? $this->emissions
             : $emissions;
 
-        return (new Emissions)->price( $emissions );
+        return (new Calculator)->price( $emissions );
     }
 
+    /**
+     * Loads all of the data for the full member profile.
+     */
     public function buildProfile()
     {
         if ( ! $this->exists() ) {
@@ -196,17 +201,34 @@ class Member extends Entity
         ]);
     }
 
-    static public function findByGroup( Group $group, $year )
+    /**
+     * Find all members by group and year.
+     * @param Group $group
+     * @param int $year
+     * @param bool $populateEmissions
+     * @return array
+     */
+    static public function findByGroup( Group $group, $year, $populateEmissions = FALSE )
     {
         $members = (new MemberModel)->fetchByGroupYear( $group->id, $year );
 
-        return self::hydrate( $members );
+        return self::hydrate( $members, [
+            self::POPULATE_EMISSIONS => $populateEmissions
+        ]);
     }
 
-    static public function findByUser( User $user )
+    /**
+     * Find all members by user ID.
+     * @param User $user
+     * @param bool $populateEmissions
+     * @return array
+     */
+    static public function findByUser( User $user, $populateEmissions = FALSE )
     {
         $members = (new MemberModel)->fetchByUser( $user->id );
 
-        return self::hydrate( $members );
+        return self::hydrate( $members, [
+            self::POPULATE_EMISSIONS => $populateEmissions
+        ]);
     }
 }

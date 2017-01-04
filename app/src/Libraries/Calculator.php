@@ -6,7 +6,7 @@ namespace App\Libraries;
  * Calculates the emissions in metric tonnes and dollar
  * value for a set of metrics.
  */
-class Emissions
+class Calculator
 {
     // kW/h per server
     const KWH_SERVER = 0.25;
@@ -70,7 +70,7 @@ class Emissions
     const USER_BUSES_LONG = 'BL';
     const USER_CARS_MILES = 'CM';
     const USER_ENERGY_GAS = 'EG';
-    const USER_ENERGY_OIL = 'OI';
+    const USER_ENERGY_OIL = 'EO';
     const USER_HOTEL_DAYS = 'HD';
     const USER_TRAINS_LONG = 'TL';
     const USER_BUSES_SHORT = 'BS';
@@ -86,7 +86,7 @@ class Emissions
     const USER_FLIGHTS_SHORT = 'FS';
     const USER_SUBWAYS_SHORT = 'SS';
     const USER_FLIGHTS_MEDIUM = 'FM';
-    const USER_ENERGY_PROPANE = 'EP';
+    const USER_ENERGY_PROPANE = 'ER';
 
     /**
      * Used for calculating. If the type is USER then we need to

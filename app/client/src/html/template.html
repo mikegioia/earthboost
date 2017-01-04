@@ -33,19 +33,23 @@
         <section id="notifications" class="notifications"></section>
         <!-- Navigation -->
         <script id="nav" type="text/template">
+        {{#showUserName}}
+            <span class="u-push-right-one u-light">{{userName}}</span>
+        {{/showUserName}}
         {{#showGroupSelect}}
             <select name="group">
             {{#groups}}
-                <option value="{{group_name}}"{{#selected}} selected="selected"{{/selected}}>{{group_label}}</option>
+                <option value="{{group_name}}.{{year}}"{{#selected}} selected="selected"{{/selected}}>{{group_label}} &mdash; {{year}}</option>
             {{/groups}}
             </select>
         {{/showGroupSelect}}
         {{#showLogout}}
             <a class="button" href="/logout">Logout</a>
         {{/showLogout}}
-        {{#showCancel}}
+        {{#showCalculator}}
+            <!--<a class="button" href="/{{groupName}}/{{year}}">Advanced</a>-->
             <a class="button" href="/{{groupName}}/{{year}}">Save and Close</a>
-        {{/showCancel}}
+        {{/showCalculator}}
         </script>
         <!-- Dashboard -->
         <script id="dashboard" type="text/template">
@@ -142,7 +146,14 @@
                         <span class="locale">({{locale}})</span>
                         <span class="emissions">{{emissions}} <small>t</small></span>
                         <span class="questions">
-                            <i class="icon-sad"></i>
+                            <a href="{{edit_url}}" title="Edit Carbon Profile">
+                        {{#is_standard}}
+                                <i class="icon-sad"></i>
+                        {{/is_standard}}
+                        {{^is_standard}}
+                                <i class="icon-happy"></i>
+                        {{/is_standard}}
+                            </a>
                         </span>
                         <a class="actions dropdown-toggle" href="javascript:;">
                             <i class="icon-cog"></i>
@@ -213,7 +224,7 @@
         </script>
         <!-- Carbon Calculator -->
         <script id="questions" type="text/template">
-            <section class="questions row">
+            <section class="container questions row">
             {{#question.show_intro}}
                 <div class="intro">
                     <div class="progress">
@@ -237,7 +248,12 @@
                     </div>
                     <div class="controls">
                     {{#question.answer_count}}
+                        {{#question.complete}}
+                        <a class="button button-primary button-success" href="{{url_back}}">Profile Complete!</a>
+                        {{/question.complete}}
+                        {{^question.complete}}
                         <a class="button button-primary" href="{{url_stem}}/{{question.goto}}">Resume</a>
+                        {{/question.complete}}
                         <div class="restart">
                             <a class="link" href="{{url_stem}}/{{question.start_id}}">Start from beginning</a>
                         </div>

@@ -154,11 +154,18 @@ section.group .members ol li .questions {
     text-align: center;
     position: absolute;
 }
+section.group .members ol li .questions a {
+    text-decoration: none;
+}
 section.group .members ol li .questions .icon-sad {
     color: #ccc;
 }
 section.group .members ol li .questions .icon-happy {
     color: #28a94c;
+    font-weight: 600;
+}
+section.group .members ol li .questions a:hover i {
+    color: #333;
 }
 section.group .members ol li .actions {
     top: 1rem;
@@ -174,13 +181,12 @@ section.group .members ol li .actions:hover {
     color: #333;
 }
 section.group .members ol li ul.dropdown {
-    width: 100%;
     border: none;
-    right: -10rem;
     line-height: 0;
     text-align: right;
     position: relative;
     margin-top: 1.5rem;
+    width: calc(100% + 10rem);
 }
 section.group .members ol li ul.dropdown li {
     padding: 0;

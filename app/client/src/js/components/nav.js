@@ -14,8 +14,6 @@ return function ( $root ) {
         nav: DOM.html( $nav )
     };
     // Internal state
-    var year;
-    var group;
     var $select;
 
     /**
@@ -34,7 +32,8 @@ return function ( $root ) {
 
         // Add a property for the selected one
         data.groups.forEach( function ( group ) {
-            group.selected = ( group.group_name == groupName );
+            group.selected = group.group_name == groupName
+                && group.year == data.year;
         });
 
         data.showLogout = true;
@@ -48,12 +47,15 @@ return function ( $root ) {
      * Load the <nav> element with a cancel button.
      * @param String groupName
      * @param String year
+     * @param Object User
      */
-    function renderCalculator ( groupName, year ) {
+    function renderCalculator ( groupName, year, user ) {
         var data = {
             year: year,
-            showCancel: true,
-            groupName: groupName
+            userName: user.name,
+            groupName: groupName,
+            showCalculator: true,
+            showUserName: ( user.id && user.name )
         };
 
         DOM.render( tpl.nav, data ).to( $root );
@@ -62,10 +64,7 @@ return function ( $root ) {
     function tearDown () {
         tpl = {};
         $nav = null;
-        year = null;
-        group = null;
         $select = null;
-        DOM.clear( $root );
     }
 
     /**
@@ -73,7 +72,9 @@ return function ( $root ) {
      * @param Event e
      */
     function switchGroup ( e ) {
-        URL.group( this.value, year );
+        var parts = this.value.split( '.' );
+
+        URL.group( parts[ 0 ], parts[ 1 ] );
     }
 
     return {

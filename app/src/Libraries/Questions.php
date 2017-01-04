@@ -2,8 +2,10 @@
 
 namespace App\Libraries;
 
-use App\Entities\Group
+use App\Entities\User
+  , App\Entities\Group
   , App\Entities\Answer
+  , App\Entities\Emissions
   , App\Exceptions\NotFound as NotFoundException;
 
 /**
@@ -17,6 +19,14 @@ class Questions
     private $answers;
     private $questions;
 
+    /**
+     * Waste per person
+     */
+    const WASTE_POUNDS = 1570;
+
+    /**
+     * Input types
+     */
     const TYPE_RADIO = 'radio';
     const TYPE_NUMBER = 'number';
     const TYPE_CHECKBOX = 'checkbox';
@@ -30,7 +40,7 @@ class Questions
     const BUSES_LONG = 'BL';
     const CARS_MILES = 'CM';
     const ENERGY_GAS = 'EG';
-    const ENERGY_OIL = 'OI';
+    const ENERGY_OIL = 'EO';
     const HOTEL_DAYS = 'HD';
     const TRAINS_LONG = 'TL';
     const BUSES_SHORT = 'BS';
@@ -46,7 +56,7 @@ class Questions
     const FLIGHTS_SHORT = 'FS';
     const SUBWAYS_SHORT = 'SS';
     const FLIGHTS_MEDIUM = 'FM';
-    const ENERGY_PROPANE = 'EP';
+    const ENERGY_PROPANE = 'ER';
 
     /**
      * @param array $questions
@@ -84,11 +94,12 @@ class Questions
         // flights, then mark the question asking if any flights were
         // taken equal to "1".
         if ( isset( $question->update ) ) {
-            foreah ( $question->update as $updateId => $updateVal ) {
+            foreach ( $question->update as $updateId => $updateVal ) {
                 $cloned = clone $answer;
                 $cloned->id = NULL;
                 $cloned->question_id = $updateId;
                 $cloned->save([
+                    'select' => NULL,
                     'answer' => $updateVal
                 ]);
             }
@@ -125,25 +136,73 @@ class Questions
      * updates to rows in the 'emissions' table. The emissions table
      * is later queried for the updated emissions and cost data for
      * rendering in the calculator.
-     * @param array $answers
      * @param Group $group
      * @param User $user Optional, if saving for a user's profile
+     * @param int $year
+     * @param bool $updateIsStandard If set, this will toggle the flag
+     *   is_standard. If all questions are answered, is_standard gets
+     *   turned off. Otherwise, it is turned on.
      */
-    public function writeEmissions( array $answers, Group $group, User $user = NULL )
+    public function writeEmissions( Group $group, User $user, $year, $updateIsStandard = TRUE )
     {
+        // Pull the answers eiter by group or user
+        $answers = Answer::findByUserGroup( $group, $user, $year );
+
         foreach ( $answers as $answer ) {
+            $value = 0;
+
             switch ( $answer->question_id ) {
+                // Subtract each of the user's selections from a
+                // storage counter of 1570
                 case self::WASTE:
-                    // subtract from a storage counter of 1570
-                    // each of the user's selections
-                case self::FLIGHTS_SHORT:
-                case self::FLIGHTS_MEDIUM:
-                case self::FLIGHTS_LONG:
-                    // store this directly into the emissions database
-                    // a lot can go into this catchall
+                    $value = self::WASTE_POUNDS;
+                    foreach ( $answer->answer as $key => $sub ):
+                        $value += ( is_array( $sub ) )
+                            ? intval( min( $sub ) )
+                            : intval( $sub );
+                    endforeach;
+                    break;
+                // These need to be multiplied by the select value
+                case self::MEAT_DAYS:
+                case self::CARS_MILES:
+                case self::ENERGY_GAS:
+                case self::ENERGY_OIL:
+                case self::ENERGY_POWER:
+                case self::SUBWAYS_LONG:
+                case self::SUBWAYS_SHORT:
+                case self::ENERGY_PROPANE:
+                    $value = $answer->answer * $answer->select;
+                    break;
+                // Everything else can go straight in to the emissions
+                default:
+                    $value = $answer->answer;
+                    break;
             }
+
+            // Save this emissions record to the database
+            $emissions = new Emissions([
+                'year' => $year,
+                'user_id' =>$user->id,
+                'group_id' => $group->id,
+                'type_id' => $answer->question_id
+            ]);
+            // This will check before saving a duplicate
+            $emissions->save([
+                'value' => $value
+            ]);
         }
 
+        if ( ! $updateIsStandard || ! $user->exists() ) {
+            return;
+        }
+
+        $qCount = $this->getQuestionCount( $group, USER );
+        $member = $user->getMember( $group, $year, TRUE );
+        $member->save([
+            'is_standard' => ( count( $answers ) >= $qCount )
+                ? 0
+                : 1
+        ]);
     }
 
     /**
@@ -160,5 +219,23 @@ class Questions
         }
 
         return NULL;
+    }
+
+    private function getQuestionCount( Group $group, $mode )
+    {
+        $count = 0;
+
+        foreach ( $this->questions as $question ) {
+            if ( isset( $question->skip_for )
+                && ( in_array( $mode, $question->skip_for )
+                    || in_array( "$mode:{$group->type}", $question->skip_for ) ) )
+            {
+                continue;
+            }
+
+            $count++;
+        }
+
+        return $count;
     }
 }

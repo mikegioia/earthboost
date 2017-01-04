@@ -9,6 +9,12 @@
     }
 }
 
+@media only screen and (max-width: 920px) {
+    .container {
+        width: 100%;
+    }
+}
+
 @media only screen and (min-width: 920px) {
     section.group .summary,
     section.questions .summary {

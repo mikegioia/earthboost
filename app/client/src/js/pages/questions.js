@@ -60,7 +60,7 @@ Pages.Questions = (function ( Request, DOM, Components, Message ) {
                 data = _data;
                 isRendered = true;
                 DOM.title([ "Carbon Calculator", data.group.name ]);
-                Nav.renderCalculator( data.group.name, data.year );
+                Nav.renderCalculator( data.group.name, data.year, data.user );
                 renderQuestion( questionId );
             });
     }

@@ -95,8 +95,7 @@ ALTER TABLE `answers`
   ADD KEY `group_id` (`group_id`);
 ALTER TABLE `emissions`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `group_id` (`group_id`),
-  ADD KEY `type_id` (`type_id`);
+  ADD KEY `group_id` (`group_id`);
 
 -- Add increments
 ALTER TABLE `users` MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT;

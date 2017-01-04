@@ -23,8 +23,8 @@
         "goto": "FM",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "RT flights",
         "emissions_key": "flights_short",
+        "input_suffix": "short RT flights",
         "heading": "Short flights (< 300 mi)",
         "label": "How many short (less than 300 mi) round trip flights were taken?",
         "update": {
@@ -35,8 +35,8 @@
         "goto": "FL",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "RT flights",
         "emissions_key": "flights_medium",
+        "input_suffix": "long RT flights",
         "heading": "Long flights (< 2,300 mi)",
         "label": "How many long (less than 2,300 mi) round trip flights were taken?",
         "update": {
@@ -47,8 +47,8 @@
         "goto": "CA",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "RT flights",
         "emissions_key": "flights_long",
+        "input_suffix": "very far RT flights",
         "heading": "Far, or international flights (> 2,300 mi)",
         "label": "How many very far or international (more than 2,300 mi) round trip flights were taken?",
         "update": {
@@ -115,8 +115,8 @@
         "goto": "TM",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "train rides",
         "emissions_key": "trains_short",
+        "input_suffix": "short train rides",
         "heading": "Short train rides (< 200 mi)",
         "label": "How many short (less than 200 mi) train trips were taken?",
         "update": {
@@ -127,8 +127,8 @@
         "goto": "TL",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "train rides",
         "emissions_key": "trains_medium",
+        "input_suffix": "far train rides",
         "heading": "Long train rides (< 500 mi)",
         "label": "How many long (less than 500 mi) train trips were taken?",
         "update": {
@@ -139,8 +139,8 @@
         "goto": "SU",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "train rides",
         "emissions_key": "trains_long",
+        "input_suffix": "very far train rides",
         "heading": "Long, or cross-country train rides (> 500 mi)",
         "label": "How many very far or cross-country train trips were taken?",
         "update": {
@@ -170,10 +170,16 @@
         "goto": "SL",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "subway rides",
         "emissions_key": "subways_short",
+        "input_suffix": "short train rides",
         "heading": "Short subway rides (< 2 mi)",
         "label": "How many short (less than 2 mi) subway rides were taken?",
+        "select": {
+            "week": 52,
+            "month": 12,
+            "year": 1,
+            "day": 365
+        },
         "update": {
             "SU": 1
         }
@@ -182,10 +188,16 @@
         "goto": "BR",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "subway rides",
         "emissions_key": "subways_long",
+        "input_suffix": "long subway rides",
         "heading": "Long subway rides (> 2 mi)",
         "label": "How many long (> 2 mi) subway rides were taken?",
+        "select": {
+            "week": 52,
+            "month": 12,
+            "year": 1,
+            "day": 365
+        },
         "update": {
             "SU": 1
         }
@@ -213,8 +225,8 @@
         "goto": "BM",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "bus rides",
         "emissions_key": "buses_short",
+        "input_suffix": "short bus rides",
         "heading": "Short bus rides (< 200 mi)",
         "label": "How many short (less than 200 mi) bus trips were taken?",
         "update": {
@@ -225,8 +237,8 @@
         "goto": "BL",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "bus rides",
         "emissions_key": "buses_medium",
+        "input_suffix": "long bus rides",
         "heading": "Long bus rides (< 500 mi)",
         "label": "How many long (less than 500 mi) bus trips were taken?",
         "update": {
@@ -237,8 +249,8 @@
         "goto": "EL",
         "type": "number",
         "group": "transportation",
-        "input_suffix": "bus rides",
         "emissions_key": "buses_long",
+        "input_suffix": "very far bus rides",
         "heading": "Long, or cross-country train rides (> 500 mi)",
         "label": "How many very far or cross-country bus trips were taken?",
         "update": {
@@ -359,18 +371,18 @@
             {
                 "label": "Yes",
                 "value": 1,
-                "goto": "EP"
+                "goto": "ER"
             }, {
                 "label": "No",
                 "value": 0,
                 "goto": "OA",
                 "clear": [
-                    "EP"
+                    "ER"
                 ]
             }
         ]
     }, {
-        "id": "EP",
+        "id": "ER",
         "goto": "OA",
         "type": "number",
         "group": "energy",
@@ -394,7 +406,7 @@
         "emissions_key": "office_area",
         "label": "What is the square footage of all office space for the year?",
         "skip_for": [
-            "user"
+            "user", "group:home"
         ]
     }, {
         "id": "HP",
@@ -405,7 +417,7 @@
         "emissions_key": "home_people",
         "label": "How many people live in your home?",
         "skip_for": [
-            "group"
+            "group:office", "user:home"
         ]
     }, {
         "id": "HA",
@@ -416,7 +428,7 @@
         "input_suffix": "square feet",
         "label": "What is the square footage of your home?",
         "skip_for": [
-            "group"
+            "group", "user"
         ]
     }, {
         "id": "PC",
@@ -453,7 +465,7 @@
         "goto": "MD",
         "type": "number",
         "group": "home_office",
-        "input_suffix": "days",
+        "input_suffix": "nights",
         "emissions_key": "hotel_days",
         "label": "How many nights have you %GROUP% stayed at hotels?"
     }, {

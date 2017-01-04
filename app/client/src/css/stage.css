@@ -81,6 +81,9 @@ ul.dropdown a {
 .sans {
     font-family: 'Alegreya Sans', Helvetica, Arial, sans-serif;
 }
+.u-light {
+    color: #999;
+}
 .u-no-margin {
     margin: 0 !important;
 }
@@ -89,4 +92,7 @@ ul.dropdown a {
 }
 .u-push-left-two {
     margin-left: 2rem;
+}
+.u-push-right-one {
+    margin-right: 1rem;
 }

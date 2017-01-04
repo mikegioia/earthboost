@@ -72,7 +72,7 @@ class Controller
         // THIS SHOULD USE A USER OBJECT IN THE SESSION
         $user = new User( 1 );
 
-        $year = ( $year ) ?: date( "Y" );
+        $year = ( $year ) ?: date( "Y" ) - (date( "m" ) <= 3 ? 1 : 0);
         // @TODO USE FACTORY
         // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
         $group = Group::loadByName( $name );
@@ -87,7 +87,7 @@ class Controller
         $this->data[ 'group' ] = $group;
         $this->data[ 'groups' ] = $user->getGroups();
         $this->data[ 'locales' ] = $app[ 'locales' ];
-        $this->data[ 'members' ] = $group->getMembers( $year );
+        $this->data[ 'members' ] = $group->getMembers( $year, TRUE );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );
         $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );
 
@@ -221,7 +221,7 @@ class Controller
             throw new NoMemberException( $user, $group );
         }
 
-        if ( ! valid( $answerVal, STRING ) ) {
+        if ( ! is_array( $answerVal ) && ! valid( $answerVal, STRING ) ) {
             return $this->respond( INFO, "Please enter a value for that answer." );
         }
 
@@ -234,9 +234,10 @@ class Controller
         ]);
         $questions = new Questions( $app[ 'questions' ] );
         $questions->saveAnswer( $answer, $answerVal, $selectVal );
-        // get answers
-        //$questions->writeEmissions( $group, $user );
+        // If all questions are answered, remove the is_standard flag
+        $questions->writeEmissions( $group, $user, $year, TRUE );
 
+        // Return an updated copy of the answers and emissions data
         $this->data[ 'answers' ] = Answer::findByGroup( $group, $year );
         $this->data[ 'emissions' ] = ( $user->exists() )
             ? $user->getEmissions( $group, $year )

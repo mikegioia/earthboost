@@ -72,6 +72,7 @@ return function ( $root, saveCallback ) {
         data.url_stem = ( data.user.id )
             ? Const.url.questions_user.supplant( urlParams )
             : Const.url.questions.supplant( urlParams );
+        data.url_back = Const.url.group_year.supplant( urlParams );
         // Add the question to render
         data.question = question;
     }
@@ -104,8 +105,9 @@ return function ( $root, saveCallback ) {
         var gotoId;
         var $input;
         var $form = DOM.get( 'form[name="question"]' );
+        var $answer = DOM.get( 'input[name="answer"]' );
+        var answer = ( $answer ) ? $answer.value : null;
         var $select = DOM.get( 'select[name="select"]' );
-        var answer = DOM.get( 'input[name="answer"]' ).value;
         var questionId = DOM.get( 'input[name="id"]' ).value;
         var urlStem = ( data.user.id )
             ? Const.url.questions_user.supplant( urlParams )
@@ -115,12 +117,16 @@ return function ( $root, saveCallback ) {
         switch ( inputType ) {
             case Calculator.TYPES.radio:
                 $input = DOM.get( 'input[name="answer"]:checked' );
+                answer = ( $input ) ? $input.value : answer;
                 break;
             case Calculator.TYPES.number:
                 $input = DOM.get( 'input[type="number"]' );
                 break;
             default:
                 $input = $form;
+                answer = DOM.serialize( $form );
+                delete answer.id;
+                break;
         }
 
         e.preventDefault();

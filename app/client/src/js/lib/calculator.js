@@ -43,7 +43,7 @@ var Calculator = (function () {
     {
         var answers = getAnswers( answers, userId );
         var mode = ( userId ) ? MODES.user : MODES.group;
-        var questions = prepQuestions( allQuestions, mode );
+        var questions = prepQuestions( allQuestions, group, mode );
         var question = findQuestion( questions, questionId );
 
         // If no question ID came in, then load the landing page
@@ -91,15 +91,18 @@ var Calculator = (function () {
     /**
      * Removes skipped questions.
      * @param Array questions
+     * @param Object group
      * @param String mode
      * @return Array
      */
-    function prepQuestions ( questions, mode ) {
+    function prepQuestions ( questions, group, mode ) {
         var array = [];
+        var groupMode = mode + ':' + group.type;
 
         questions.forEach( function ( question ) {
             if ( question.skip_for
-                && question.skip_for.indexOf( mode ) > -1 )
+                && ( question.skip_for.indexOf( mode ) > -1
+                    || question.skip_for.indexOf( groupMode ) > -1 ) )
             {
                 return;
             }
@@ -174,8 +177,11 @@ var Calculator = (function () {
         var index = 0;
         var groupTotal = 0;
         var selectVal = answer ? answer.select : '';
-        var groupFillIn = ( group.type === GROUP_TYPES.office )
-            ? 'or your employees'
+        var groupNoun = ( group.type === GROUP_TYPES.office )
+            ? 'employees'
+            : 'family members';
+        var groupFillIn = ( mode === MODES.group )
+            ? 'or your ' + groupNoun
             : '';
         var q = {
             select: false,
@@ -301,7 +307,11 @@ var Calculator = (function () {
             show_intro: true,
             start_id: questions[ 0 ].id,
             answer_count: answers.count,
-            progress: Math.round( answers.count / questions.length * 100 )
+            complete: answers.count >= questions.length,
+            progress: Math.round(
+                Math.min( answers.count, questions.length )
+                    / questions.length
+                    * 100 )
         };
     }
 

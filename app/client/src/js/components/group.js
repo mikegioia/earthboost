@@ -61,6 +61,12 @@ return function ( $root ) {
                 .toFixed( 2 )
                 .toString()
                 .numberCommas();
+            m.is_standard = ( m.is_standard == 1 );
+            m.edit_url = Const.url.questions_user.supplant({
+                year: data.year,
+                userid: m.user_id,
+                name: data.group.name
+            }) + "/IN";
         });
 
         // Sort by name for now
@@ -168,7 +174,6 @@ return function ( $root ) {
         data = null;
         $group = null;
         $addButton = null;
-        DOM.clear( $root );
         $root.className = '';
     }
 

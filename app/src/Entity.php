@@ -179,22 +179,24 @@ abstract class Entity
 
     /**
      * Returns instances of the model from a set of objects.
+     * @param array $rows
+     * @param array $options
      * @return array of Entities
      */
-    static public function hydrate( $rows )
+    static public function hydrate( $rows, $options = [] )
     {
         if ( ! $rows ) {
             return [];
         }
 
         if ( is_object( $rows ) ) {
-            return new static( $rows );
+            return new static( $rows, $options );
         }
 
         $entities = [];
 
         foreach ( $rows as $row ) {
-            $entities[] = new static( $row );
+            $entities[] = new static( $row, $options );
         }
 
         return $entities;

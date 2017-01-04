@@ -4,7 +4,7 @@ namespace App\Entities;
 
 use App\Entity
   , App\Entities\Member
-  , App\Libraries\Emissions
+  , App\Libraries\Calculator
   , App\Models\Group as GroupModel
   , App\Models\Emissions as EmissionsModel;
 
@@ -57,15 +57,16 @@ class Group extends Entity
      * Returns an array of Member objects containing all members
      * of the group and their emissions for the year.
      * @param int $year
+     * @param bool $populateEmissions
      * @return array of Members
      */
-    public function getMembers( $year )
+    public function getMembers( $year, $populateEmissions = FALSE )
     {
         if ( ! is_null( $this->_members ) ) {
             return $this->_members;
         }
 
-        $this->_members = Member::findByGroup( $this, $year );
+        $this->_members = Member::findByGroup( $this, $year, $populateEmissions );
 
         return $this->_members;
     }
@@ -80,7 +81,7 @@ class Group extends Entity
     public function getEmissions( $year, $includeMembers = TRUE )
     {
         $raw = $this->getRawEmissions( $year );
-        $emissions = (new Emissions( $raw ))->calculate();
+        $emissions = (new Calculator( $raw ))->calculate();
 
         if ( $includeMembers === TRUE ) {
             foreach ( $this->getMembers( $year ) as $member ) {
@@ -119,10 +120,13 @@ class Group extends Entity
      */
     public function getOffsetAmount( $year, $includeMembers = TRUE )
     {
-        return (new Emissions)->price(
+        return (new Calculator)->price(
             $this->getEmissions( $year, $includeMembers ) );
     }
 
+    /**
+     * Clear local cache.
+     */
     public function clearCache()
     {
         $this->_members = NULL;

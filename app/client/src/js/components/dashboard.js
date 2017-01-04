@@ -39,7 +39,6 @@ return function ( $root ) {
     function tearDown () {
         tpl = {};
         $dashboard = null;
-        DOM.clear( $root );
         $root.className = '';
     }
 
