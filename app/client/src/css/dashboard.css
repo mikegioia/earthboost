@@ -16,6 +16,7 @@ section.dashboard .groups {
 section.dashboard .group {
     width: 48%;
     font-size: 2.5rem;
+    margin-bottom: 2rem;
     box-sizing: border-box;
     transition: box-shadow 0.25s ease;
     box-shadow: 4px 4px 0 rgba(127, 198, 160, 0.33);
