@@ -88,7 +88,7 @@
         </script>
         <!-- Group -->
         <script id="group" type="text/template">
-            <section class="group row">
+            <section class="container group row">
                 <div class="six columns">
                     <div class="summary">
                         <div class="progress">
@@ -218,7 +218,7 @@
                         <span class="label-body">Champion?</span>
                     </label>
                     <input type="hidden" value="{{id}}" name="id" />
-                    <button type="submit" class="u-no-margin button-primary">Save New Person</button>
+                    <button type="submit" class="u-no-margin button-primary">Save {{^id}}New{{/id}} Person</button>
                 </form>
             </div>
         </script>
