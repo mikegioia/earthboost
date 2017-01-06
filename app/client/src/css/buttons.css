@@ -19,6 +19,13 @@ a.button.button-primary {
     background-color: #067cad;
 }
 
+button.button-success,
+a.button.button-success {
+    color: #fff;
+    border-color: #28a94c;
+    background-color: #28a94c;
+}
+
 button:focus,
 button:hover,
 button:active,

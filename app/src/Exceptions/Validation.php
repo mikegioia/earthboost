@@ -6,7 +6,7 @@ use App\Exception;
 
 class Validation extends Exception
 {
-    public $httpCode = 412;
+    public $httpCode = 449;
 
     public function __construct( $message = "" )
     {

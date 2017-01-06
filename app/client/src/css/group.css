@@ -28,6 +28,8 @@ section.group .edit {
     position: absolute;
     display: inline-block;
     text-decoration: none;
+    padding: 0 0 0 0.5rem;
+    background-color: #fff;
 }
 section.group .edit:hover {
     color: #333;

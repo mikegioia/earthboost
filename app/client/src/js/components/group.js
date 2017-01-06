@@ -66,7 +66,7 @@ return function ( $root ) {
                 year: data.year,
                 userid: m.user_id,
                 name: data.group.name
-            }) + "/IN";
+            }) + "/intro";
         });
 
         // Sort by name for now

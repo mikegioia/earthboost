@@ -6,7 +6,7 @@ use App\Exception;
 
 class Email extends Exception
 {
-    public $httpCode = 412;
+    public $httpCode = 470;
 
     public function __construct( $message = "" )
     {

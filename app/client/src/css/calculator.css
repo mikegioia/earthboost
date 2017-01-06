@@ -32,6 +32,9 @@ section.questions .intro .progress-bar {
     height: 100%;
     background: #f1dc2b;
 }
+section.questions .intro .progress-bar.complete {
+    background: #28a94c;
+}
 section.questions .intro .steps {
     padding-left: 1rem;
     margin-bottom: 3rem;

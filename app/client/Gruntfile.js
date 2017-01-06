@@ -43,8 +43,8 @@ module.exports = function ( grunt ) {
                     './src/js/app.js',
                     // Libraries
                     './src/js/lib/dom.js',
-                    './src/js/lib/router.js',
                     './src/js/lib/message.js',
+                    './src/js/lib/router.js',
                     './src/js/lib/request.js',
                     './src/js/lib/calculator.js',
                     // Controllers

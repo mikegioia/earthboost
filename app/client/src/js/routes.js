@@ -24,5 +24,8 @@ page( '/questions/:group/:year', Router.Questions.view );
 page( '/:group/:year', Router.Group.view );
 page( '/:group', Router.Group.view );
 
+// Not found
+page( '*', Router.notFound );
+
 // Start the router
 page();

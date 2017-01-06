@@ -89,7 +89,7 @@
         <!-- Group -->
         <script id="group" type="text/template">
             <section class="container group row">
-                <div class="six columns">
+                <div class="five columns">
                     <div class="summary">
                         <div class="progress">
                             <div class="progress-bar" style="width:65%;"></div>
@@ -111,7 +111,7 @@
                             <div class="progress">
                                 <div class="progress-bar" style="width:65%;"></div>
                             </div>
-                            <a class="edit" href="/questions/{{group.name}}/{{year}}/{{user_id}}/IN">
+                            <a class="edit" href="/questions/{{group.name}}/{{year}}/{{user_id}}/intro">
                                 <i class="icon-edit"></i>
                             </a>
                             <div class="member-name">{{name}}</div>
@@ -127,7 +127,7 @@
                     {{/member}}
                     </div>
                 </div>
-                <div class="six columns panel">
+                <div class="seven columns panel">
                     {{> members}}
                 </div>
             </section>
@@ -168,7 +168,7 @@
                             <li>
                                 <a href="javascript:;" class="remove-member" data-id="{{id}}">
                                     <i class="icon-trash"></i>
-                                    Remove from Group
+                                    Remove
                                 </a>
                             </li>
                         </ul>
@@ -181,7 +181,12 @@
         <script id="add-member-form" type="text/template">
             <div class="new-member-form">
                 <h3 class="sans u-cf">
+                {{#id}}
+                    <span>Edit Account</span>
+                {{/id}}
+                {{^id}}
                     <span>Add a Person</span>
+                {{/id}}
                     <a class="cancel" href="javascript:;">
                         <i class="icon-cross"></i>
                     </a>
@@ -228,7 +233,7 @@
             {{#question.show_intro}}
                 <div class="intro">
                     <div class="progress">
-                        <div class="progress-bar" style="width:{{question.progress}}%;"></div>
+                        <div class="progress-bar{{#question.complete}} complete{{/question.complete}}" style="width:{{question.progress}}%;"></div>
                     </div>
                     <h2>Carbon Calculator</h2>
                     <div class="steps">

@@ -137,12 +137,14 @@ var Calculator = (function () {
      * skipped question, then we need to find the NEXT one that applies.
      * @param String gotoId Question ID to travel to
      * @param Array allQuestions
+     * @param Object group
      * @param String mode
      * @return String
      */
-    function findGoto ( gotoId, allQuestions, mode ) {
+    function findGoto ( gotoId, allQuestions, group, mode ) {
         var i;
         var q;
+        var groupMode = mode + ':' + group.type;
 
         for ( i in allQuestions ) {
             q = allQuestions[ i ];
@@ -151,7 +153,10 @@ var Calculator = (function () {
                 continue;
             }
 
-            if ( q.skip_for && q.skip_for.indexOf( mode ) > -1 ) {
+            if ( q.skip_for
+                && ( q.skip_for.indexOf( mode ) > -1
+                    || q.skip_for.indexOf( groupMode ) > -1 ) )
+            {
                 gotoId = q.goto;
                 continue;
             }
@@ -197,7 +202,7 @@ var Calculator = (function () {
             radio: question.type == TYPES.radio,
             number: question.type == TYPES.number,
             checkbox: question.type == TYPES.checkbox,
-            goto: findGoto( question.goto, allQuestions, mode )
+            goto: findGoto( question.goto, allQuestions, group, mode )
         };
 
         // Get the index position in the group, and the total
@@ -222,7 +227,7 @@ var Calculator = (function () {
                     name: choice.name,
                     label: choice.label,
                     value: choice.value,
-                    goto: findGoto( choice.goto, allQuestions, mode ),
+                    goto: findGoto( choice.goto, allQuestions, group, mode ),
                     // @TODO split string for checkboxes and check inArray
                     selected: choice.value.toString() == q.value.toString()
                 });

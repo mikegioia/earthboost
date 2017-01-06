@@ -129,6 +129,7 @@ var Request = (function ( Config, Const, Message ) {
             case 400:
             case 403:
             case 404:
+            case 412:
             case 500:
                 Message.halt( r.code, r.message );
                 return false;

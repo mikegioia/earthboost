@@ -6,7 +6,7 @@
  * for each change in controller, the layout is re-rendered
  * and events/state from the previous controller is torn down.
  */
-var Router = (function ( Pages ) {
+var Router = (function ( Pages, Message ) {
     'use strict';
     // Currently loaded controller
     var current = null;
@@ -103,9 +103,14 @@ var Router = (function ( Pages ) {
                 Pages );
     }
 
+    function notFound () {
+        Message.halt( 404, "Page not found" );
+    }
+
     return {
         Group: Group,
+        notFound: notFound,
         Dashboard: Dashboard,
-        Questions: Questions
+        Questions: Questions,
     };
-}( Pages ));
+}( Pages, Message ));

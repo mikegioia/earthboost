@@ -12,6 +12,8 @@ Pages.Questions = (function ( Request, DOM, Components, Message ) {
     // Used for caching
     var data;
     var isRendered = false;
+    // Question ID constants
+    var QID_INTRO = 'intro';
 
     /**
      * Public API method to setup the controller. This will render
@@ -39,7 +41,7 @@ Pages.Questions = (function ( Request, DOM, Components, Message ) {
      */
     function view ( ctx, next ) {
         var questionId = Request.param( ctx, 'questionid' );
-
+console.log( ctx );
         if ( isRendered === true ) {
             renderQuestion( questionId );
             return;
@@ -122,8 +124,11 @@ Pages.Questions = (function ( Request, DOM, Components, Message ) {
             return false;
         }
 
-        // IN is for Intro
-        if ( ! questionId || ! questionId.length || questionId == 'IN' ) {
+        // Allow the intro page
+        if ( ! questionId
+            || ! questionId.length
+            || questionId == QID_INTRO )
+        {
             return true;
         }
 
