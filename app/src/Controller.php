@@ -51,11 +51,9 @@ class Controller
     {
     }
 
-    public function dashboard()
+    public function dashboard( Application $app )
     {
-        // @TODO AUTH, STUBBED
-        // THIS SHOULD USE A USER OBJECT IN THE SESSION
-        $user = new User( 1 );
+        $user = $app[ 'session' ]->getUser();
 
         $this->data[ 'user' ] = $user;
         $this->data[ 'groups' ] = $user->getGroups();
@@ -87,6 +85,8 @@ class Controller
         $this->data[ 'group' ] = $group;
         $this->data[ 'groups' ] = $user->getGroups();
         $this->data[ 'locales' ] = $app[ 'locales' ];
+        $this->data[ 'is_admin' ] = $app[ 'session' ]->isAdmin()
+            || $user->getMember( $group, $year )->isAdmin();
         $this->data[ 'members' ] = $group->getMembers( $year, TRUE );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );
         $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );
@@ -247,6 +247,14 @@ class Controller
             : $group->getOffsetAmount( $year );
 
         return $this->respond( SUCCESS );
+    }
+
+    /**
+     * Admin panel.
+     */
+    public function admin()
+    {
+        exit('admin!');
     }
 
     /**

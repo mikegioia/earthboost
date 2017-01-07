@@ -1,6 +1,6 @@
 {
     "debug": false,
-    "environment": "dev",
+    "environment": "development",
     "cookie": {
         "name": "user",
         "lifetime": 7776000
@@ -19,6 +19,35 @@
         "name": "app",
         "level": "debug",
         "path": "var/log"
+    },
+    "login": {
+        "cookie": {
+            "path": "/",
+            "domain": "",
+            "ttl": 604800,
+            "name": "token",
+            "secure": false
+        }
+    },
+    "session": {
+        "ttl": 10800,
+        "cookie": {
+            "path": "/",
+            "domain": "",
+            "ttl": 604800,
+            "secure": false,
+            "name": "session"
+        }
+    },
+    "redis": {
+        "cache": {
+            "port": 6379,
+            "host": "localhost"
+        },
+        "session": {
+            "port": 6379,
+            "host": "localhost"
+        }
     },
     "email": {
         "key": "e331ee2b-82dc-4f00-87d7-a69a95c0fec1"

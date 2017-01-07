@@ -2,18 +2,8 @@
 
 use App\Model
   , App\Entity
-  , App\Session
-  , App\Controller
-  , Monolog\Logger
   , Silex\Application
-  , App\Libraries\Email
-  , Monolog\Handler\StreamHandler
-  , Monolog\Formatter\LineFormatter
-  , Monolog\Handler\RotatingFileHandler
-  , Silex\Provider\SessionServiceProvider
-  , Pixie\Connection as DatabaseConnection
-  , Symfony\Component\HttpFoundation\Request
-  , Silex\Provider\ServiceControllerServiceProvider;
+  , Symfony\Component\HttpFoundation\Request;
 
 // Set up maximum error reporting and UTC time
 error_reporting( E_ALL );
@@ -32,7 +22,7 @@ require( "$WD/app/functions.php" );
 $app = new Application;
 
 // Load the config files
-$config = json_decode(
+$app[ 'config' ] = json_decode(
     file_get_contents(
         "$WD/app/conf/defaults.json"
     ));
@@ -50,85 +40,71 @@ $app[ 'questions' ] = json_decode(
     ));
 
 // Depends on environment
-$app[ 'config' ] = $config;
-$app[ 'debug' ] = $config->debug;
+$app[ 'debug' ] = $app[ 'config' ]->debug;
 
-// Set up the logging service
-$app[ 'log' ] = function () use ( $config, $WD ) {
-    $logger = new Logger( $config->log->name );
-    $handler = new RotatingFileHandler(
-        "$WD/{$config->log->path}/{$config->environment}.log",
-        $maxFiles = 0,
-        $config->log->level,
-        $bubble = TRUE );
-    // Allow line breaks and stack traces, and don't show
-    // empty context arrays
-    $formatter = new LineFormatter;
-    $formatter->allowInlineLineBreaks();
-    $formatter->ignoreEmptyContextAndExtra();
-    $handler->setFormatter( $formatter );
-    $logger->pushHandler( $handler );
+// Set up all services
+require( "$WD/app/services.php" );
 
-    return $logger;
-};
+// Kick off the session at the start
+$app->before( 'auth:sessionStart' );
 
-// Set up an email service
-$app[ 'email' ] = function () use ( $config ) {
-    return new Email( $config->email->key );
-};
+// Public routes
+$rtr = $app[ 'controllers_factory' ];
+$rtr->get( '/ping', 'controller:ping' );
+$rtr->get( '/login', 'controller:login' );
+$rtr->get( '/logout', 'controller:logout' );
+$rtr->post( '/signup', 'controller:signup' );
+// Mount these to the root
+$app->mount( '/', $rtr );
 
-// Set up the session handler and cookie settings
-$app[ 'session.storage.options' ] = [
-    'name' => $config->cookie->name,
-    'cookie_lifetime' => $config->cookie->lifetime
-];
-$app->register( new SessionServiceProvider );
+// Administrative routes
+$rtr = $app[ 'controllers_factory' ];
+// Set up a certificate requirement
+$rtr->before( 'auth:hasClientCertificate' );
+// Now build out the routes
+$rtr->get( '/', 'controller:admin' );
+// Mount to the admin path
+$app->mount( '/admin', $rtr );
 
-// Allow Controller to be invoked as services
-$app->register( new ServiceControllerServiceProvider );
-
-$app[ 'controller' ] = function () {
-    return new Controller;
-};
-
-// Load all the routes
-$app->get( '/ping', 'controller:ping' );
-$app->get( '/login', 'controller:login' );
-$app->get( '/logout', 'controller:logout' );
-$app->post( '/signup', 'controller:signup' );
-$app->get( '/dashboard', 'controller:dashboard' );
-$app->post( '/savemember/{name}/{year}', 'controller:saveMember' )
+// Application routes
+$rtr = $app[ 'controllers_factory' ];
+// Set up a login requirement on this group
+$rtr->before( 'auth:loggedIn' );
+// Now build out the routes
+$rtr->get( '/dashboard', 'controller:dashboard' );
+$rtr->post( '/savemember/{name}/{year}', 'controller:saveMember' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
-$app->post( '/removemember/{name}/{year}', 'controller:removeMember' )
+$rtr->post( '/removemember/{name}/{year}', 'controller:removeMember' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
-$app->get( '/questions/{name}/{year}', 'controller:questions' )
+$rtr->get( '/questions/{name}/{year}', 'controller:questions' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
-$app->get( '/questions/{name}/{year}/{userId}', 'controller:questions' )
+$rtr->get( '/questions/{name}/{year}/{userId}', 'controller:questions' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR )
     ->assert( 'userId', REGEXP_NUMBER );
-$app->post( '/saveanswer/{name}/{year}', 'controller:saveAnswer' )
+$rtr->post( '/saveanswer/{name}/{year}', 'controller:saveAnswer' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
-$app->post( '/saveanswer/{name}/{year}/{userId}', 'controller:saveAnswer' )
+$rtr->post( '/saveanswer/{name}/{year}/{userId}', 'controller:saveAnswer' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR )
     ->assert( 'userId', REGEXP_NUMBER );
-$app->get( '/{name}/{year}', 'controller:group' )
+$rtr->get( '/{name}/{year}', 'controller:group' )
     ->assert( 'name', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR );
-$app->get( '/{name}', 'controller:group' )
+$rtr->get( '/{name}', 'controller:group' )
     ->assert( 'name', REGEXP_ALPHA );
-$app->get( '/{path}', 'controller:error' )
+$rtr->get( '/{path}', 'controller:error' )
     ->assert( 'path', REGEXP_ANY );
+// Mount these to root as well
+$app->mount( '/', $rtr );
 
-// Load database connection service.
-$app[ 'db' ] = function () use ( $config ) {
-    return new DatabaseConnection( 'mysql', (array) $config->database );
-};
+// After the controller, add the session data and any cookies to
+// the response object.
+$app->after( 'auth:sessionEnd' );
 
 // Load the database reference to the Model statically
 Model::setDb( $app[ 'db' ] );

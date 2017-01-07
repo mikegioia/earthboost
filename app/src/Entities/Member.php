@@ -139,6 +139,12 @@ class Member extends Entity
         return (new Calculator)->price( $emissions );
     }
 
+    public function isAdmin()
+    {
+        return $this->exists()
+            && $this->is_admin == 1;
+    }
+
     /**
      * Loads all of the data for the full member profile.
      */

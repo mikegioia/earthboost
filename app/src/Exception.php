@@ -15,4 +15,11 @@ class Exception extends HttpException
     {
         return $this->httpCode;
     }
+
+    public function __construct( $message = "" )
+    {
+        $message = ( $message ) ?: $this->message;
+
+        parent::__construct( $this->statusCode, $message );
+    }
 }

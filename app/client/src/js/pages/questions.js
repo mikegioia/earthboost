@@ -41,7 +41,7 @@ Pages.Questions = (function ( Request, DOM, Components, Message ) {
      */
     function view ( ctx, next ) {
         var questionId = Request.param( ctx, 'questionid' );
-console.log( ctx );
+
         if ( isRendered === true ) {
             renderQuestion( questionId );
             return;
