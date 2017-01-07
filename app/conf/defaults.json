@@ -1,6 +1,9 @@
 {
     "debug": false,
     "environment": "development",
+    "path": "http://earth.dev",
+    "api_path": "http://api.earth.dev",
+    "app_path": "http://app.earth.dev",
     "cookie": {
         "name": "user",
         "lifetime": 7776000
@@ -23,20 +26,20 @@
     "login": {
         "cookie": {
             "path": "/",
-            "domain": "",
             "ttl": 604800,
             "name": "token",
-            "secure": false
+            "secure": false,
+            "domain": ".earth.dev"
         }
     },
     "session": {
         "ttl": 10800,
         "cookie": {
             "path": "/",
-            "domain": "",
             "ttl": 604800,
             "secure": false,
-            "name": "session"
+            "name": "session",
+            "domain": ".earth.dev"
         }
     },
     "redis": {

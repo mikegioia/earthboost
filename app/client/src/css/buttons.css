@@ -12,11 +12,30 @@ a.button {
     text-transform: none;
 }
 
+button.large,
+a.button.large {
+    height: 4rem;
+    font-size: 2rem;
+    line-height: 4rem;
+}
+
+button.large.yanone,
+a.button.large.yanone {
+    line-height: 3.8rem;
+}
+
 button.button-primary,
 a.button.button-primary {
     color: #fff;
     border-color: #067cad;
     background-color: #067cad;
+}
+
+button.button-black,
+a.button.button-black {
+    color: #fff;
+    border-color: #262626;
+    background-color: #262626;
 }
 
 button.button-success,

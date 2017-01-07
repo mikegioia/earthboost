@@ -32,16 +32,54 @@ class Controller
         throw new NotFoundException;
     }
 
-    public function login( Request $request )
+    /**
+     * Checks if the email exists and if so, sends an email to
+     * the user with a link to log in.
+     */
+    public function login( Request $request, Application $app )
     {
-        // Verify the email and password. Create a new session
-        // and save the cookie.
-        return $this->respond( SUCCESS, "You have logged in" );
+        $email = $request->request->get( 'email' );
+        $user = User::getByEmail( $email );
+
+        if ( ! $user->exists() ) {
+            throw new NotFoundException( USER, $email );
+        }
+
+        // Send the email
+        $token = $app[ 'session' ]->createLoginToken( $user );
+        $app[ 'email' ]->sendLoginToken(
+            $user,
+            $app[ 'config' ]->app_path ."/authorize",
+            $token );
+
+        // App will redirect to this notice page
+        $this->data[ 'url' ] = '/check-email';
+
+        return $this->respond( SUCCESS, "", 302 );
     }
 
-    public function logout()
+    /**
+     * Tries to log in a user based off their token.
+     */
+    public function authorize( Request $request, Application $app )
     {
+        $token = $request->request->get( 'token' );
+        $app[ 'session' ]->createFromToken( $token );
 
+        // App will redirect to dashboard
+        $groups = $app[ 'session' ]->getUser()->getGroups();
+        $this->data[ 'url' ] = ( count( $groups ) > 1 )
+            ? '/'
+            : '/' + $groups[ 0 ]->name;
+
+        return $this->respond( SUCCESS, "Welcome back :)", 302 );
+    }
+
+    public function logout( Application $app )
+    {
+        $app[ 'session' ]->destroy();
+
+        return $this->respond( SUCCESS, "You have been logged out." );
     }
 
     /**
@@ -54,7 +92,6 @@ class Controller
     public function dashboard( Application $app )
     {
         $user = $app[ 'session' ]->getUser();
-
         $this->data[ 'user' ] = $user;
         $this->data[ 'groups' ] = $user->getGroups();
 
@@ -85,7 +122,7 @@ class Controller
         $this->data[ 'group' ] = $group;
         $this->data[ 'groups' ] = $user->getGroups();
         $this->data[ 'locales' ] = $app[ 'locales' ];
-        $this->data[ 'is_admin' ] = $app[ 'session' ]->isAdmin()
+        $this->data[ 'is_admin' ] = $app[ 'auth' ]->isAdmin()
             || $user->getMember( $group, $year )->isAdmin();
         $this->data[ 'members' ] = $group->getMembers( $year, TRUE );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );

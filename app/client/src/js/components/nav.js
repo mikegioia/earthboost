@@ -67,6 +67,10 @@ return function ( $root ) {
         $select = null;
     }
 
+    function clear () {
+        DOM.clear( $root );
+    }
+
     /**
      * Event handler for select change.
      * @param Event e
@@ -78,6 +82,7 @@ return function ( $root ) {
     }
 
     return {
+        clear: clear,
         render: render,
         tearDown: tearDown,
         renderCalculator: renderCalculator

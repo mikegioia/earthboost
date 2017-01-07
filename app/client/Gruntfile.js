@@ -72,6 +72,7 @@ module.exports = function ( grunt ) {
                     './src/css/dashboard.css',
                     './src/css/group.css',
                     './src/css/calculator.css',
+                    './src/css/login.css',
                     './src/css/media.css'
                 ],
                 dest: './build/css/earthboost.css'

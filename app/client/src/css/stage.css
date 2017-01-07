@@ -78,6 +78,9 @@ ul.dropdown a {
     color: #8cd1ad;
     font-size: 2rem;
 }
+.yanone {
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+}
 .sans {
     font-family: 'Alegreya Sans', Helvetica, Arial, sans-serif;
 }

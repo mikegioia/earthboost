@@ -1,0 +1,64 @@
+section.login {
+    padding: 2rem;
+}
+
+section.login fieldset {
+    top: 11rem;
+    width: 28rem;
+    margin: 0 auto;
+    background: #fff;
+    position: relative;
+    padding: 3rem 2rem 2rem;
+    box-shadow: 4px 4px 0 rgba(83, 176, 183, 0.33);
+}
+
+section.login label {
+    font-size: 2.25rem;
+    font-weight: 400;
+}
+
+section.login legend {
+    top: -2rem;
+    color: #fff;
+    line-height: 1;
+    margin: 0 0 1rem;
+    font-weight: 400;
+    font-size: 2.5rem;
+    position: absolute;
+    background: #067cad;
+    padding: 0.5rem 1rem 0.6rem;
+}
+
+section.login .notice {
+    top: 11rem;
+    color: #fff;
+    width: 28rem;
+    margin: 0 auto;
+    position: relative;
+    background: #28a94c;
+    padding: 1rem 2rem 2rem;
+    box-shadow: 4px 4px 0 rgba(83, 176, 183, 0.33);
+}
+
+section.login .notice h2 {
+    font-weight: 300;
+    margin-bottom: 1rem;
+}
+
+section.login .notice p {
+    margin: 0 0 2rem;
+    line-height: 1.5;
+    font-size: 1.75rem;
+}
+
+section.login .notice a {
+    margin: 0;
+    color: #333;
+    border: none;
+}
+
+section.login .notice a:hover {
+    margin: 0;
+    color: #fff;
+    border: none;
+}

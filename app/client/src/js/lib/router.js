@@ -12,11 +12,13 @@ var Router = (function ( Pages, Message ) {
     var current = null;
     // Controller keys
     var controllers = {
+        AUTH: 'auth',
         GROUP: 'group',
         DASHBOARD: 'dashboard',
         QUESTIONS: 'questions'
     };
     // Route handlers
+    var Auth = {};
     var Group = {};
     var Dashboard = {};
     var Questions = {};
@@ -27,6 +29,38 @@ var Router = (function ( Pages, Message ) {
      */
     Dashboard.view = function ( ctx, next ) {
         load( controllers.DASHBOARD ).view( ctx, next );
+    };
+
+    /**
+     * Login page.
+     * @route /login
+     */
+    Auth.login = function ( ctx, next ) {
+        load( controllers.AUTH ).login( ctx, next );
+    };
+
+    /**
+     * Check email notice page.
+     * @route /check-email
+     */
+    Auth.checkEmail = function ( ctx, next ) {
+        load( controllers.AUTH ).checkEmail( ctx, next );
+    };
+
+    /**
+     * Submit authorization request.
+     * @route /authorize
+     */
+    Auth.authorize = function ( ctx, next ) {
+        load( controllers.AUTH ).authorize( ctx, next );
+    };
+
+    /**
+     * Logout page.
+     * @route /logout
+     */
+    Auth.logout = function ( ctx, next ) {
+        load( controllers.AUTH ).logout( ctx, next );
     };
 
     /**
@@ -108,9 +142,10 @@ var Router = (function ( Pages, Message ) {
     }
 
     return {
+        Auth: Auth,
         Group: Group,
         notFound: notFound,
         Dashboard: Dashboard,
-        Questions: Questions,
+        Questions: Questions
     };
 }( Pages, Message ));

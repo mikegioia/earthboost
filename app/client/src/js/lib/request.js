@@ -75,6 +75,20 @@ var Request = (function ( Config, Const, Message ) {
         send( url, HTTP_POST, cb, data, errCb );
     }
 
+    function login ( data, cb ) {
+        send( Const.url.login, HTTP_POST, cb, data );
+    }
+
+    function authorize ( token, cb ) {
+        send( Const.url.authorize, HTTP_POST, cb, {
+            token: token
+        });
+    }
+
+    function logout ( cb ) {
+        send( Const.url.logout, HTTP_GET, cb );
+    }
+
     /**
      * Loads a parameter from the context, with a default
      * if it's not found.
@@ -86,6 +100,29 @@ var Request = (function ( Config, Const, Message ) {
         return ( ctx.params && ctx.params[ key ] )
             ? ctx.params[ key ]
             : def || null;
+    }
+
+    /**
+     * Loads a parameter from the context, with a default
+     * if it's not found.
+     * @param String key
+     * @param Mixed def Default value (null)
+     */
+    function getParam ( key, def ) {
+        var tmp = [];
+        var result = null;
+
+        location.search.substr( 1 )
+            .split( "&" )
+            .forEach( function ( item ) {
+                tmp = item.split( key + "=", 2 );
+
+                if ( tmp.length >= 2 ){
+                    result = decodeURIComponent( tmp[ 1 ] );
+                }
+            });
+
+        return result;
     }
 
     /**
@@ -102,6 +139,7 @@ var Request = (function ( Config, Const, Message ) {
             method: method,
             data: data || {},
             crossOrigin: true,
+            withCredentials: true,
             url: Config.api_path + url,
             success: function ( r ) {
                 if ( handle( r ) ) {
@@ -123,8 +161,13 @@ var Request = (function ( Config, Const, Message ) {
      */
     function handle( r ) {
         switch ( r.code ) {
+            case 302:
+                page( r.data.url );
+                displayMessages( r.messages );
+                return false;
             case 401:
-                alert( 'GOTO LOGIN' );
+                page( Const.url.login );
+                displayMessages( r.messages );
                 return false;
             case 400:
             case 403:
@@ -144,7 +187,9 @@ var Request = (function ( Config, Const, Message ) {
         // Render any notifications
         if ( messages && messages.length ) {
             messages.forEach( function ( m ) {
-                Message[ m.type ]( m.message );
+                if ( m.message && m.message.length ) {
+                    Message[ m.type ]( m.message );
+                }
             });
         }
     }
@@ -152,6 +197,10 @@ var Request = (function ( Config, Const, Message ) {
     return {
         param: param,
         group: group,
+        login: login,
+        logout: logout,
+        getParam: getParam,
+        authorize: authorize,
         dashboard: dashboard,
         questions: questions,
         saveMember: saveMember,

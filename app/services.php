@@ -2,10 +2,10 @@
 
 use App\Auth
   , App\Cache
+  , App\Email
   , App\Session
   , App\Controller
   , Monolog\Logger
-  , App\Libraries\Email
   , Monolog\Handler\StreamHandler
   , Monolog\Formatter\LineFormatter
   , Monolog\Handler\RotatingFileHandler
@@ -58,7 +58,7 @@ $app[ 'session.redis' ] = function ( $app ) {
             ));
     endif;
     // Prefix all keys
-    $session->setOption( Redis::OPT_PREFIX, 'session:' );
+    $session->setOption( Redis::OPT_PREFIX, 'eb:session:' );
     return $session;
 };
 
@@ -84,7 +84,7 @@ $app[ 'cache.redis' ] = function ( $app ) {
             ));
     endif;
     // Prefix all keys
-    $cache->setOption( Redis::OPT_PREFIX, 'cache:' );
+    $cache->setOption( Redis::OPT_PREFIX, 'eb:cache:' );
     return $cache;
 };
 

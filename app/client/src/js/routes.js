@@ -8,12 +8,10 @@
 page( '/', Router.Dashboard.view );
 
 // Actions
-page( '/login', function () {
-    alert( 'TBD!' );
-});
-page( '/logout', function () {
-    alert( 'TBD!' );
-});
+page( '/login', Router.Auth.login );
+page( '/logout', Router.Auth.logout );
+page( '/authorize', Router.Auth.authorize );
+page( '/check-email', Router.Auth.checkEmail );
 
 // Questions
 page( '/questions/:group/:year/:userid/:questionid', Router.Questions.view );

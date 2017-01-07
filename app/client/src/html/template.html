@@ -51,6 +51,34 @@
             <a class="button" href="/{{groupName}}/{{year}}">Save and Close</a>
         {{/showCalculator}}
         </script>
+        <!-- Login Form -->
+        <script id="login" type="text/template">
+            <section class="login">
+                <fieldset>
+                    <legend class="yanone">Login to EarthBoost</legend>
+                    <form method="post" action="" name="login">
+                        <label for="login-email" class="yanone">Email</label>
+                        <input class="u-full-width" name="email" placeholder="Email address&hellip;" type="text" id="login-email" autofocus required />
+                        <button type="submit" class="u-no-margin button-black yanone large">Submit</button>
+                    </form>
+                </fieldset>
+            </section>
+        </script>
+        <!-- Login Notice -->
+        <script id="login-notice" type="text/template">
+            <section class="login">
+                <div class="notice">
+                    <h2>Check Your Email</h2>
+                    <p>
+                        You've been emailed a link that will log you in.
+                        Check your email now and follow the login link.
+                    </p>
+                    <div class="controls">
+                        <a href="/login" class="button">Back to Login</a>
+                    </div>
+                </div>
+            </section>
+        </script>
         <!-- Dashboard -->
         <script id="dashboard" type="text/template">
             <section class="dashboard">

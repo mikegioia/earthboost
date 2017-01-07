@@ -51,9 +51,10 @@ $app->before( 'auth:sessionStart' );
 // Public routes
 $rtr = $app[ 'controllers_factory' ];
 $rtr->get( '/ping', 'controller:ping' );
-$rtr->get( '/login', 'controller:login' );
+$rtr->post( '/login', 'controller:login' );
 $rtr->get( '/logout', 'controller:logout' );
 $rtr->post( '/signup', 'controller:signup' );
+$rtr->post( '/authorize', 'controller:authorize' );
 // Mount these to the root
 $app->mount( '/', $rtr );
 
@@ -128,14 +129,17 @@ $app->error( function ( \Exception $e, Request $request, $code ) use ( $app ) {
     $responseCode = ( in_array( $code, [ 400, 401, 403, 404, 500 ] ) )
         ? 200
         : $code;
+    $status = ( in_array( $code, [ 401, 403 ] ) )
+        ? INFO
+        : ERROR;
 
     return $app->json([
         'code' => $code,
         'data' => [],
-        'status' => ERROR,
+        'status' => $status,
         'message' => $e->getMessage(),
         'messages' => [[
-            'type' => ERROR,
+            'type' => $status,
             'message' => $e->getMessage()
         ]]
     ], 200 );

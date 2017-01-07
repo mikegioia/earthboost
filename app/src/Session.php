@@ -13,7 +13,7 @@ use Redis
   , stdClass
   , App\Cache
   , App\Entities\User
-  , App\Exception\LoginException
+  , App\Exceptions\Login as LoginException
   , Symfony\Component\HttpFoundation\Cookie
   , Symfony\Component\HttpFoundation\Request
   , Symfony\Component\HttpFoundation\Response;
@@ -159,19 +159,19 @@ class Session
      * the user with.
      * @param string $token Optional, uses cookie otherwise
      * @throws LoginException
-     * @return bool True on successfully logged in
      */
     public function createFromToken( $token = NULL )
     {
         // Check if the cookie token exists
-        if ( $token ) {
+        if ( ! $token ) {
             $token = get(
                 $this->request->cookies->all(),
                 $this->loginCookie->name );
         }
 
         if ( ! $token ) {
-            return FALSE;
+            throw new LoginException(
+                "No valid token found for login." );
         }
 
         // Same rate-limiting as in create
@@ -185,7 +185,7 @@ class Session
         // Look-up token from database and check if there's a valid
         // user account tied to it (if the token exists).
         $user = new User;
-        $userId = $this->session->get( self::TOKEN_TOKEN . $token );
+        $userId = $this->session->get( self::USER_TOKEN . $token );
 
         if ( valid( $userId, INT ) ) {
             $user = new User( $userId );
@@ -198,8 +198,26 @@ class Session
 
         $this->user = $user;
         $this->set( $user->toArray() );
+    }
 
-        return TRUE;
+    /**
+     * Creates a new login token for the specified user.
+     * @param User $user
+     * @param int $ttl Default is 3 days
+     * @return string
+     */
+    public function createLoginToken( User $user, $ttl = 259200 )
+    {
+        $randomBytes = openssl_random_pseudo_bytes( 32, $cstrong );
+        $token = base64_encode( $randomBytes );
+
+        // Set this in redis
+        $this->session->setex(
+            self::USER_TOKEN . $token,
+            $ttl,
+            $user->id );
+
+        return $token;
     }
 
     /**

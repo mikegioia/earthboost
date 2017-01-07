@@ -36,8 +36,10 @@ var Const = {
         UK: "United Kingdom"
     },
     url: {
+        login: '/login',
         group: '/{name}',
         logout: '/logout',
+        authorize: '/authorize',
         dashboard: '/dashboard',
         group_year: '/{name}/{year}',
         questions: '/questions/{name}/{year}',
