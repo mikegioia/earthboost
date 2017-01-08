@@ -226,7 +226,7 @@ class Session
             || intval( $sessionData[ 'user_data' ][ 'session_timer' ] ) + 600 < time() )
         {
             // 10 minutes have passed
-            $session_data[ 'user_data' ][ 'session_timer' ] = time();
+            $sessionData[ 'user_data' ][ 'session_timer' ] = time();
         }
 
         if ( $this->cookieJar ) {
