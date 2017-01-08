@@ -3,11 +3,10 @@ section.login {
 }
 
 section.login fieldset {
-    top: 11rem;
     width: 28rem;
-    margin: 0 auto;
     background: #fff;
     position: relative;
+    margin: 11rem auto 0;
     padding: 3rem 2rem 2rem;
     box-shadow: 4px 4px 0 rgba(83, 176, 183, 0.33);
 }
@@ -30,12 +29,11 @@ section.login legend {
 }
 
 section.login .notice {
-    top: 11rem;
     color: #fff;
     width: 28rem;
-    margin: 0 auto;
     position: relative;
     background: #28a94c;
+    margin: 11rem auto 0;
     padding: 1rem 2rem 2rem;
     box-shadow: 4px 4px 0 rgba(83, 176, 183, 0.33);
 }
