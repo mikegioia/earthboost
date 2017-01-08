@@ -4,10 +4,6 @@
     "path": "http://earth.dev",
     "api_path": "http://api.earth.dev",
     "app_path": "http://app.earth.dev",
-    "cookie": {
-        "name": "user",
-        "lifetime": 7776000
-    },
     "database": {
         "prefix": "",
         "driver": "mysql",
@@ -23,20 +19,11 @@
         "level": "debug",
         "path": "var/log"
     },
-    "login": {
-        "cookie": {
-            "path": "/",
-            "ttl": 604800,
-            "name": "token",
-            "secure": false,
-            "domain": ".earth.dev"
-        }
-    },
     "session": {
         "ttl": 10800,
         "cookie": {
             "path": "/",
-            "ttl": 604800,
+            "ttl": 7776000,
             "secure": false,
             "name": "session",
             "domain": ".earth.dev"

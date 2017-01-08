@@ -71,10 +71,7 @@ class Auth
         }
 
         // Check if the user is logged in
-        if ( ! $app[ 'session' ]->isLoggedIn()
-            // Try to log them in via cookie token
-            && ! $app[ 'session' ]->createFromToken() )
-        {
+        if ( ! $app[ 'session' ]->isLoggedIn() ) {
             throw new AuthException;
         }
     }

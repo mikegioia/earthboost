@@ -36,7 +36,6 @@ class Session
     private $flashQueue;
     // Session cookie data
     private $cookieJar;
-    private $loginCookie;
     private $sessionCookie;
     // Redis constants
     const USER_TOKEN = 'user_token:';
@@ -56,7 +55,6 @@ class Session
 
         // Set up cookie config
         $this->ttl = $config->session->ttl;
-        $this->loginCookie = $config->login->cookie;
         $this->sessionCookie = $config->session->cookie;
     }
 
@@ -154,21 +152,12 @@ class Session
     }
 
     /**
-     * Create a new session key by authenticating the user's login cookie
-     * token. This is a persistant browser cookie that we can authenticate
-     * the user with.
-     * @param string $token Optional, uses cookie otherwise
+     * Create a new session key by authenticating a login token.
+     * @param string $token
      * @throws LoginException
      */
-    public function createFromToken( $token = NULL )
+    public function createFromToken( $token )
     {
-        // Check if the cookie token exists
-        if ( ! $token ) {
-            $token = get(
-                $this->request->cookies->all(),
-                $this->loginCookie->name );
-        }
-
         if ( ! $token ) {
             throw new LoginException(
                 "No valid token found for login." );
@@ -288,14 +277,6 @@ class Session
             $this->sessionCookie->path,
             $this->sessionCookie->domain,
             $this->sessionCookie->secure,
-            FALSE ); // http only
-        $this->cookieJar[] = new Cookie(
-            $this->loginCookie->name,
-            "",
-            ( time() - 31500000 ),
-            $this->loginCookie->path,
-            $this->loginCookie->domain,
-            $this->loginCookie->secure,
             FALSE ); // http only
 
         return TRUE;
