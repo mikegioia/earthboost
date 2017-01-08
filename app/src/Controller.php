@@ -10,7 +10,6 @@ use App\Entity
   , App\Entities\Answer
   , App\Libraries\Questions
   , Symfony\Component\HttpFoundation\Request
-  , App\Exceptions\NoMember as NoMemberException
   , App\Exceptions\NotFound as NotFoundException
   , Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -39,7 +38,7 @@ class Controller
     public function login( Request $request, Application $app )
     {
         $email = $request->request->get( 'email' );
-        $user = User::getByEmail( $email );
+        $user = User::loadByEmail( $email );
 
         if ( ! $user->exists() ) {
             throw new NotFoundException( USER, $email );
@@ -101,20 +100,10 @@ class Controller
     /**
      * Prepare all of the dashboard data for a group.
      */
-    public function group( $name, $year = "", Application $app )
+    public function group( Group $group, $year = "", Application $app )
     {
-        // @TODO AUTH, STUBBED
-        // THIS SHOULD USE A USER OBJECT IN THE SESSION
-        $user = new User( 1 );
-
-        $year = ( $year ) ?: date( "Y" ) - (date( "m" ) <= 3 ? 1 : 0);
-        // @TODO USE FACTORY
-        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
-        $group = Group::loadByName( $name );
-
-        if ( ! $group->exists() ) {
-            throw new NotFoundException( GROUP, $name );
-        }
+        $year = get_year( $year );
+        $user = $app[ 'session' ]->getUser();
 
         // Prepare all of the statistics and return them
         $this->data[ 'year' ] = $year;
@@ -134,13 +123,10 @@ class Controller
     /**
      * Saves a group member.
      */
-    public function saveMember( $name, $year, Request $request, Application $app )
+    public function saveMember( Group $group, $year, Request $request, Application $app )
     {
         $post = $request->request->all();
         $id = get( $post, 'id', NULL );
-        // @TODO USE FACTORY
-        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
-        $group = Group::loadByName( $name );
         $months = get( $post, 'locale_months', 12 );
         $params = [
             'name' => get( $post, 'name' ),
@@ -150,10 +136,6 @@ class Controller
             'locale_percent' => round( intval( $months ) / 12 * 100 ),
             'is_champion' => ( get( $post, 'is_champion' ) == 1 ) ? 1 : 0
         ];
-
-        if ( ! $group->exists() ) {
-            throw new NotFoundException( GROUP, $name );
-        }
 
         $member = new Member( $id ?: NULL, [
             Member::POPULATE_EMISSIONS => FALSE
@@ -175,17 +157,10 @@ class Controller
     /**
      * Removes a member.
      */
-    public function removeMember( $name, $year, Request $request, Application $app )
+    public function removeMember( Group $group, $year, Request $request, Application $app )
     {
         $id = $request->request->get( 'id' );
         $member = new Member( $id );
-        // @TODO USE FACTORY
-        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
-        $group = Group::loadByName( $name );
-
-        if ( ! $group->exists() ) {
-            throw new NotFoundException( GROUP, $name );
-        }
 
         if ( ! $member->exists() ) {
             throw new NotFoundException( MEMBER, $id );
@@ -198,27 +173,12 @@ class Controller
             'message' => "That person was removed from {$group->label}."
         ];
 
-        return $this->group( $name, $year, $app );
+        return $this->group( $group->name, $year, $app );
     }
 
-    public function questions( $name, $year, $userId = NULL, Application $app )
+    public function questions( Group $group, $year, User $user = NULL, Application $app )
     {
-        // @TODO USE FACTORY
-        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
-        $user = new User( $userId );
-        $group = Group::loadByName( $name );
-
-        if ( ! valid( $userId, INT ) && $user->exists() ) {
-            throw new NotFoundException( USER, $userId );
-        }
-
-        if ( ! $group->exists() ) {
-            throw new NotFoundException( GROUP, $name );
-        }
-
-        if ( $user->exists() && ! $user->isMemberOf( $group ) ) {
-            throw new NoMemberException( $user, $group );
-        }
+        $sessionUser = $app[ 'session' ]->getUser();
 
         $this->data[ 'year' ] = $year;
         $this->data[ 'user' ] = $user;
@@ -236,27 +196,11 @@ class Controller
         return $this->respond( SUCCESS );
     }
 
-    public function saveAnswer( $name, $year, $userId = NULL, Request $request, Application $app )
+    public function saveAnswer( Group $group, $year, User $user = NULL, Request $request, Application $app )
     {
-        // @TODO USE FACTORY
-        // THIS SHOULD HAVE PASSED A GROUP OBJECT INSTEAD OF NAME
-        $user = new User( $userId );
         $post = $request->request->all();
-        $group = Group::loadByName( $name );
         $answerVal = get( $post, 'answer' );
         $selectVal = get( $post, 'select' );
-
-        if ( ! valid( $userId, INT ) && $user->exists() ) {
-            throw new NotFoundException( USER, $userId );
-        }
-
-        if ( ! $group->exists() ) {
-            throw new NotFoundException( GROUP, $name );
-        }
-
-        if ( $user->exists() && ! $user->isMemberOf( $group ) ) {
-            throw new NoMemberException( $user, $group );
-        }
 
         if ( ! is_array( $answerVal ) && ! valid( $answerVal, STRING ) ) {
             return $this->respond( INFO, "Please enter a value for that answer." );

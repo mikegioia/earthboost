@@ -29,6 +29,7 @@ return function ( $root ) {
      *   group: Object
      *   groups: Array
      *   members: Array
+     *   is_admin: Bool
      *   locales: Object
      *   emissions: Float
      *   offset_amount: Float
@@ -49,6 +50,8 @@ return function ( $root ) {
      * @param Object data
      */
     function updateData ( data ) {
+        // Add to user object
+        data.user.is_admin = data.is_admin;
         // Format certain numbers
         data.emissions = data.emissions.toFixed( 1 );
         data.offset_amount = data.offset_amount

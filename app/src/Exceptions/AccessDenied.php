@@ -14,7 +14,6 @@ class AccessDenied extends Exception
     public function __construct( $type, $id = NULL )
     {
         parent::__construct(
-            $this->statusCode,
             sprintf(
                 "The requested %s [#%s] could not be accessed.",
                 $type,

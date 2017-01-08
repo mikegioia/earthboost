@@ -172,7 +172,7 @@ class Member extends Entity
         ]);
 
         // Find the user
-        $user = User::getByEmail( $data[ 'email' ] );
+        $user = User::loadByEmail( $data[ 'email' ] );
         $user->save([
             'name' => $data[ 'name' ],
             'email' => $data[ 'email' ]

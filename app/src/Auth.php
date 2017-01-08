@@ -156,6 +156,9 @@ class Auth
         return function ( Request $request, Application $app )
                     use ( $key, $accessCall, $objectType )
         {
+            $params = $request->attributes->all();
+            $params = get( $params, '_route_params', [] );
+
             // We want to look for request attributes with the name of
             // this object type or of the form TYPE_id. Then, instantiate
             // a new object of the type and call the access method on it.
@@ -171,13 +174,13 @@ class Auth
 
             // Get the object from the factory and check if it exists
             $make = "make{$objectType}";
-            $object = $app[ 'entity.factory' ]->$make( $objectId );
+            $entity = $app[ 'entity.factory' ]->make( $objectType, $objectId );
 
-            if ( ! $object->exists() ) {
+            if ( ! $entity->exists() ) {
                 throw new NotFoundException( $objectType, $objectId );
             }
 
-            if ( ! $app[ 'session' ]->$accessCall( $object ) ) {
+            if ( ! $app[ 'session' ]->$accessCall( $entity, $params ) ) {
                 throw new AccessDeniedException( $objectType, $objectId );
             }
         };

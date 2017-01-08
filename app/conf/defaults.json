@@ -1,6 +1,6 @@
 {
     "debug": false,
-    "environment": "development",
+    "environment": "production",
     "path": "http://earth.dev",
     "api_path": "http://api.earth.dev",
     "app_path": "http://app.earth.dev",
@@ -23,7 +23,7 @@
         "ttl": 10800,
         "cookie": {
             "path": "/",
-            "ttl": 7776000,
+            "ttl": 2592000,
             "secure": false,
             "name": "session",
             "domain": ".earth.dev"

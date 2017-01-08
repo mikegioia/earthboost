@@ -111,9 +111,9 @@ class Session
 
         // Move data from the queue (what was read from redis) to the data
         // the data will expire at the end of the request.
+        $this->flashQueue = [];
         $this->userData = $sessionData[ 'user_data' ];
         $this->flashData = $sessionData[ 'flash_data' ];
-        $this->flashQueue = [];
 
         return TRUE;
     }
@@ -303,18 +303,16 @@ class Session
     /**
      * Check if the logged in user can read the requested entity.
      */
-    public function canRead( $entity )
+    public function canRead( $entity, $params )
     {
-        return TRUE;
-        // @TODO
-        return $entity->isReadBy( $this->getUser() );
+        return $entity->isReadBy( $this->getUser(), $params );
     }
 
-    public function canWrite( $entity )
+    public function canWrite( $entity, $params )
     {
-        return TRUE;
-        // @TODO
-        return $entity->isWrittenBy( $this->getUser() );
+        $year = get( $params, 'year' );
+
+        return $entity->isWrittenBy( $this->getUser(), $params );
     }
 
 

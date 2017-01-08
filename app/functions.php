@@ -101,3 +101,8 @@ function expects( $data )
 {
     return new Expects( $data );
 }
+
+function get_year( $year = NULL )
+{
+    return ( $year ) ?: date( "Y" ) - (date( "m" ) <= 3 ? 1 : 0);
+}

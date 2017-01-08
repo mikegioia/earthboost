@@ -46,6 +46,8 @@ $app[ 'debug' ] = $app[ 'config' ]->debug;
 require( "$WD/app/services.php" );
 
 // Kick off the session at the start
+$auth = $app[ 'auth' ];
+$factory = $app[ 'entity.factory' ];
 $app->before( 'auth:sessionStart' );
 
 // Public routes
@@ -71,33 +73,62 @@ $app->mount( '/admin', $rtr );
 $rtr = $app[ 'controllers_factory' ];
 // Set up a login requirement on this group
 $rtr->before( 'auth:loggedIn' );
-// Now build out the routes
+// Dashboard
 $rtr->get( '/dashboard', 'controller:dashboard' );
-$rtr->post( '/savemember/{name}/{year}', 'controller:saveMember' )
-    ->assert( 'name', REGEXP_ALPHA )
-    ->assert( 'year', REGEXP_YEAR );
-$rtr->post( '/removemember/{name}/{year}', 'controller:removeMember' )
-    ->assert( 'name', REGEXP_ALPHA )
-    ->assert( 'year', REGEXP_YEAR );
-$rtr->get( '/questions/{name}/{year}', 'controller:questions' )
-    ->assert( 'name', REGEXP_ALPHA )
-    ->assert( 'year', REGEXP_YEAR );
-$rtr->get( '/questions/{name}/{year}/{userId}', 'controller:questions' )
-    ->assert( 'name', REGEXP_ALPHA )
+// Save a new member
+$rtr->post( '/savemember/{group}/{year}', 'controller:saveMember' )
+    ->assert( 'group', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR )
-    ->assert( 'userId', REGEXP_NUMBER );
-$rtr->post( '/saveanswer/{name}/{year}', 'controller:saveAnswer' )
-    ->assert( 'name', REGEXP_ALPHA )
-    ->assert( 'year', REGEXP_YEAR );
-$rtr->post( '/saveanswer/{name}/{year}/{userId}', 'controller:saveAnswer' )
-    ->assert( 'name', REGEXP_ALPHA )
+    ->convert( 'group', $factory->make( GROUP ) )
+    ->before( $auth->can( WRITE, GROUP ) );
+// Remove a member from a group
+$rtr->post( '/removemember/{group}/{year}', 'controller:removeMember' )
+    ->assert( 'group', REGEXP_ALPHA )
     ->assert( 'year', REGEXP_YEAR )
-    ->assert( 'userId', REGEXP_NUMBER );
-$rtr->get( '/{name}/{year}', 'controller:group' )
-    ->assert( 'name', REGEXP_ALPHA )
-    ->assert( 'year', REGEXP_YEAR );
-$rtr->get( '/{name}', 'controller:group' )
-    ->assert( 'name', REGEXP_ALPHA );
+    ->convert( 'group', $factory->make( GROUP ) )
+    ->before( $auth->can( WRITE, GROUP ) );
+// Load the questions for a group and year
+$rtr->get( '/questions/{group}/{year}', 'controller:questions' )
+    ->assert( 'group', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR )
+    ->convert( 'group', $factory->make( GROUP ) )
+    ->before( $auth->can( WRITE, GROUP ) );
+// Load the questions for a group, user, and year
+$rtr->get( '/questions/{group}/{year}/{user}', 'controller:questions' )
+    ->assert( 'group', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR )
+    ->assert( 'userId', REGEXP_NUMBER )
+    ->convert( 'group', $factory->make( GROUP ) )
+    ->convert( 'user', $factory->make( USER ) )
+    ->before( $auth->can( READ, GROUP ) )
+    ->before( $auth->can( WRITE, USER ) );
+// Save an answer for a group and year
+$rtr->post( '/saveanswer/{group}/{year}', 'controller:saveAnswer' )
+    ->assert( 'group', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR )
+    ->convert( 'group', $factory->make( GROUP ) )
+    ->before( $auth->can( WRITE, GROUP ) );
+// Save an answer for a group, user, and year
+$rtr->post( '/saveanswer/{group}/{year}/{user}', 'controller:saveAnswer' )
+    ->assert( 'group', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR )
+    ->assert( 'userId', REGEXP_NUMBER )
+    ->convert( 'group', $factory->make( GROUP ) )
+    ->convert( 'user', $factory->make( USER ) )
+    ->before( $auth->can( READ, GROUP ) )
+    ->before( $auth->can( WRITE, USER ) );
+// Load the group profile for a specific year
+$rtr->get( '/{group}/{year}', 'controller:group' )
+    ->assert( 'group', REGEXP_ALPHA )
+    ->assert( 'year', REGEXP_YEAR )
+    ->convert( 'group', $factory->make( GROUP ) )
+    ->before( $auth->can( READ, GROUP ) );
+// Load the group profile
+$rtr->get( '/{group}', 'controller:group' )
+    ->assert( 'group', REGEXP_ALPHA )
+    ->convert( 'group', $factory->make( GROUP ) )
+    ->before( $auth->can( READ, GROUP ) );
+// General error handler
 $rtr->get( '/{path}', 'controller:error' )
     ->assert( 'path', REGEXP_ANY );
 // Mount these to root as well

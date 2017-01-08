@@ -10,6 +10,9 @@ define( 'ERROR', 'error' );
 define( 'SUCCESS', 'success' );
 define( 'WARNING', 'warning' );
 
+define( 'READ', 'read' );
+define( 'WRITE', 'write' );
+
 // Types
 define( 'INT', 'int' );
 define( 'URL', 'url' );

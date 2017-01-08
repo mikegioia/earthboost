@@ -6,6 +6,7 @@ use App\Auth
   , App\Session
   , App\Controller
   , Monolog\Logger
+  , App\EntityFactory
   , Monolog\Handler\StreamHandler
   , Monolog\Formatter\LineFormatter
   , Monolog\Handler\RotatingFileHandler
@@ -100,6 +101,10 @@ $app[ 'auth' ] = function () {
 
 $app[ 'controller' ] = function () {
     return new Controller;
+};
+
+$app[ 'entity.factory' ] = function () {
+    return new EntityFactory();
 };
 
 // Allow Controller to be invoked as services

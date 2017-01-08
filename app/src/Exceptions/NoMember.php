@@ -16,7 +16,6 @@ class NoMember extends Exception
     public function __construct( User $user, Group $group )
     {
         parent::__construct(
-            $this->statusCode,
             sprintf(
                 "%s is not a member of %s.",
                 $user->name,

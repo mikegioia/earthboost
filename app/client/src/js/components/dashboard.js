@@ -30,6 +30,8 @@ return function ( $root ) {
             group.member_label = ( group.group_type == TYPE_OFFICE )
                 ? 'Employee'
                 : 'Housemate';
+            group.is_admin = ( group.is_admin == 1 );
+            group.is_champion = ( group.is_champion == 1 );
         });
 
         $root.className = 'dashboard';

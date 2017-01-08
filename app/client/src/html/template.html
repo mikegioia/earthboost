@@ -19,8 +19,10 @@
     <body>
         <header class="row">
             <section class="logo one-half column u-cf">
-                <img src="/images/organic.svg">
-                <h3>EarthBoost</h3>
+                <a href="/">
+                    <img src="/images/organic.svg">
+                    <h3>EarthBoost</h3>
+                </a>
             </section>
             <nav class="one-half column"></nav>
         </header>
@@ -73,9 +75,6 @@
                         You've been emailed a link that will log you in.
                         Check your email now and follow the login link.
                     </p>
-                    <div class="controls">
-                        <a href="/login" class="button">Back to Login</a>
-                    </div>
                 </div>
             </section>
         </script>
@@ -122,9 +121,11 @@
                         <div class="progress">
                             <div class="progress-bar" style="width:65%;"></div>
                         </div>
+                    {{#is_admin}}
                         <a class="edit" href="/questions/{{group.name}}/{{year}}">
                             <i class="icon-edit"></i>
                         </a>
+                    {{/is_admin}}
                         <div class="group-label">{{group.label}}</div>
                         <div class="emissions">
                             {{emissions}} <small>t CO<sub>2</sub>e</small>
@@ -165,23 +166,29 @@
             <div class="members">
                 <h3 class="sans u-cf">
                     <span>Members</span>
+                {{#user.is_admin}}
                     <button class="add-member">Add Person</button>
+                {{/user.is_admin}}
                 </h3>
-                <ol>
+                <ol class="{{#user.is_admin}}admin{{/user.is_admin}}">
                 {{#members}}
                     <li>
                         <span class="name">{{name}}</span>
                         <span class="locale">({{locale}})</span>
                         <span class="emissions">{{emissions}} <small>t</small></span>
                         <span class="questions">
+                        {{#user.is_admin}}
                             <a href="{{edit_url}}" title="Edit Carbon Profile">
+                        {{/user.is_admin}}
                         {{#is_standard}}
-                                <i class="icon-sad"></i>
+                                <i class="icon-sad" title="Carbon profile incomplete"></i>
                         {{/is_standard}}
                         {{^is_standard}}
-                                <i class="icon-happy"></i>
+                                <i class="icon-happy" title="Carbon profile complete!"></i>
                         {{/is_standard}}
+                        {{#user.is_admin}}
                             </a>
+                        {{/user.is_admin}}
                         </span>
                         <a class="actions dropdown-toggle" href="javascript:;">
                             <i class="icon-cog"></i>
@@ -276,8 +283,15 @@
                     {{/question.groups}}
                     </div>
                     <div class="hint">
-                        This takes about 5 to 10 minutes to complete. You will need a copy of
-                        your electric bill and your heating bill.
+                    {{^question.complete}}
+                        <p>
+                            Compute your carbon emissions to complete your profile.
+                        </p>
+                    {{/question.complete}}
+                        <p>
+                            This takes about 5 to 10 minutes to complete. You will need
+                            a copy of your electric bill and your heating bill.
+                        </p>
                     </div>
                     <div class="controls">
                     {{#question.answer_count}}
@@ -361,8 +375,8 @@
                         <input type="hidden" name="id" value="{{id}}" />
                     </div>
                     <div class="controls u-cf">
+                        <button class="next button-primary u-pull-right" type="submit">Next</button>
                         <button class="back u-pull-left">Back</a>
-                        <button class="next button-primary u-pull-right">Next</button>
                     </div>
                 </form>
             </div>

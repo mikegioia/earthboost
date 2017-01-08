@@ -156,6 +156,9 @@ section.group .members ol li .questions {
     text-align: center;
     position: absolute;
 }
+section.group .members ol:not(.admin) li .questions {
+    right: 1rem;
+}
 section.group .members ol li .questions a {
     text-decoration: none;
 }
@@ -174,13 +177,16 @@ section.group .members ol li .actions {
     right: 1rem;
     width: 2rem;
     color: #ccc;
-    display: block;
+    display: none;
     text-align: center;
     position: absolute;
     text-decoration: none;
 }
 section.group .members ol li .actions:hover {
     color: #333;
+}
+section.group .members ol.admin li .actions {
+    display: block;
 }
 section.group .members ol li ul.dropdown {
     border: none;

@@ -112,11 +112,45 @@ class User extends Entity
     }
 
     /**
+     * Write access to a user. Load the group from the params and
+     * check if the user has write access to that group and year.
+     * @param User $user
+     * @param array $params
+     * @param bool
+     */
+    public function isWrittenBy( User $user, array $params )
+    {
+        expects( $params )->toHave([ 'group' ]);
+        $year = get_year( get( $params, 'year' ) );
+        $group = Group::loadByName( $params[ 'group' ] );
+
+        return $this->id == $user->id
+            || $user->getMember( $group, $year )->isAdmin();
+    }
+
+    /**
+     * Read access check. Load the group from the params and check
+     * if the user has read access to that group and year.
+     * @param User $user
+     * @param array $params
+     * @param bool
+     */
+    public function isReadBy( User $user, array $params )
+    {
+        expects( $params )->toHave([ 'group' ]);
+        $year = get_year( get( $params, 'year' ) );
+        $group = Group::loadByName( $params[ 'group' ] );
+
+        return $this->id == $user->id
+            || $user->getMember( $group, $year )->exists();
+    }
+
+    /**
      * Find a user by email address.
      * @param string $email
      * @return User
      */
-    static public function getByEmail( $email )
+    static public function loadByEmail( $email )
     {
         $user = new static;
         $sqlUser = (new UserModel)->getByEmail( $email );

@@ -21,22 +21,6 @@ class Group extends Entity
     private $_rawEmissions;
 
     /**
-     * Load the group by it's unique name.
-     * @param string $name
-     */
-    static public function loadByName( $name )
-    {
-        $group = new static;
-        $sqlGroup = (new GroupModel)->getByName( $name );
-
-        if ( $sqlGroup ) {
-            $group->populateArray( $sqlGroup );
-        }
-
-        return $group;
-    }
-
-    /**
      * Creates a new group from the name and label.
      * @param string $name
      * @param string $label
@@ -131,5 +115,47 @@ class Group extends Entity
     {
         $this->_members = NULL;
         $this->_rawEmissions = NULL;
+    }
+
+    /**
+     * Write access to group.
+     * @param User $user
+     * @param array $params
+     * @param bool
+     */
+    public function isWrittenBy( User $user, array $params )
+    {
+        $year = get_year( get( $params, 'year' ) );
+
+        return $user->getMember( $this, $year )->isAdmin();
+    }
+
+    /**
+     * Read access check.
+     * @param User $user
+     * @param array $params
+     * @param bool
+     */
+    public function isReadBy( User $user, array $params )
+    {
+        $year = get_year( get( $params, 'year' ) );
+
+        return $user->getMember( $this, $year )->exists();
+    }
+
+    /**
+     * Load the group by it's unique name.
+     * @param string $name
+     */
+    static public function loadByName( $name )
+    {
+        $group = new static;
+        $sqlGroup = (new GroupModel)->getByName( $name );
+
+        if ( $sqlGroup ) {
+            $group->populateArray( $sqlGroup );
+        }
+
+        return $group;
     }
 }

@@ -13,6 +13,6 @@ class Email extends Exception
         $message = "There was a problem sending an email. $message.";
         $message = trim( $message, ". \t\n\r\0\x0B" );
 
-        parent::__construct( $this->statusCode, $message );
+        parent::__construct( $message );
     }
 }

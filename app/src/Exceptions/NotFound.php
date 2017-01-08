@@ -15,7 +15,7 @@ class NotFound extends Exception
     public function __construct( $type = NULL, $id = NULL, $message = NULL )
     {
         if ( is_null( $type ) && is_null( $id ) ) {
-            return parent::__construct( $this->statusCode, $this->message );
+            return parent::__construct( $this->message );
         }
 
         parent::__construct(

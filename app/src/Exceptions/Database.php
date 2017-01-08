@@ -12,6 +12,6 @@ class Database extends Exception
     {
         $message = ( $message ) ?: "Unknown database error.";
 
-        parent::__construct( $this->statusCode, $message );
+        parent::__construct( $message );
     }
 }
