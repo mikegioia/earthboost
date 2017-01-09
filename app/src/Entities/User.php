@@ -127,7 +127,6 @@ class User extends Entity
         $counter = 1;
         // Find the membership
         $member = $this->getMember( $group, $year );
-        $questions = new Questions( $this->getQuestions() );
         $make = function ( $number, $key ) {
             return (object) [
                 'key' => $key,
@@ -145,6 +144,7 @@ class User extends Entity
             }
 
             $counter++;
+            $questions = new Questions( $this->getQuestions() );
             $profile = $questions->getProfile( $group, new User, $year );
 
             if ( ! $profile->is_complete ) {
@@ -155,9 +155,7 @@ class User extends Entity
         }
 
         // Check user profile
-        $profile = $questions->getProfile( $group, $this, $year );
-
-        if ( ! $profile->is_complete ) {
+        if ( $member->isStandard() ) {
             return $make( $counter, 'user_profile' );
         }
 
