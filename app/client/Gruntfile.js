@@ -100,7 +100,8 @@ module.exports = function ( grunt ) {
                     src: [
                         'fonts/*.woff2',
                         'js/*.min.js',
-                        'css/*.min.css'
+                        'css/*.min.css',
+                        'images/*'
                     ],
                     dest: './dist/prod/'
                 }]
