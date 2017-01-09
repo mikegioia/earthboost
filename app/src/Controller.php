@@ -2,12 +2,14 @@
 
 namespace App;
 
-use App\Entity
+use Exception
+  , App\Entity
   , Silex\Application
   , App\Entities\User
   , App\Entities\Group
   , App\Entities\Member
   , App\Entities\Answer
+  , App\Entities\Inquiry
   , App\Libraries\Questions
   , Symfony\Component\HttpFoundation\Request
   , App\Exceptions\NotFound as NotFoundException
@@ -84,8 +86,28 @@ class Controller
     /**
      * Records user info and redirects them to success message.
      */
-    public function signup( Request $request )
+    public function signup( Request $request, Application $app )
     {
+        $post = $request->request->all();
+        $name = get( $post, 'name' );
+        $email = get( $post, 'email' );
+        $company = get( $post, 'company' );
+
+        try {
+            // Save a new Inquiry
+            $inquiry = new Inquiry([
+                'name' => $name,
+                'email' => $email,
+                'company' => $company
+            ]);
+            $inquiry->save();
+            $url = sprintf( "%s/join.html#success", $app[ 'config' ]->path );
+        }
+        catch ( Exception $e ) {
+            $url = sprintf( "%s/join.html#error", $app[ 'config' ]->path );
+        }
+
+        return $app->redirect( $url );
     }
 
     public function dashboard( Application $app )
@@ -151,7 +173,7 @@ class Controller
                 : "New account successfully saved."
         ];
 
-        return $this->group( $name, $year, $app );
+        return $this->group( $group, $year, $app );
     }
 
     /**
@@ -173,7 +195,7 @@ class Controller
             'message' => "That person was removed from {$group->label}."
         ];
 
-        return $this->group( $group->name, $year, $app );
+        return $this->group( $group, $year, $app );
     }
 
     public function questions( Group $group, $year, User $user = NULL, Application $app )

@@ -2,7 +2,8 @@
 
 namespace App;
 
-use Particle\Validator\ValidationResult
+use DateTime
+  , Particle\Validator\ValidationResult
   , Pixie\Connection as DatabaseConnection
   , App\Exceptions\Database as DatabaseException
   , Pixie\QueryBuilder\QueryBuilderHandler as QueryBuilder;
@@ -140,6 +141,7 @@ class Model
     {
         $this->validate( $data );
         $this->stripInvalid( $data );
+        $this->addCreatedOn( $data );
 
         if ( valid( $this->id, INT ) ) {
             $updated = $this->qb()
@@ -174,6 +176,8 @@ class Model
     {
         $this->validate( $data );
         $this->stripInvalid( $data );
+        $this->addCreatedOn( $data );
+
         $inserted = $this->qb()
             ->table( $this->_table )
             ->onDuplicateKeyUpdate( $data )
@@ -258,6 +262,15 @@ class Model
     private function stripInvalid( array &$data )
     {
         $data = array_intersect_key( $data, get_public_vars( $this ) );
+    }
+
+    private function addCreatedOn( array &$data )
+    {
+        if ( ! valid( $this->id, INT )
+            && property_exists( $this, 'created_on' ) )
+        {
+            $data[ 'created_on' ] = (new DateTime)->format( DATE_SQL );
+        }
     }
 
     public function getErrorString( ValidationResult $result, $message )

@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use DateTime
-  , App\Model
+use App\Model
   , Particle\Validator\Validator
   , App\Exceptions\Validation as ValidationException;
 
@@ -26,10 +25,6 @@ class Member extends Model
 
     public function save( array $data = [], array $options = [] )
     {
-        if ( ! valid( $this->id, INT ) ) {
-            $data[ 'created_on' ] = (new DateTime)->format( DATE_SQL );
-        }
-
         return parent::upsert( $data, $options );
     }
 

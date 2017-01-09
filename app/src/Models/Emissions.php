@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-use DateTime
-  , App\Model
+use App\Model
   , Particle\Validator\Validator
   , App\Exceptions\Validation as ValidationException;
 
@@ -20,15 +19,6 @@ class Emissions extends Model
 
     protected $_table = 'emissions';
     protected $_modelClass = 'Emissions';
-
-    public function save( array $data = [], array $options = [] )
-    {
-        if ( ! valid( $this->id, INT ) ) {
-            $data[ 'created_on' ] = (new DateTime)->format( DATE_SQL );
-        }
-
-        return parent::save( $data, $options );
-    }
 
     public function validate( array $data )
     {
