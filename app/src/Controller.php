@@ -132,8 +132,13 @@ class Controller
     {
         $year = get_year( $year );
         $user = $app[ 'session' ]->getUser();
+        $member = $user->getMember( $group, $year );
         $questions = new Questions( $app[ 'questions' ] );
         $user->profile = $questions->getProfile( $group, $user, $year );
+
+        if ( $member->isAdmin() ) {
+            $group->profile = $questions->getProfile( $group, new User, $year );
+        }
 
         // Prepare all of the statistics and return them
         $this->data[ 'year' ] = $year;
@@ -142,7 +147,7 @@ class Controller
         $this->data[ 'groups' ] = $user->getGroups();
         $this->data[ 'locales' ] = $app[ 'locales' ];
         $this->data[ 'is_admin' ] = $app[ 'auth' ]->isAdmin()
-            || $user->getMember( $group, $year )->isAdmin();
+            || $member->isAdmin();
         $this->data[ 'task' ] = $user->getTask( $group, $year );
         $this->data[ 'members' ] = $group->getMembers( $year, TRUE );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );
@@ -209,6 +214,7 @@ class Controller
 
     public function questions( Group $group, $year, User $user = NULL, Application $app )
     {
+        $user = ( $user ) ?: new User;
         $sessionUser = $app[ 'session' ]->getUser();
 
         $this->data[ 'year' ] = $year;
@@ -229,6 +235,7 @@ class Controller
 
     public function saveAnswer( Group $group, $year, User $user = NULL, Request $request, Application $app )
     {
+        $user = ( $user ) ?: new User;
         $post = $request->request->all();
         $answerVal = get( $post, 'answer' );
         $selectVal = get( $post, 'select' );

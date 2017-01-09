@@ -1,25 +1,31 @@
 /**
  * Group Component
  */
-Components.Group = (function ( DOM ) {
+Components.Group = (function ( DOM, Const ) {
 'use strict';
 // Returns a new instance
 return function ( $root ) {
     // Event namespace
     var namespace = '.group';
     // DOM template nodes
+    var $task = DOM.get( '#task' );
     var $group = DOM.get( '#group' );
     var $members = DOM.get( '#members' );
     // Subcomponents
     var AddMemberForm;
     // Templates
     var tpl = {
+        task: DOM.html( $task ),
         group: DOM.html( $group ),
         members: DOM.html( $members )
     };
+    var GROUP_TYPES = {
+        home: 'Home',
+        office: 'Company'
+    };
     // DOM nodes used and internal state
     var data;
-    var $addButton;
+    var $addButtons;
 
     /**
      * Load the <main> element with our list of groups.
@@ -39,6 +45,7 @@ return function ( $root ) {
     function render ( _data ) {
         data = _data;
         updateData( data );
+        updateTask( data );
         $root.className = 'group';
         DOM.render( tpl.group, data, tpl ).to( $root );
         addButtonEvent();
@@ -82,6 +89,56 @@ return function ( $root ) {
 
         // Pick out the user's record
         data.member = findMember( data.user.id, 'user_id' );
+        data.member.profile = data.user.profile;
+    }
+
+    /**
+     * Adds more data to the task, like a label and URL.
+     * @param Object data
+     */
+    function updateTask ( data ) {
+        var t = data.task;
+        var groupType = GROUP_TYPES[ data.group.type ];
+
+        if ( ! data.task ) {
+            return;
+        }
+
+        switch ( t.key ) {
+            case 'add_member':
+                t.color = 'blue';
+                t.url = 'javascript:;';
+                t.classes = 'add-member';
+                t.label = "Add a Staff Member";
+                break;
+            case 'group_profile':
+                t.color = 'purple';
+                t.url = Const.url.questions.supplant({
+                    year: data.year,
+                    name: data.group.name
+                });
+                t.label = "Complete " + groupType + " Profile";
+                break;
+            case 'user_profile':
+                t.color = 'blue';
+                t.label = "Complete Your Profile";
+                t.url = Const.url.questions_user.supplant({
+                    year: data.year,
+                    userid: data.user.id,
+                    name: data.group.name
+                });
+                break;
+            case 'group_notify':
+                t.url = '#';
+                t.color = 'purple';
+                t.label = "Notify Your " + groupType;
+                break;
+            case 'canopy_club':
+                t.url = '#';
+                t.color = 'green';
+                t.label = "Join the Canopy Club!";
+                break;
+        }
     }
 
     /**
@@ -89,11 +146,13 @@ return function ( $root ) {
      * exist for non-admins.
      */
     function addButtonEvent () {
-        $addButton = DOM.get( 'button.add-member', $root );
+        $addButtons = DOM.find( '.add-member', $root );
 
-        if ( $addButton ) {
-            $addButton.onclick = renderAddMemberForm;
-        }
+        [].forEach.call(
+            $addButtons,
+            function ( $addButton ) {
+                $addButton.onclick = renderAddMemberForm;
+            });
     }
 
     /**
@@ -177,7 +236,7 @@ return function ( $root ) {
         tpl = {};
         data = null;
         $group = null;
-        $addButton = null;
+        $addButtons = null;
         $root.className = '';
     }
 
@@ -185,4 +244,4 @@ return function ( $root ) {
         render: render,
         tearDown: tearDown
     };
-}}( DOM ));
+}}( DOM, Const ));

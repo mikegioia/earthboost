@@ -16,9 +16,9 @@ class Group extends Entity
     public $label;
 
     // Cached
-    private $_members;
     private $_emissions;
     private $_rawEmissions;
+    private $_members = [];
 
     /**
      * Creates a new group from the name and label.
@@ -46,13 +46,18 @@ class Group extends Entity
      */
     public function getMembers( $year, $populateEmissions = FALSE )
     {
-        if ( ! is_null( $this->_members ) ) {
-            return $this->_members;
+        $popKey = ( $populateEmissions ) ? 1 : 0;
+
+        if ( isset( $this->_members[ $popKey ] ) ) {
+            return $this->_members[ $popKey ];
         }
 
-        $this->_members = Member::findByGroup( $this, $year, $populateEmissions );
+        $this->_members[ $popKey ] = Member::findByGroup(
+            $this,
+            $year,
+            $populateEmissions );
 
-        return $this->_members;
+        return $this->_members[ $popKey ];
     }
 
     /**
@@ -68,7 +73,7 @@ class Group extends Entity
         $emissions = (new Calculator( $raw ))->calculate();
 
         if ( $includeMembers === TRUE ) {
-            foreach ( $this->getMembers( $year ) as $member ) {
+            foreach ( $this->getMembers( $year, TRUE ) as $member ) {
                 $emissions += $member->emissions;
             }
         }

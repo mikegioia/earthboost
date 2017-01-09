@@ -274,6 +274,9 @@
                     "EP"
                 ]
             }
+        ],
+        "skip_for": [
+            "user:home"
         ]
     }, {
         "id": "EP",
@@ -290,7 +293,10 @@
         },
         "update": {
             "EL": 1
-        }
+        },
+        "skip_for": [
+            "user:home"
+        ]
     }, {
         "id": "FF",
         "type": "radio",
@@ -310,6 +316,9 @@
                     "EG"
                 ]
             }
+        ],
+        "skip_for": [
+            "user:home"
         ]
     }, {
         "id": "EG",
@@ -327,7 +336,10 @@
         },
         "update": {
             "FF": 1
-        }
+        },
+        "skip_for": [
+            "user:home"
+        ]
     }, {
         "id": "OI",
         "type": "radio",
@@ -346,6 +358,9 @@
                     "EO"
                 ]
             }
+        ],
+        "skip_for": [
+            "user:home"
         ]
     }, {
         "id": "EO",
@@ -361,7 +376,10 @@
         },
         "update": {
             "OI": 1
-        }
+        },
+        "skip_for": [
+            "user:home"
+        ]
     }, {
         "id": "PR",
         "type": "radio",
@@ -380,6 +398,9 @@
                     "ER"
                 ]
             }
+        ],
+        "skip_for": [
+            "user:home"
         ]
     }, {
         "id": "ER",
@@ -396,7 +417,10 @@
         },
         "update": {
             "PR": 1
-        }
+        },
+        "skip_for": [
+            "user:home"
+        ]
     }, {
         "id": "OA",
         "goto": "HP",

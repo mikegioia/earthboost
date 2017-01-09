@@ -135,8 +135,16 @@ class User extends Entity
             ];
         };
 
+        // Check if the group has any members
         // Check if the group has a complete profile
         if ( $member->isAdmin() ) {
+            $members = $group->getMembers( $year );
+
+            if ( count( $members ) <= 1 ) {
+                return $make( $counter, 'add_member' );
+            }
+
+            $counter++;
             $profile = $questions->getProfile( $group, new User, $year );
 
             if ( ! $profile->is_complete ) {

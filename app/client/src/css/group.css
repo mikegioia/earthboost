@@ -60,7 +60,7 @@ section.group .member-summary {
     margin-bottom: 2rem;
     display: inline-block;
     background-color: #fff;
-    padding: 0.5rem 2.5rem 0.5rem 0.625rem;
+    padding: 0.75rem 2.5rem 0.5rem 0.75rem;
     box-shadow: 3px 3px 0 rgba(127, 198, 160, 0.33);
 }
 section.group .member-summary .progress {
@@ -91,6 +91,88 @@ section.group .member-summary .offset-amount {
     font-size: 1.25rem;
 }
 
+/* Task */
+section.group .task {
+    color: #fff;
+    width: 100%;
+    height: 3rem;
+    padding: 0.5rem;
+    box-shadow: none;
+    position: relative;
+    padding-right: 6rem;
+    margin-bottom: 2rem;
+    white-space: nowrap;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+}
+section.group .task.blue {
+    background: #1ac1e0;
+    box-shadow: 4px 4px 0 rgba(26, 193, 224, 0.33);
+}
+section.group .task.orange {
+    background: #f39f58;
+    box-shadow: 4px 4px 0 rgba(243, 159, 88, 0.33);
+}
+section.group .task.purple {
+    background: #c562da;
+    box-shadow: 4px 4px 0 rgba(197, 98, 218, 0.33);
+}
+section.group .task.green {
+    background: #28a94c;
+    box-shadow: 4px 4px 0 rgba(40, 169, 76, 0.33);
+}
+section.group .task .band {
+    width: 1rem;
+    float: left;
+    display: block;
+    font-size: 1rem;
+    line-height: 0.8;
+    text-align: center;
+    white-space: normal;
+    word-break: break-word;
+    text-transform: uppercase;
+}
+section.group .task .number {
+    float: left;
+    width: 2rem;
+    height: 3rem;
+    display: block;
+    font-size: 5rem;
+    line-height: 0.55;
+    text-align: center;
+    margin: 0 1rem 0 0.25rem;
+}
+section.group .task .label {
+    z-index: 1;
+    float: left;
+    font-size: 1.66rem;
+    position: absolute;
+    line-height: 3.2rem;
+    display: inline-block;
+}
+section.group .task .button {
+    z-index: 2;
+    right: 0.5rem;
+    position: absolute;
+    margin: 0.1rem 0 0;
+}
+section.group .task .button:hover {
+    border-color: #161616 !important;
+    background-color: #060606 !important;
+}
+section.group .task.orange .button {
+    border-color: #d67829;
+    background-color: #d67829;
+}
+section.group .task.purple .button {
+    border-color: #8b25a0;
+    background-color: #8b25a0;
+}
+section.group .task.green .button {
+    border-color: #058A2A;
+    background-color: #058A2A;
+}
+
 /* Member List */
 section.group .members {
     background-color: #fff;
@@ -116,6 +198,9 @@ section.group .members ol {
     overflow-y: auto;
     list-style-position: inside;
     max-height: calc(100vh - 13rem);
+}
+section.group .with-task .members ol {
+    max-height: calc(100vh - 19rem);
 }
 section.group .members ol li {
     margin: 0;

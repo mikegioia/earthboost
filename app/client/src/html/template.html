@@ -118,9 +118,11 @@
             <section class="container group row">
                 <div class="five columns">
                     <div class="summary">
+                    {{#group.profile}}
                         <div class="progress">
-                            <div class="progress-bar" style="width:65%;"></div>
+                            <div class="progress-bar" style="width: {{percentage}}%;"></div>
                         </div>
+                    {{/group.profile}}
                     {{#is_admin}}
                         <a class="edit" href="/questions/{{group.name}}/{{year}}">
                             <i class="icon-edit"></i>
@@ -138,7 +140,7 @@
                     {{#member}}
                         <div class="member-summary">
                             <div class="progress">
-                                <div class="progress-bar" style="width:65%;"></div>
+                                <div class="progress-bar" style="width: {{profile.percentage}}%;"></div>
                             </div>
                             <a class="edit" href="/questions/{{group.name}}/{{year}}/{{user_id}}/intro">
                                 <i class="icon-edit"></i>
@@ -156,10 +158,24 @@
                     {{/member}}
                     </div>
                 </div>
-                <div class="seven columns panel">
-                    {{> members}}
+                <div class="seven columns{{#task}} with-task{{/task}}">
+                    {{> task}}
+                    <div class="panel">
+                        {{> members}}
+                    </div>
                 </div>
             </section>
+        </script>
+        <!-- Task -->
+        <script id="task" type="text/template">
+        {{#task}}
+            <div class="task u-cf {{color}}">
+                <span class="band">Task</span>
+                <span class="number">{{number}}</span>
+                <span class="label">{{label}}</span>
+                <a href="{{url}}" class="button button-primary {{classes}}">Start</a>
+            </div>
+        {{/task}}
         </script>
         <!-- Members List -->
         <script id="members" type="text/template">
