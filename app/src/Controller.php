@@ -13,7 +13,7 @@ use Exception
   , App\Libraries\Questions
   , Symfony\Component\HttpFoundation\Request
   , App\Exceptions\NotFound as NotFoundException
-  , App\Exceptions\NoGroups as NoGroupsException
+  , App\Exceptions\NoGroups as NoGroupsException 
   , Symfony\Component\HttpFoundation\JsonResponse;
 
 class Controller
@@ -78,7 +78,7 @@ class Controller
         $group = reset( $groups );
         $this->data[ 'url' ] = ( count( $groups ) > 1 )
             ? '/'
-            : '/'. $group->name;
+            : '/'. $group->group_name;
 
         return $this->respond( SUCCESS, "Welcome back :)", 302 );
     }
