@@ -102,7 +102,7 @@ module.exports = function ( grunt ) {
                         'js/*.min.js',
                         'css/*.min.css'
                     ],
-                    dest: './dist/'
+                    dest: './dist/prod/'
                 }]
             }
         },
@@ -150,7 +150,10 @@ module.exports = function ( grunt ) {
 
     grunt.registerTask( 'build', [ 'config', 'concat', 'copy:main' ] );
     grunt.registerTask( 'default', [ 'build', 'watch' ] );
-    grunt.registerTask( 'dist', [ 'config:prod', 'build', 'uglify', 'copy:dist', 'wrap', 'html:prod' ])
+    grunt.registerTask( 'dist', [
+        'config:prod', 'concat', 'copy:main', 'uglify',
+        'cssmin', 'copy:dist', 'wrap', 'html:prod'
+    ])
     grunt.registerTask( 'printenv', function () {
         console.log( process.env );
     });

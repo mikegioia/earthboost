@@ -1,0 +1,420 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>EarthBoost</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+        <!-- Place favicon.ico in the root directory -->
+
+    
+        <link rel="stylesheet" href="/css/earthboost.min.css">
+    
+    </head>
+    <body>
+        <header class="row">
+            <section class="logo one-half column u-cf">
+                <a href="/">
+                    <img src="/images/organic.svg">
+                    <h3>EarthBoost</h3>
+                </a>
+            </section>
+            <nav class="one-half column"></nav>
+        </header>
+        <main id="stage">
+            <div class="loading">
+                <span>Warming up&hellip;</span>
+            </div>
+        </main>
+        <!-- Notification container -->
+        <section id="notifications" class="notifications"></section>
+        <!-- Navigation -->
+        <script id="nav" type="text/template">
+        {{#showUserName}}
+            <span class="u-push-right-one u-light">{{userName}}</span>
+        {{/showUserName}}
+        {{#showGroupSelect}}
+            <select name="group">
+            {{#groups}}
+                <option value="{{group_name}}.{{year}}"{{#selected}} selected="selected"{{/selected}}>{{group_label}} &mdash; {{year}}</option>
+            {{/groups}}
+            </select>
+        {{/showGroupSelect}}
+        {{#showLogout}}
+            <a class="button" href="/logout">Logout</a>
+        {{/showLogout}}
+        {{#showCalculator}}
+            <!--<a class="button" href="/{{groupName}}/{{year}}">Advanced</a>-->
+            <a class="button" href="/{{groupName}}/{{year}}">Save and Close</a>
+        {{/showCalculator}}
+        </script>
+        <!-- Login Form -->
+        <script id="login" type="text/template">
+            <section class="login">
+                <fieldset>
+                    <legend class="yanone">Login to EarthBoost</legend>
+                    <form method="post" action="" name="login">
+                        <label for="login-email" class="yanone">Email</label>
+                        <input class="u-full-width" name="email" placeholder="Email address&hellip;" type="text" id="login-email" autofocus required />
+                        <button type="submit" class="u-no-margin button-black yanone large">Submit</button>
+                    </form>
+                </fieldset>
+            </section>
+        </script>
+        <!-- Login Notice -->
+        <script id="login-notice" type="text/template">
+            <section class="login">
+                <div class="notice">
+                    <h2>Check Your Email</h2>
+                    <p>
+                        You've been emailed a link that will log you in.
+                        Check your email now and follow the login link.
+                    </p>
+                </div>
+            </section>
+        </script>
+        <!-- Dashboard -->
+        <script id="dashboard" type="text/template">
+            <section class="dashboard">
+                <h2>Your Groups</h2>
+                <div class="groups u-cf">
+                {{#groups}}
+                    <div class="group" data-name="{{group_name}}">
+                        <a href="/{{group_name}}">
+                            <span class="top">{{group_label}}</span>
+                            <span class="bottom">
+                            {{#is_admin}}
+                                <span class="admin">
+                                    <i class="icon-star"></i>Admin
+                                </span>
+                            {{/is_admin}}
+                            {{#is_champion}}
+                                <span class="champion">
+                                    <i class="icon-flag"></i>Champion
+                                </span>
+                            {{/is_champion}}
+                            {{^is_champion}}
+                                <span class="member">
+                                    <i class="icon-happy"></i>{{member_label}}
+                                </span>
+                            {{/is_champion}}
+                            </span>
+                        </a>
+                    </div>
+                {{/groups}}
+                {{^groups}}
+                    <span class="none">No groups to display</span>
+                {{/groups}}
+                </div>
+            </section>
+        </script>
+        <!-- Group -->
+        <script id="group" type="text/template">
+            <section class="container group row">
+                <div class="five columns">
+                    <div class="summary">
+                    {{#group.profile}}
+                        <div class="progress">
+                            <div class="progress-bar" style="width: {{percentage}}%;"></div>
+                        </div>
+                    {{/group.profile}}
+                    {{#is_admin}}
+                        <a class="edit" href="/questions/{{group.name}}/{{year}}">
+                            <i class="icon-edit"></i>
+                        </a>
+                    {{/is_admin}}
+                        <div class="group-label">{{group.label}}</div>
+                        <div class="emissions">
+                            {{emissions}} <small>t CO<sub>2</sub>e</small>
+                        </div>
+                        <div class="offset-amount">
+                            ${{offset_amount}} to offset
+                        </div>
+                    </div>
+                    <div class="meta">
+                    {{#member}}
+                        <div class="member-summary">
+                            <div class="progress">
+                                <div class="progress-bar" style="width: {{profile.percentage}}%;"></div>
+                            </div>
+                            <a class="edit" href="/questions/{{group.name}}/{{year}}/{{user_id}}/intro">
+                                <i class="icon-edit"></i>
+                            </a>
+                            <div class="member-name">{{name}}</div>
+                            <div class="emissions">
+                                <div class="emissions">
+                                    {{emissions}} <small>t CO<sub>2</sub>e</small>
+                                </div>
+                            </div>
+                            <div class="offset-amount">
+                                ${{offset_amount}} to offset
+                            </div>
+                        </div>
+                    {{/member}}
+                    </div>
+                </div>
+                <div class="seven columns{{#task}} with-task{{/task}}">
+                    {{> task}}
+                    <div class="panel">
+                        {{> members}}
+                    </div>
+                </div>
+            </section>
+        </script>
+        <!-- Task -->
+        <script id="task" type="text/template">
+        {{#task}}
+            <div class="task u-cf {{color}}">
+                <span class="band">Task</span>
+                <span class="number">{{number}}</span>
+                <span class="label">{{label}}</span>
+                <a href="{{url}}" class="button button-primary {{classes}}">Start</a>
+            </div>
+        {{/task}}
+        </script>
+        <!-- Members List -->
+        <script id="members" type="text/template">
+            <div class="members">
+                <h3 class="sans u-cf">
+                    <span>Members</span>
+                {{#user.is_admin}}
+                    <button class="add-member">Add Person</button>
+                {{/user.is_admin}}
+                </h3>
+                <ol class="{{#user.is_admin}}admin{{/user.is_admin}}">
+                {{#members}}
+                    <li>
+                        <span class="name">{{name}}</span>
+                        <span class="locale">({{locale}})</span>
+                        <span class="emissions">{{emissions}} <small>t</small></span>
+                        <span class="questions">
+                        {{#user.is_admin}}
+                            <a href="{{edit_url}}" title="Edit Carbon Profile">
+                        {{/user.is_admin}}
+                        {{#is_standard}}
+                                <i class="icon-sad" title="Carbon profile incomplete"></i>
+                        {{/is_standard}}
+                        {{^is_standard}}
+                                <i class="icon-happy" title="Carbon profile complete!"></i>
+                        {{/is_standard}}
+                        {{#user.is_admin}}
+                            </a>
+                        {{/user.is_admin}}
+                        </span>
+                        <a class="actions dropdown-toggle" href="javascript:;">
+                            <i class="icon-cog"></i>
+                        </a>
+                        <ul class="dropdown">
+                            <li>
+                                <a href="javascript:;" class="edit-member" data-id="{{id}}">
+                                    <i class="icon-edit"></i>
+                                    Edit Account
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" class="remove-member" data-id="{{id}}">
+                                    <i class="icon-trash"></i>
+                                    Remove
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                {{/members}}
+                </ol>
+            </div>
+        </script>
+        <!-- Add New Member Form -->
+        <script id="add-member-form" type="text/template">
+            <div class="new-member-form">
+                <h3 class="sans u-cf">
+                {{#id}}
+                    <span>Edit Account</span>
+                {{/id}}
+                {{^id}}
+                    <span>Add a Person</span>
+                {{/id}}
+                    <a class="cancel" href="javascript:;">
+                        <i class="icon-cross"></i>
+                    </a>
+                </h3>
+                <form method="post" action="" name="add-new-member">
+                    <label for="new-member-name">Name</label>
+                    <input class="u-full-width" name="name" placeholder="Full name&hellip;" type="text" id="new-member-name" value="{{name}}" required />
+                    <label for="new-member-email">Email</label>
+                    <input class="u-full-width" name="email" placeholder="Email address&hellip;" type="text" id="new-member-email" value="{{email}}" required />
+                    <div class="row">
+                        <div class="six columns">
+                            <label for="new-member-locale">Locale</label>
+                            <select class="u-full-width" name="locale" id="new-member-locale" required>
+                            {{#locales}}
+                                <optgroup label="{{country}}">
+                                {{#regions}}
+                                    <option value="{{code}}"{{#selected}} selected="selected"{{/selected}}>{{region}}</option>
+                                {{/regions}}
+                                </optgroup>
+                            {{/locales}}
+                            </select>
+                        </div>
+                        <div class="six columns">
+                            <label for="new-member-locale-months">Months of Year</label>
+                            <input class="u-full-width" name="locale_months" placeholder="1 to 12&hellip;" type="number" id="new-member-locale-months" value="{{locale_months}}" min="1" max="12" required />
+                        </div>
+                    </div>
+                    <label class="checkboxes u-pull-right u-push-left-two">
+                        <input type="checkbox" name="is_admin" value="1"{{#is_admin}} checked{{/is_admin}} />
+                        <span class="label-body">Admin?</span>
+                    </label>
+                    <label class="checkboxes u-pull-right">
+                        <input type="checkbox" name="is_champion" value="1"{{#is_champion}} checked{{/is_champion}} />
+                        <span class="label-body">Champion?</span>
+                    </label>
+                    <input type="hidden" value="{{id}}" name="id" />
+                    <button type="submit" class="u-no-margin button-primary">Save {{^id}}New{{/id}} Person</button>
+                </form>
+            </div>
+        </script>
+        <!-- Carbon Calculator -->
+        <script id="questions" type="text/template">
+            <section class="container questions row">
+            {{#question.show_intro}}
+                <div class="intro">
+                    <div class="progress">
+                        <div class="progress-bar{{#question.complete}} complete{{/question.complete}}" style="width:{{question.progress}}%;"></div>
+                    </div>
+                    <h2>Carbon Calculator</h2>
+                    <div class="steps">
+                    {{#question.groups}}
+                        <div class="group u-cf">
+                            <span class="name u-pull-left">
+                                <i class="icon-{{icon}}"></i>
+                                {{name}}
+                            </span>
+                            <span class="totals u-pull-right">{{answered}} / {{total}}</span>
+                        </div>
+                    {{/question.groups}}
+                    </div>
+                    <div class="hint">
+                    {{^question.complete}}
+                        <p>
+                            Compute your carbon emissions to complete your profile.
+                        </p>
+                    {{/question.complete}}
+                        <p>
+                            This takes about 5 to 10 minutes to complete. You will need
+                            a copy of your electric bill and your heating bill.
+                        </p>
+                    </div>
+                    <div class="controls">
+                    {{#question.answer_count}}
+                        {{#question.complete}}
+                        <a class="button button-primary button-success" href="{{url_back}}">Profile Complete!</a>
+                        {{/question.complete}}
+                        {{^question.complete}}
+                        <a class="button button-primary" href="{{url_stem}}/{{question.goto}}">Resume</a>
+                        {{/question.complete}}
+                        <div class="restart">
+                            <a class="link" href="{{url_stem}}/{{question.start_id}}">Start from beginning</a>
+                        </div>
+                    {{/question.answer_count}}
+                    {{^question.answer_count}}
+                        <a class="button button-primary" href="{{url_stem}}/{{question.start_id}}">Start</a>
+                    {{/question.answer_count}}
+                    </div>
+                </div>
+            {{/question.show_intro}}
+            {{^question.show_intro}}
+                <div class="five columns">
+                    <div class="summary">
+                        <div class="group-label">{{group.label}}</div>
+                        <div class="emissions">
+                            {{emissions}} <small>t CO<sub>2</sub>e</small>
+                        </div>
+                        <div class="offset-amount">
+                            ${{offset_amount}} to offset
+                        </div>
+                    </div>
+                </div>
+                <div class="seven columns panel">
+                    {{> question}}
+                </div>
+            {{/question.show_intro}}
+            </section>
+        </script>
+        <!-- Question -->
+        <script id="question" type="text/template">
+            {{#question}}
+            <div class="question">
+                <form action="" method="GET" name="question" data-type="{{type}}" data-goto="{{goto}}">
+                    <h3 class="sans u-cf">
+                        <span class="text">{{group}}:</span>
+                        <span class="text u-push-left-one">{{index}} <small>of</small> {{total}}</span>
+                        <span class="progress" style="width:{{progress}}%"></span>
+                    </h3>
+                    <div class="form">
+                        <label class="label">{{label}}</label>
+                    {{#radio}}
+                        {{#choices}}
+                        <label class="radio-label">
+                            <input type="radio" name="answer" value="{{value}}" data-goto="{{goto}}" {{#selected}} checked="checked"{{/selected}} required>
+                            <span>{{label}}</span>
+                        </label>
+                        {{/choices}}
+                    {{/radio}}
+                    {{#checkbox}}
+                        {{#choices}}
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="{{name}}" value="{{value}}">
+                            <span>{{label}}</span>
+                        </label>
+                        {{/choices}}
+                    {{/checkbox}}
+                    {{#number}}
+                        <input class="input" name="answer" type="number" id="answer" value="{{value}}" min="0" data-goto="{{goto}}" required />
+                        <span class="suffix">{{input_suffix}}</span>
+                        {{#select.length}}
+                        <span class="per">per</span>
+                        <select name="select">
+                            {{#select}}
+                            <option value="{{value}}"{{#selected}} selected="selected"{{/selected}}>{{label}}</option>
+                            {{/select}}
+                        </select>
+                        {{/select.length}}
+                    {{/number}}
+                    {{#hint}}
+                        <div class="hint">{{hint}}</div>
+                    {{/hint}}
+                        <input type="hidden" name="id" value="{{id}}" />
+                    </div>
+                    <div class="controls u-cf">
+                        <button class="next button-primary u-pull-right" type="submit">Next</button>
+                        <button class="back u-pull-left">Back</a>
+                    </div>
+                </form>
+            </div>
+            {{/question}}
+        </script>
+        <!-- Notification -->
+        <script id="notification" type="text/template">
+            <div class="box {{type}}">
+                <a class="close" href="javascript:;">
+                    <i class="icon-cross"></i>
+                </a>
+                <div class="message">{{{message}}}</div>
+            </div>
+        </script>
+            <!-- Full page error overlay -->
+        <script id="error" type="text/template">
+            <section class="error">
+                <h2>Error {{code}}</h2>
+                <p>{{message}}</p>
+            </section>
+        </script>
+        <!-- Application -->
+    
+        <script src="/js/earthboost.min.js"></script>
+    
+    </body>
+</html>
