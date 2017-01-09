@@ -75,9 +75,10 @@ class Controller
             throw new NoGroupsException;
         }
 
+        $group = reset( $groups );
         $this->data[ 'url' ] = ( count( $groups ) > 1 )
             ? '/'
-            : '/' + $groups[ 0 ]->name;
+            : '/'. $group->name;
 
         return $this->respond( SUCCESS, "Welcome back :)", 302 );
     }
