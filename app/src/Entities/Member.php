@@ -145,6 +145,11 @@ class Member extends Entity
             && $this->is_admin == 1;
     }
 
+    public function isStandard()
+    {
+        return $this->is_standard == 1;
+    }
+
     /**
      * Loads all of the data for the full member profile.
      */

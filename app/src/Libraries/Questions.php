@@ -206,6 +206,37 @@ class Questions
     }
 
     /**
+     * Returns properties about the completion status of a group or
+     * user in the carbon calculator.
+     * @param Group $group
+     * @param User $user
+     * @param string $year
+     * @return object {
+     *   percentage: float
+     *   is_complete: bool
+     *   answer_count: int
+     *   question_count: int
+     * }
+     */
+    public function getProfile( Group $group, User $user, $year )
+    {
+        $mode = ( $user->exists() )
+            ? USER
+            : GROUP;
+        // Pull the answers eiter by group or user
+        $answers = Answer::findByUserGroup( $group, $user, $year );
+        $qCount = $this->getQuestionCount( $group, $mode );
+        $percentage = count( $answers ) / $qCount * 100;
+
+        return (object) [
+            'percentage' => $percentage,
+            'question_count' => $qCount,
+            'answer_count' => count( $answers ),
+            'is_complete' => $percentage >= 100
+        ];
+    }
+
+    /**
      * Load the requested question by ID.
      * @param string $questionId
      * @return object|null

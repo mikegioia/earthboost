@@ -13,6 +13,7 @@ use Exception
   , App\Libraries\Questions
   , Symfony\Component\HttpFoundation\Request
   , App\Exceptions\NotFound as NotFoundException
+  , App\Exceptions\NoGroups as NoGroupsException
   , Symfony\Component\HttpFoundation\JsonResponse;
 
 class Controller
@@ -69,6 +70,11 @@ class Controller
 
         // App will redirect to dashboard
         $groups = $app[ 'session' ]->getUser()->getGroups();
+
+        if ( ! $groups ) {
+            throw new NoGroupsException;
+        }
+
         $this->data[ 'url' ] = ( count( $groups ) > 1 )
             ? '/'
             : '/' + $groups[ 0 ]->name;
@@ -126,6 +132,8 @@ class Controller
     {
         $year = get_year( $year );
         $user = $app[ 'session' ]->getUser();
+        $questions = new Questions( $app[ 'questions' ] );
+        $user->profile = $questions->getProfile( $group, $user, $year );
 
         // Prepare all of the statistics and return them
         $this->data[ 'year' ] = $year;
@@ -135,6 +143,7 @@ class Controller
         $this->data[ 'locales' ] = $app[ 'locales' ];
         $this->data[ 'is_admin' ] = $app[ 'auth' ]->isAdmin()
             || $user->getMember( $group, $year )->isAdmin();
+        $this->data[ 'task' ] = $user->getTask( $group, $year );
         $this->data[ 'members' ] = $group->getMembers( $year, TRUE );
         $this->data[ 'emissions' ] = $group->getEmissions( $year );
         $this->data[ 'offset_amount' ] = $group->getOffsetAmount( $year );

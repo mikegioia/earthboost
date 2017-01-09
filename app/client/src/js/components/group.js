@@ -26,6 +26,7 @@ return function ( $root ) {
      * @param Object data {
      *   year: Integer
      *   user: Object
+     *   task: Object
      *   group: Object
      *   groups: Array
      *   members: Array

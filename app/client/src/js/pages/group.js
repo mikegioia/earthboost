@@ -50,6 +50,7 @@ Pages.Group = (function ( Request, DOM, Components ) {
                 Main.render({
                     user: data.user,
                     year: data.year,
+                    task: data.task,
                     group: data.group,
                     groups: data.groups,
                     members: data.members,

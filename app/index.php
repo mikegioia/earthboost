@@ -143,6 +143,7 @@ Model::setDb( $app[ 'db' ] );
 
 // Load the locales reference to the Entity statically
 Entity::setLocales( $app[ 'locales' ] );
+Entity::setQuestions( $app[ 'questions' ] );
 
 // Error handler
 // All exceptions are ultimately caught here. If we're in debug mode

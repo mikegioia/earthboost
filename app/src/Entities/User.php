@@ -5,6 +5,7 @@ namespace App\Entities;
 use App\Entity
   , App\Entities\Group
   , App\Entities\Member
+  , App\Libraries\Questions
   , App\Models\User as UserModel;
 
 class User extends Entity
@@ -109,6 +110,68 @@ class User extends Entity
         $emissions = $member->getEmissions( $computedOnly, $computedOnly );
 
         return $member->getOffsetAmount( $emissions );
+    }
+
+    /**
+     * Get the next tast for the user. This is determined from their
+     * activity over the year.
+     * @param Group $group
+     * @param string $year
+     * @return object {
+     *   key: string
+     *   number: int
+     * }
+     */
+    public function getTask( Group $group, $year )
+    {
+        $counter = 1;
+        // Find the membership
+        $member = $this->getMember( $group, $year );
+        $questions = new Questions( $this->getQuestions() );
+        $make = function ( $number, $key ) {
+            return (object) [
+                'key' => $key,
+                'number' => $number
+            ];
+        };
+
+        // Check if the group has a complete profile
+        if ( $member->isAdmin() ) {
+            $profile = $questions->getProfile( $group, new User, $year );
+
+            if ( ! $profile->is_complete ) {
+                return $make( $counter, 'group_profile' );
+            }
+
+            $counter++;
+        }
+
+        // Check user profile
+        $profile = $questions->getProfile( $group, $this, $year );
+
+        if ( ! $profile->is_complete ) {
+            return $make( $counter, 'user_profile' );
+        }
+
+        $counter++;
+
+        if ( $member->isAdmin() ) {
+            return $make( $counter, 'group_notify' );
+        }
+
+        return $make( $counter, 'canopy_club' );
+    }
+
+    /**
+     * Returns the calculator profile info.
+     * @param Group $group
+     * @param string $year
+     * @return object
+     */
+    public function getProfile( Group $group, $year )
+    {
+        $questions = new Questions( $this->getQuestions() );
+        $profile = $questions->getProfile( $group, $this, $year );
     }
 
     /**

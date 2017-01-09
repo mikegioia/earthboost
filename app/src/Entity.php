@@ -17,6 +17,8 @@ abstract class Entity
 
     // Reference to locale data
     static private $locales;
+    // Reference to question data
+    static private $questions;
 
     const POPULATE_SQL = 'populate_sql';
 
@@ -177,6 +179,11 @@ abstract class Entity
         return self::$locales->{$country}->{$region};
     }
 
+    protected function getQuestions()
+    {
+        return self::$questions;
+    }
+
     /**
      * Returns instances of the model from a set of objects.
      * @param array $rows
@@ -205,5 +212,10 @@ abstract class Entity
     static public function setLocales( $locales )
     {
         self::$locales = $locales;
+    }
+
+    static public function setQuestions( $questions )
+    {
+        self::$questions = $questions;
     }
 }
