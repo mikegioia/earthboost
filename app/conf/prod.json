@@ -1,0 +1,17 @@
+{
+    "debug": false,
+    "environment": "production",
+    "path": "https://earthboost.org",
+    "api_path": "https://api.earthboost.org",
+    "app_path": "https://app.earthboost.org",
+    "session": {
+        "ttl": 2592000,
+        "cookie": {
+            "path": "/",
+            "ttl": 2592000,
+            "secure": true,
+            "name": "session",
+            "domain": ".earthboost.org"
+        }
+    }
+}

@@ -39,6 +39,15 @@ $app[ 'questions' ] = json_decode(
         "$WD/app/conf/questions.json"
     ));
 
+// Update defaults with environment configuration
+$app[ 'config' ] = array_merge(
+    $app[ 'config' ],
+    json_decode(
+        file_get_contents(
+            "$WD/app/conf/local.json" )
+    ));
+
+
 // Depends on environment
 $app[ 'debug' ] = $app[ 'config' ]->debug;
 

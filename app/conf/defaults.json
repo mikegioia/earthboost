@@ -20,7 +20,7 @@
         "path": "var/log"
     },
     "session": {
-        "ttl": 10800,
+        "ttl": 2592000,
         "cookie": {
             "path": "/",
             "ttl": 2592000,
@@ -40,6 +40,6 @@
         }
     },
     "email": {
-        "key": "e331ee2b-82dc-4f00-87d7-a69a95c0fec1"
+        "key": ""
     }
 }
