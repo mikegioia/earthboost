@@ -19,7 +19,6 @@ class NotFound extends Exception
         }
 
         parent::__construct(
-            $this->statusCode,
             sprintf(
                 "The requested %s [%s] %s.",
                 $type,
