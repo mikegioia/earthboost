@@ -1,6 +1,7 @@
 {
-    "asset_version": 1,
+    "asset_version": 2,
     "use_minified": true,
     "use_asset_version": true,
+    "app_path": "https://app.earthboost.org",
     "api_path": "https://api.earthboost.org"
 }
