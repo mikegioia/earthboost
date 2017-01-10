@@ -61,6 +61,17 @@ class Controller
     }
 
     /**
+     * Public endpoint for checking if the session is active.
+     */
+    public function session( Request $request, Application $app )
+    {
+        $this->data[ 'active' ] = $app[ 'session' ]->isLoggedIn();
+        $this->data[ 'groups' ] = $app[ 'session' ]->getUser()->getGroups();
+
+        return $this->respond( SUCCESS );
+    }
+
+    /**
      * Tries to log in a user based off their token.
      */
     public function authorize( Request $request, Application $app )

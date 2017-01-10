@@ -40,6 +40,7 @@ var Const = {
         login: '/login',
         group: '/{name}',
         logout: '/logout',
+        session: '/session',
         authorize: '/authorize',
         dashboard: '/dashboard',
         group_year: '/{name}/{year}',

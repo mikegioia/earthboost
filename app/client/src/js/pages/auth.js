@@ -34,8 +34,27 @@ Pages.Auth = (function ( Request, DOM, Components ) {
      */
     function login ( ctx, next ) {
         DOM.title([ 'Login' ]);
-        Nav.clear();
-        Main.render();
+
+        // Check the session and redirect them if it exists
+        Request.session(
+            function ( data ) {
+                var url = Const.url.dashboard;
+
+                if ( data.active ) {
+                    if ( data.groups && data.groups.length == 1 ) {
+                        url = Const.url.group_year.supplant({
+                            year: data.groups[ 0 ].year,
+                            name: data.groups[ 0 ].group_name
+                        });
+                    }
+
+                    page( url );
+                }
+                else {
+                    Nav.clear();
+                    Main.render();
+                }
+            });
     }
 
     /**

@@ -79,6 +79,10 @@ var Request = (function ( Config, Const, Message ) {
         send( Const.url.login, HTTP_POST, cb, data );
     }
 
+    function session ( cb ) {
+        send( Const.url.session, HTTP_GET, cb );
+    }
+
     function authorize ( token, cb ) {
         send( Const.url.authorize, HTTP_POST, cb, {
             token: token
@@ -199,6 +203,7 @@ var Request = (function ( Config, Const, Message ) {
         group: group,
         login: login,
         logout: logout,
+        session: session,
         getParam: getParam,
         authorize: authorize,
         dashboard: dashboard,

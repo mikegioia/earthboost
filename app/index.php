@@ -64,6 +64,7 @@ $rtr->get( '/ping', 'controller:ping' );
 $rtr->post( '/login', 'controller:login' );
 $rtr->get( '/logout', 'controller:logout' );
 $rtr->post( '/signup', 'controller:signup' );
+$rtr->get( '/session', 'controller:session' );
 $rtr->post( '/authorize', 'controller:authorize' );
 // Mount these to the root
 $app->mount( '/', $rtr );
