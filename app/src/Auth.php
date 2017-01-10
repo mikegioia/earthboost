@@ -181,8 +181,6 @@ class Auth
             }
 
             if ( ! $app[ 'session' ]->$accessCall( $entity, $params ) ) {
-                echo $accessCall;exit;
-                exit('a');
                 throw new AccessDeniedException( $objectType, $objectId );
             }
         };
