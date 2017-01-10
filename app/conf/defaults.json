@@ -1,6 +1,6 @@
 {
     "debug": false,
-    "environment": "production",
+    "environment": "development",
     "path": "http://earth.dev",
     "api_path": "http://api.earth.dev",
     "app_path": "http://app.earth.dev",
@@ -15,7 +15,7 @@
         "collation": "utf8_unicode_ci"
     },
     "log": {
-        "name": "app",
+        "name": "API",
         "level": "debug",
         "path": "var/log"
     },

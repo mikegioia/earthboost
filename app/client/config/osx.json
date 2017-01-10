@@ -1,7 +1,7 @@
 {
     "asset_version": 1,
     "use_minified": false,
-    "use_asset_version": true,
+    "use_asset_version": false,
     "app_path": "http://app.earth.dev",
     "api_path": "http://api.earth.dev"
 }

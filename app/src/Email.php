@@ -21,6 +21,7 @@ class Email
 
     public function __construct( $apiKey, Logger $log, $debug = TRUE )
     {
+        $this->log = $log;
         $this->debug = $debug;
         $this->apiKey = $apiKey;
     }
@@ -76,7 +77,7 @@ class Email
 
             return TRUE;
         }
-
+exit('bad!');
         try {
             $sendResult = $client->sendEmail(
                 $this->fromAddress,

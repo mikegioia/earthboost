@@ -128,7 +128,7 @@ class Session
     {
         // Generate the cryto strong ID
         $randomBytes = openssl_random_pseudo_bytes( 32, $cstrong );
-        $this->sessionId = base64_encode( $randomBytes );
+        $this->sessionId = base64url_encode( $randomBytes );
 
         // We want to rate-limit this by IP address. 20 times in 10 mins
         // is too many. Adjust this if it's causing problems but it shouldn't.
@@ -198,7 +198,7 @@ class Session
     public function createLoginToken( User $user, $ttl = 259200 )
     {
         $randomBytes = openssl_random_pseudo_bytes( 32, $cstrong );
-        $token = base64_encode( $randomBytes );
+        $token = base64url_encode( $randomBytes );
 
         // Set this in redis
         $this->session->setex(
