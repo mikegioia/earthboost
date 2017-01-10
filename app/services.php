@@ -42,7 +42,10 @@ $app[ 'db' ] = function ( $app ) {
 
 // Set up an email service
 $app[ 'email' ] = function ( $app ) {
-    return new Email( $app[ 'config' ]->email->key );
+    return new Email(
+        $app[ 'config' ]->email->key,
+        $app[ 'log' ],
+        $app[ 'config' ]->email->debug );
 };
 
 // Create a Redis connection for the session

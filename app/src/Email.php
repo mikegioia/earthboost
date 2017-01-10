@@ -3,6 +3,7 @@
 namespace App;
 
 use Exception
+  , Monolog\Logger
   , App\Entities\User
   , Postmark\PostmarkClient
   , Postmark\Models\PostmarkException
@@ -10,14 +11,17 @@ use Exception
 
 class Email
 {
+    private $log;
+    private $debug;
     private $apiKey;
     private $fromAddress = "no-reply@earthboost.org";
 
     const SINGLE_BREAK = "<br>";
     const DOUBLE_BREAK = "<br><br>";
 
-    public function __construct( $apiKey )
+    public function __construct( $apiKey, Logger $log, $debug = TRUE )
     {
+        $this->debug = $debug;
         $this->apiKey = $apiKey;
     }
 
@@ -59,6 +63,19 @@ class Email
     public function send( $toAddress, $subject, $message )
     {
         $client = new PostmarkClient( $this->apiKey );
+
+        if ( $this->debug === TRUE ) {
+            $this->log->addInfo(
+                sprintf(
+                    "%s\nTo: %s\nSubject: %s\n\n%s",
+                    "New email being logged:",
+                    $toAddress,
+                    $subject,
+                    $message
+                ));
+
+            return TRUE;
+        }
 
         try {
             $sendResult = $client->sendEmail(
