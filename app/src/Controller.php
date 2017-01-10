@@ -78,7 +78,7 @@ class Controller
         $group = reset( $groups );
         $this->data[ 'url' ] = ( count( $groups ) > 1 )
             ? '/'
-            : '/'. $group->group_name;
+            : '/'. $group->group_name .'/'. $group->year;
 
         return $this->respond( SUCCESS, "Welcome back :)", 302 );
     }

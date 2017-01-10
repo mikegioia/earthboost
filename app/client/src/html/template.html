@@ -6,21 +6,15 @@
         <title>EarthBoost</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <!-- <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
         <!-- Place favicon.ico in the root directory -->
-
-    <% if ( use_minified === true ) { %>
-        <link rel="stylesheet" href="/css/earthboost.min.css">
-    <% } else { %>
-        <link rel="stylesheet" href="/css/earthboost.css">
-    <% } %>
+        <link rel="stylesheet" href="<%= use_asset_version ? '/v/' + asset_version : '' %>/css/earthboost<%= use_minified ? '.min' : '' %>.css">
     </head>
     <body>
         <header class="row">
             <section class="logo one-half column u-cf">
                 <a href="/">
-                    <img src="/images/organic.svg">
+                    <img src="<%= use_asset_version ? '/v/' + asset_version : '' %>/images/organic.svg">
                     <h3>EarthBoost</h3>
                 </a>
             </section>
@@ -85,7 +79,7 @@
                 <div class="groups u-cf">
                 {{#groups}}
                     <div class="group" data-name="{{group_name}}">
-                        <a href="/{{group_name}}">
+                        <a href="/{{group_name}}/{{year}}">
                             <span class="top">{{group_label}}</span>
                             <span class="bottom">
                             {{#is_admin}}
@@ -103,6 +97,7 @@
                                     <i class="icon-happy"></i>{{member_label}}
                                 </span>
                             {{/is_champion}}
+                                <span class="year u-pull-right">{{year}}</span>
                             </span>
                         </a>
                     </div>
@@ -139,9 +134,11 @@
                     <div class="meta">
                     {{#member}}
                         <div class="member-summary">
+                        {{#profile.is_complete}}
                             <div class="progress">
                                 <div class="progress-bar" style="width: {{profile.percentage}}%;"></div>
                             </div>
+                        {{/profile.is_complete}}
                             <a class="edit" href="/questions/{{group.name}}/{{year}}/{{user_id}}/intro">
                                 <i class="icon-edit"></i>
                             </a>
@@ -415,10 +412,6 @@
             </section>
         </script>
         <!-- Application -->
-    <% if ( use_minified === true ) { %>
-        <script src="/js/earthboost.min.js"></script>
-    <% } else { %>
-        <script src="/js/earthboost.js"></script>
-    <% } %>
+        <script src="<%= use_asset_version ? '/v/' + asset_version : '' %>/js/earthboost<%= use_minified ? '.min' : '' %>.js"></script>
     </body>
 </html>

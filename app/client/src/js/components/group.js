@@ -77,7 +77,7 @@ return function ( $root ) {
                 year: data.year,
                 userid: m.user_id,
                 name: data.group.name
-            }) + "/intro";
+            }) + Const.intro_segment;
         });
 
         // Sort by name for now
@@ -126,7 +126,7 @@ return function ( $root ) {
                     year: data.year,
                     userid: data.user.id,
                     name: data.group.name
-                });
+                }) + Const.intro_segment;
                 break;
             case 'group_notify':
                 t.url = '#';

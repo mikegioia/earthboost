@@ -35,6 +35,7 @@ var Const = {
         US: "United States",
         UK: "United Kingdom"
     },
+    intro_segment: "/intro",
     url: {
         login: '/login',
         group: '/{name}',
